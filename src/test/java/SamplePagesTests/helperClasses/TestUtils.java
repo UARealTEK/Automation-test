@@ -13,7 +13,7 @@ public class TestUtils {
     private static WebDriverWait wait;
 
     // Method to initialize WebDriver
-    public static WebDriver initializeWebDriver() {
+    public static void initializeWebDriver() {
         if (driver == null) {
             System.setProperty("webdriver.chrome.driver", "D:\\Programming\\chromedriver.exe");
             ChromeOptions options = new ChromeOptions();
@@ -22,7 +22,6 @@ public class TestUtils {
             driver.manage().window().fullscreen();
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         }
-        return driver;
     }
 
     public static WebDriverWait getWait() {
