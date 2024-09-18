@@ -1,4 +1,4 @@
-package helperClasses;
+package SamplePagesTests.helperClasses;
 
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;

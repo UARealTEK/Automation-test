@@ -1,6 +1,8 @@
-import helperClasses.BaseOperations;
-import helperClasses.EndToEndFlows;
-import helperClasses.TestUtils;
+package SamplePagesTests;
+
+import SamplePagesTests.helperClasses.BaseOperations;
+import SamplePagesTests.helperClasses.EndToEndFlows;
+import SamplePagesTests.helperClasses.TestUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
