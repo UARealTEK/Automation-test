@@ -1,15 +1,19 @@
+package helperClasses;
+
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import java.util.*;
+
 public class EndToEndFlows extends BaseOperations{
-    public static void login(String email, String password) {
+    public static void login(String login, String password) {
         //open the page
         openPage("https://play1.automationcamp.ir/login.html");
 
         //locate the username field, insert data in it and click it
         WebElement username = locateElementBy("//*[@id=\"user\"]", "xpath");
         clickElement(username);
-        username.sendKeys(email);
+        username.sendKeys(login);
 
         WebElement passwordField = locateElementBy("//*[@id=\"password\"]", "xpath");
         clickElement(passwordField);
@@ -61,5 +65,32 @@ public class EndToEndFlows extends BaseOperations{
         //Click on the signUp button
         WebElement signUpButton = locateElementBy("//*[@id=\"submit_button\"]", "xpath");
         clickElement(signUpButton);
+    }
+
+    public static void placeOrder(String login, String password) {
+        login(login,password);
+        Random random = new Random();
+
+        // Select a random pizza size
+        BaseOperations.clickElement(BaseOperations.selectRandomPizzaSize());
+
+        // Select a random pizza flavour
+        BaseOperations.selectRandomPizzaFlavour();
+
+        // Select a random Sauce
+        BaseOperations.clickElement(BaseOperations.selectRandomSauce());
+
+        // Select a random pizza topping
+        int amountOfToppings = random.nextInt(3) + 1;
+        BaseOperations.selectRandomToppings(amountOfToppings);
+
+        // Insert desired amount of pizzas
+        int amountOfDesiredPizzasToOrder = random.nextInt(3) + 1;
+        BaseOperations.insertAmountOfPizzasToOrder(amountOfDesiredPizzasToOrder);
+
+        // Place the order
+        WebElement submitOrderButton = BaseOperations.locateElementBy("//*[@id=\"submit_button\"]","xpath");
+        BaseOperations.clickElement(submitOrderButton);
+
     }
 }
