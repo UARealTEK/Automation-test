@@ -1,8 +1,10 @@
 import helperClasses.BaseOperations;
 import helperClasses.EndToEndFlows;
+import helperClasses.TestUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 public class UITests extends BaseOperations {
@@ -89,5 +91,10 @@ public class UITests extends BaseOperations {
 
          Assert.assertTrue(subHeaderFontSize.equalsIgnoreCase("15px"),"Nope. FontSize should be 0.9375rem but got " + subHeaderFontSize);
          Assert.assertEquals(subHeaderText.getText(), "Form submitted successfully. It's just for testing purpose, data not saved.", "Nope, the text is wrong. Should be: " + subHeaderText.getText());
+    }
+
+    @AfterClass
+    public void tearDown() {
+        TestUtils.quitWebDriver();
     }
 }
