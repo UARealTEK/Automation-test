@@ -15,8 +15,10 @@ public class TestUtils {
     // Method to initialize WebDriver
     public static void initializeWebDriver() {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "D:\\Programming\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver");
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--headless");
             driver = new ChromeDriver(options);
             driver.manage().window().fullscreen();
