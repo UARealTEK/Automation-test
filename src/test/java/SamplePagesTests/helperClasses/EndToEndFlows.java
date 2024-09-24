@@ -1,9 +1,10 @@
 package SamplePagesTests.helperClasses;
 
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EndToEndFlows extends BaseOperations{
     public static void login(String login, String password) {
@@ -30,12 +31,12 @@ public class EndToEndFlows extends BaseOperations{
         WebElement registerButton = locateElementBy("/html/body/div/form/div[4]/a", "xpath");
 
         // Check SignUp button text
-        Assert.assertEquals(registerButton.getText(), "New user? Register!", "Nope, should be: 'New User? Register!' but got: " + registerButton.getText());
+        assertEquals(registerButton.getText(), "New user? Register!", "Nope, should be: 'New User? Register!' but got: " + registerButton.getText());
 
         clickElement(registerButton);
 
         //Check that user got redirected to SignUp page
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://play1.automationcamp.ir/register.html", "Should be 'https://play1.automationcamp.ir/register.html', but got: " + getDriver().getCurrentUrl());
+        assertEquals(getDriver().getCurrentUrl(), "https://play1.automationcamp.ir/register.html", "Should be 'https://play1.automationcamp.ir/register.html', but got: " + getDriver().getCurrentUrl());
 
         // Insert user data
         WebElement firstNameField = locateElementBy("/html/body/div/form/div[1]/div/div[1]/input", "xpath");

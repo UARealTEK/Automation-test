@@ -19,13 +19,13 @@ import java.util.List;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 public class AlertsPresenceTests extends BaseOperations {
-//
-//    @TestFactory
-//    public List<DynamicTest> exampleTestFactory() {
-//        return Arrays.asList(
-//                isDisplayedAlertAfterDelay(),
-//                isDisplayedAlertAfterDelay();
-//    }
+
+    @TestFactory
+    public List<DynamicTest> exampleTestFactory() {
+        return Arrays.asList(
+                DynamicTest.dynamicTest("min - 2, max - 5", () -> isDisplayedAlertAfterDelay(2,5)),
+                DynamicTest.dynamicTest("mi - 7, max - 10", () -> isDisplayedAlertAfterDelay(7,10)));
+    }
 
 
     public void isDisplayedAlertAfterDelay(int min, int max) {
@@ -39,7 +39,7 @@ public class AlertsPresenceTests extends BaseOperations {
             System.out.println(String.format("Алерт не з'явився протягом перших %s секунд, продовжуємо чекати...",min));
         }
         // Максимальна затримка для чекання
-        WebDriverWait longWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(max));
+        WebDriverWait longWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(max - min));
 
         try {
         Alert alert = longWait.until(ExpectedConditions.alertIsPresent());

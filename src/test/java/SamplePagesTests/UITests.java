@@ -3,11 +3,13 @@ package SamplePagesTests;
 import SamplePagesTests.helperClasses.BaseOperations;
 import SamplePagesTests.helperClasses.EndToEndFlows;
 import SamplePagesTests.helperClasses.TestUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UITests extends BaseOperations {
     private static final String login = "admin";
@@ -22,7 +24,7 @@ public class UITests extends BaseOperations {
 
         //Check Header text
         WebElement header = BaseOperations.locateElementBy("/html/body/div[1]/div/div[1]", "xpath");
-        Assert.assertEquals(header.getText(),"Dinesh's Pizza House\n" +
+        assertEquals(header.getText(),"Dinesh's Pizza House\n" +
                 "Customize your pizza by choosing from a variety of toppings, cheese and sauces.", "Incorrect text. Correct text is: " + header.getText());
 
         //Check Pizza properties texts
@@ -32,11 +34,11 @@ public class UITests extends BaseOperations {
         WebElement toppings = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[4]/div[1]/label", "xpath");
         WebElement quantity = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[5]/div[1]/label", "xpath");
 
-        Assert.assertEquals(pizzaSize.getText(), "Pizza Size", "Nope, Should be Pizza Size");
-        Assert.assertEquals(pizzaFlavour.getText(),"Pizza Flavor", "Nope, should be Pizza Flavor");
-        Assert.assertEquals(sauce.getText(),"Sauce", "Nope, should be Sauce");
-        Assert.assertEquals(toppings.getText(), "Toppings", "Nope, should be Toppings");
-        Assert.assertEquals(quantity.getText(), "Quantity", "Nope, should be Quantity");
+        assertEquals(pizzaSize.getText(), "Pizza Size", "Nope, Should be Pizza Size");
+        assertEquals(pizzaFlavour.getText(),"Pizza Flavor", "Nope, should be Pizza Flavor");
+        assertEquals(sauce.getText(),"Sauce", "Nope, should be Sauce");
+        assertEquals(toppings.getText(), "Toppings", "Nope, should be Toppings");
+        assertEquals(quantity.getText(), "Quantity", "Nope, should be Quantity");
     }
 
     @Test
@@ -46,7 +48,7 @@ public class UITests extends BaseOperations {
         // Check count of elements
         WebElement controlsDiv = BaseOperations.locateElementBy("form-group","className");
         controlsDiv.getAttribute("childElementCount");
-        Assert.assertEquals(controlsDiv.getAttribute("childElementCount"), "3", "Incorrect amount of elements. Expected - 3, but got: " + controlsDiv.getAttribute("childElementCount"));
+        assertEquals(controlsDiv.getAttribute("childElementCount"), "3", "Incorrect amount of elements. Expected - 3, but got: " + controlsDiv.getAttribute("childElementCount"));
     }
 
      @Test
@@ -55,11 +57,11 @@ public class UITests extends BaseOperations {
 
         //Check correct set of elements
          WebElement elementsDiv = BaseOperations.locateElementBy("text-center","className");
-         Assert.assertEquals(elementsDiv.getAttribute("childElementCount"),"3","Incorrect. Should be 3. But got: " + elementsDiv.getAttribute("childElementCount"));
+         assertEquals(elementsDiv.getAttribute("childElementCount"),"3","Incorrect. Should be 3. But got: " + elementsDiv.getAttribute("childElementCount"));
 
          //Check favicon and title
          String title = BaseOperations.getDriver().getTitle();
-         Assert.assertEquals(title,"Confirmation!","Nope! Should be 'Confirmation!' but was: " + title);
+         assertEquals(title,"Confirmation!","Nope! Should be 'Confirmation!' but was: " + title);
 
          //Check checkmark label
          WebElement checkmarkLabel = BaseOperations.locateElementBy("/html/body/div/i","xpath");
@@ -67,9 +69,9 @@ public class UITests extends BaseOperations {
          String checkMarkFontSize = checkmarkLabel.getCssValue("font-size");
          String checkmarkPadding = checkmarkLabel.getCssValue("padding-top");
 
-         Assert.assertEquals(checkmarkColor, "rgba(47, 172, 102, 1)", "Nope, should be rgba(47, 172, 102, 1) but got " + checkmarkLabel.getCssValue("color"));
-         Assert.assertEquals(checkMarkFontSize,"45px","Nope, should be 45px but got: " + checkmarkLabel.getCssValue("font-size"));
-         Assert.assertEquals(checkmarkPadding, "50px", "Nope, should be 50px, but got: " + checkmarkLabel.getCssValue("padding-top"));
+         assertEquals(checkmarkColor, "rgba(47, 172, 102, 1)", "Nope, should be rgba(47, 172, 102, 1) but got " + checkmarkLabel.getCssValue("color"));
+         assertEquals(checkMarkFontSize,"45px","Nope, should be 45px but got: " + checkmarkLabel.getCssValue("font-size"));
+         assertEquals(checkmarkPadding, "50px", "Nope, should be 50px, but got: " + checkmarkLabel.getCssValue("padding-top"));
 
          //Check confirmation header
          WebElement headerText = BaseOperations.locateElementBy("text-success","className");
@@ -81,22 +83,21 @@ public class UITests extends BaseOperations {
          String headerTextSizeJs = (String) js.executeScript(script,headerText);
 
 
-         Assert.assertEquals(headerText.getText(),"Confirmation", "Nope. Should be 'Confirmation' but got: " + headerText.getText());
-         Assert.assertTrue(headerTextColor.equalsIgnoreCase("rgba(63, 182, 24, 1)"), "Expected rgba(63, 182, 24, 1) but was: " + headerTextColor);
+         assertEquals(headerText.getText(),"Confirmation", "Nope. Should be 'Confirmation' but got: " + headerText.getText());
+         assertTrue(headerTextColor.equalsIgnoreCase("rgba(63, 182, 24, 1)"), "Expected rgba(63, 182, 24, 1) but was: " + headerTextColor);
 
-         assert headerTextSizeJs != null;
-         Assert.assertTrue(headerTextSizeJs.equalsIgnoreCase("37.5px"), "Expected - 45px but was: " + headerTextSize);
+         assertTrue(headerTextSizeJs.equalsIgnoreCase("37.5px"), "Expected - 45px but was: " + headerTextSize);
 
          //Check sub-header text
          WebElement subHeaderText = BaseOperations.locateElementBy("/html/body/div/p","xpath");
          String subHeaderFontSize = subHeaderText.getCssValue("font-size");
 
-         Assert.assertTrue(subHeaderFontSize.equalsIgnoreCase("15px"),"Nope. FontSize should be 0.9375rem but got " + subHeaderFontSize);
-         Assert.assertEquals(subHeaderText.getText(), "Form submitted successfully. It's just for testing purpose, data not saved.", "Nope, the text is wrong. Should be: " + subHeaderText.getText());
+         assertTrue(subHeaderFontSize.equalsIgnoreCase("15px"),"Nope. FontSize should be 0.9375rem but got " + subHeaderFontSize);
+         assertEquals(subHeaderText.getText(), "Form submitted successfully. It's just for testing purpose, data not saved.", "Nope, the text is wrong. Should be: " + subHeaderText.getText());
     }
 
-    @AfterClass
-    public void tearDown() {
+    @AfterAll
+    public static void tearDown() {
         TestUtils.quitWebDriver();
     }
 }

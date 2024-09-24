@@ -3,11 +3,12 @@ package SamplePagesTests;
 import SamplePagesTests.helperClasses.BaseOperations;
 import SamplePagesTests.helperClasses.EndToEndFlows;
 import SamplePagesTests.helperClasses.TestUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FunctionalTests extends BaseOperations {
     private static final String login = "admin";
@@ -21,7 +22,7 @@ public class FunctionalTests extends BaseOperations {
     public void login() {
         EndToEndFlows.login(login,password);
 
-        Assert.assertEquals(BaseOperations
+        assertEquals(BaseOperations
                 .getDriver()
                 .getCurrentUrl(), "https://play1.automationcamp.ir/order_submit.html", "Login failed. Expected - https://play1.automationcamp.ir/order_submit.html. Current Url is " + BaseOperations.getDriver().getCurrentUrl());
     }
@@ -30,7 +31,7 @@ public class FunctionalTests extends BaseOperations {
     public void SignUp() {
         EndToEndFlows.singUp(firstName,lastName,email,password);
 
-        Assert.assertEquals(BaseOperations
+        assertEquals(BaseOperations
                 .getDriver()
                 .getCurrentUrl(), "https://play1.automationcamp.ir/confirmation.html", "SignUp failed. Expected - https://play1.automationcamp.ir/confirmation.html. Current URL is " + BaseOperations.getDriver().getCurrentUrl());
     }
@@ -42,15 +43,15 @@ public class FunctionalTests extends BaseOperations {
         //First check that the message is displayed after some time
         WebElement successConfirmationMessage = BaseOperations.locateElementBy("//*[@id=\"added_message\"]","xpath");
         BaseOperations.getWait().until(ExpectedConditions.visibilityOf(successConfirmationMessage));
-        Assert.assertTrue(successConfirmationMessage.isDisplayed(),"Nope, it is NOT yet displayed after button click");
+        assertTrue(successConfirmationMessage.isDisplayed(),"Nope, it is NOT yet displayed after button click");
 
         //Then check that the message is GONE after some time
         BaseOperations.getWait().until(ExpectedConditions.invisibilityOf(successConfirmationMessage));
-        Assert.assertFalse(successConfirmationMessage.isDisplayed(), "Nope, Message is still there for some reason");
+        assertFalse(successConfirmationMessage.isDisplayed(), "Nope, Message is still there for some reason");
     }
 
-    @AfterClass
-    public void tearDown() {
+    @AfterAll
+    public static void tearDown() {
         TestUtils.quitWebDriver();
     }
 }
