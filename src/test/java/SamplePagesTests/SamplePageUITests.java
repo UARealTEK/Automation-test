@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UITests extends BaseOperations {
+public class SamplePageUITests extends BaseOperations {
     private static final String login = "admin";
     private static final String password = "admin";
     private static final String firstName = "Volodymyr";
@@ -86,6 +86,7 @@ public class UITests extends BaseOperations {
          assertEquals(headerText.getText(),"Confirmation", "Nope. Should be 'Confirmation' but got: " + headerText.getText());
          assertTrue(headerTextColor.equalsIgnoreCase("rgba(63, 182, 24, 1)"), "Expected rgba(63, 182, 24, 1) but was: " + headerTextColor);
 
+         assert headerTextSizeJs != null;
          assertTrue(headerTextSizeJs.equalsIgnoreCase("37.5px"), "Expected - 45px but was: " + headerTextSize);
 
          //Check sub-header text

@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FunctionalTests extends BaseOperations {
+public class SamplePageFunctionalTests extends BaseOperations {
     private static final String login = "admin";
     private static final String password = "admin";
     private static final String firstName = "Vova";
