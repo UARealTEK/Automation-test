@@ -1,8 +1,8 @@
-package SamplePagesTests;
+package SamplePages.Tests;
 
-import SamplePagesTests.helperClasses.BaseOperations;
-import SamplePagesTests.helperClasses.EndToEndFlows;
-import SamplePagesTests.helperClasses.TestUtils;
+import SamplePages.helperClasses.BaseOperations;
+import SamplePages.helperClasses.EndToEndFlows;
+import SamplePages.helperClasses.TestUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.JavascriptExecutor;

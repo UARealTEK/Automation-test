@@ -1,4 +1,4 @@
-package SamplePagesTests.helperClasses;
+package SamplePages.helperClasses;
 
 import org.openqa.selenium.WebElement;
 

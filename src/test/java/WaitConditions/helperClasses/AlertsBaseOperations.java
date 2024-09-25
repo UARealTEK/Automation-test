@@ -1,7 +1,6 @@
-package WaitConditionTests.helperClasses;
+package WaitConditions.helperClasses;
 
-import SamplePagesTests.helperClasses.BaseOperations;
-import org.openqa.selenium.Alert;
+import SamplePages.helperClasses.BaseOperations;
 import org.openqa.selenium.WebElement;
 
 public class AlertsBaseOperations extends BaseOperations {

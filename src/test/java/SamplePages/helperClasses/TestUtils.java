@@ -1,4 +1,4 @@
-package SamplePagesTests.helperClasses;// File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
+package SamplePages.helperClasses;// File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

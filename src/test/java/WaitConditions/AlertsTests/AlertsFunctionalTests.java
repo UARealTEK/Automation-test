@@ -1,7 +1,7 @@
-package WaitConditionTests;
-import SamplePagesTests.helperClasses.BaseOperations;
-import SamplePagesTests.helperClasses.TestUtils;
-import WaitConditionTests.helperClasses.AlertsBaseOperations;
+package WaitConditions.AlertsTests;
+import SamplePages.helperClasses.BaseOperations;
+import SamplePages.helperClasses.TestUtils;
+import WaitConditions.helperClasses.AlertsBaseOperations;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;

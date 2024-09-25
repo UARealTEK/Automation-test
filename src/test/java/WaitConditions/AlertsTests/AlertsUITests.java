@@ -1,14 +1,11 @@
-package WaitConditionTests;
+package WaitConditions.AlertsTests;
 
-import SamplePagesTests.helperClasses.BaseOperations;
-import SamplePagesTests.helperClasses.TestUtils;
-import WaitConditionTests.helperClasses.AlertsBaseOperations;
+import SamplePages.helperClasses.BaseOperations;
+import SamplePages.helperClasses.TestUtils;
+import WaitConditions.helperClasses.AlertsBaseOperations;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
