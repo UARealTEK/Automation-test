@@ -1,16 +1,16 @@
-package WaitConditions.helperClasses;
+package WaitConditions.Helper;
 
-import SamplePages.helperClasses.BaseOperations;
+import SamplePages.Helper.BaseOperations;
 import org.openqa.selenium.WebElement;
 
-public class PromptBaseOperations extends BaseOperations {
+public class AlertsBaseOperations extends BaseOperations {
 
-    public static void showPrompt(int minWait, int maxWait) {
+    public static void showAlert(long minWait, long maxWait) {
         BaseOperations.openPage("https://play1.automationcamp.ir/expected_conditions.html");
 
         WebElement setMinWaitField = BaseOperations.locateElementBy("//*[@id=\"min_wait\"]","xpath");
         WebElement setMaxWaitField = BaseOperations.locateElementBy("//*[@id=\"max_wait\"]","xpath");
-        WebElement showPromptButton = BaseOperations.locateElementBy("//*[@id=\"prompt_trigger\"]","xpath");
+        WebElement showAlertButton = BaseOperations.locateElementBy("//*[@id=\"alert_trigger\"]","xpath");
 
         BaseOperations.clickElement(setMinWaitField);
         setMinWaitField.clear();
@@ -20,6 +20,6 @@ public class PromptBaseOperations extends BaseOperations {
         setMaxWaitField.clear();
         setMaxWaitField.sendKeys(String.valueOf(maxWait));
 
-        showPromptButton.click();
+        showAlertButton.click();
     }
 }

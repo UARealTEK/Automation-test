@@ -1,8 +1,10 @@
-package SamplePages.Tests;
+package SamplePages;
 
-import SamplePages.helperClasses.BaseOperations;
-import SamplePages.helperClasses.EndToEndFlows;
-import SamplePages.helperClasses.TestUtils;
+import SamplePages.Helper.BaseOperations;
+import SamplePages.Helper.BaseTest;
+import SamplePages.Helper.EndToEndFlows;
+import SamplePages.Helper.TestUtils;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,7 +13,7 @@ import org.openqa.selenium.WebElement;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SamplePageUITests extends BaseOperations {
+public class SamplePageUITests extends BaseTest {
     private static final String login = "admin";
     private static final String password = "admin";
     private static final String firstName = "Volodymyr";
@@ -20,12 +22,15 @@ public class SamplePageUITests extends BaseOperations {
 
     @Test
     public void isCorrectText() {
+        SoftAssertions soft = new SoftAssertions();
         EndToEndFlows.login(login,password);
 
         //Check Header text
         WebElement header = BaseOperations.locateElementBy("/html/body/div[1]/div/div[1]", "xpath");
-        assertEquals(header.getText(),"Dinesh's Pizza House\n" +
-                "Customize your pizza by choosing from a variety of toppings, cheese and sauces.", "Incorrect text. Correct text is: " + header.getText());
+        soft.assertThat(header.getText().equals("Dinesh's Pizza House\n" +
+                        "Customize your pizza by choosing from a variety of toppings, cheese and sauces."))
+                        .as("Incorrect text. Correct text is: Dinesh's Pizza House\\n\" +\n" + "\"Customize your pizza by choosing from a variety of toppings, cheese and sauces.")
+                        .isTrue();
 
         //Check Pizza properties texts
         WebElement pizzaSize = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[1]/div[1]/label", "xpath");
@@ -34,11 +39,25 @@ public class SamplePageUITests extends BaseOperations {
         WebElement toppings = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[4]/div[1]/label", "xpath");
         WebElement quantity = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[5]/div[1]/label", "xpath");
 
-        assertEquals(pizzaSize.getText(), "Pizza Size", "Nope, Should be Pizza Size");
-        assertEquals(pizzaFlavour.getText(),"Pizza Flavor", "Nope, should be Pizza Flavor");
-        assertEquals(sauce.getText(),"Sauce", "Nope, should be Sauce");
-        assertEquals(toppings.getText(), "Toppings", "Nope, should be Toppings");
-        assertEquals(quantity.getText(), "Quantity", "Nope, should be Quantity");
+        soft.assertThat(pizzaSize.getText().equals("Pizza Size"))
+                .as("Nope, Should be Pizza Size")
+                .isTrue();
+
+        soft.assertThat(pizzaFlavour.getText().equals("Pizza Flavour"))
+                .as("Nope, should be Pizza Flavor")
+                .isTrue();
+
+        soft.assertThat(sauce.getText().equals("Sauce"))
+                .as("Nope, should be Sauce")
+                .isTrue();
+
+        soft.assertThat(toppings.getText().equals("Toppings"))
+                .as("Nope, should be Toppings")
+                .isTrue();
+
+        soft.assertThat(quantity.getText().equals("Quantity"))
+                .as("Nope, should be Quantity")
+                .isTrue();
     }
 
     @Test
@@ -53,15 +72,20 @@ public class SamplePageUITests extends BaseOperations {
 
      @Test
     public void isCorrectSignUpConfirmationDataDisplayed() {
+        SoftAssertions soft = new SoftAssertions();
         EndToEndFlows.singUp(firstName,lastName,email,password);
 
         //Check correct set of elements
          WebElement elementsDiv = BaseOperations.locateElementBy("text-center","className");
-         assertEquals(elementsDiv.getAttribute("childElementCount"),"3","Incorrect. Should be 3. But got: " + elementsDiv.getAttribute("childElementCount"));
+         soft.assertThat(elementsDiv.getAttribute("childElementCount").equals("3"))
+                 .as("Incorrect. Should be 3. But got: \" + elementsDiv.getAttribute(\"childElementCount")
+                 .isTrue();
 
          //Check favicon and title
          String title = BaseOperations.getDriver().getTitle();
-         assertEquals(title,"Confirmation!","Nope! Should be 'Confirmation!' but was: " + title);
+         soft.assertThat(title.equals("Confirmation!"))
+                 .as("Nope! Should be 'Confirmation!' but was: " + title)
+                 .isTrue();
 
          //Check checkmark label
          WebElement checkmarkLabel = BaseOperations.locateElementBy("/html/body/div/i","xpath");
@@ -69,9 +93,17 @@ public class SamplePageUITests extends BaseOperations {
          String checkMarkFontSize = checkmarkLabel.getCssValue("font-size");
          String checkmarkPadding = checkmarkLabel.getCssValue("padding-top");
 
-         assertEquals(checkmarkColor, "rgba(47, 172, 102, 1)", "Nope, should be rgba(47, 172, 102, 1) but got " + checkmarkLabel.getCssValue("color"));
-         assertEquals(checkMarkFontSize,"45px","Nope, should be 45px but got: " + checkmarkLabel.getCssValue("font-size"));
-         assertEquals(checkmarkPadding, "50px", "Nope, should be 50px, but got: " + checkmarkLabel.getCssValue("padding-top"));
+         soft.assertThat(checkmarkColor.equals("rgba(47, 172, 102, 1)"))
+                 .as("Nope, should be rgba(47, 172, 102, 1) but got " + checkmarkLabel.getCssValue("color"))
+                 .isTrue();
+
+         soft.assertThat(checkMarkFontSize.equals("45px"))
+                 .as("Nope, should be 45px but got: " + checkmarkLabel.getCssValue("font-size"))
+                 .isTrue();
+
+         soft.assertThat(checkmarkPadding.equals("50px"))
+                 .as("Nope, should be 50px, but got: " + checkmarkLabel.getCssValue("padding-top"))
+                 .isTrue();
 
          //Check confirmation header
          WebElement headerText = BaseOperations.locateElementBy("text-success","className");
@@ -82,23 +114,29 @@ public class SamplePageUITests extends BaseOperations {
          String script = "return window.getComputedStyle(arguments[0], ':before').getPropertyValue('font-size');";
          String headerTextSizeJs = (String) js.executeScript(script,headerText);
 
+         soft.assertThat(headerText.getText().equals("Confirmation"))
+                 .as("Nope. Should be 'Confirmation' but got: " + headerText.getText())
+                 .isTrue();
 
-         assertEquals(headerText.getText(),"Confirmation", "Nope. Should be 'Confirmation' but got: " + headerText.getText());
-         assertTrue(headerTextColor.equalsIgnoreCase("rgba(63, 182, 24, 1)"), "Expected rgba(63, 182, 24, 1) but was: " + headerTextColor);
+         soft.assertThat(headerTextColor.equalsIgnoreCase("rgba(63, 182, 24, 1)"))
+                 .as("Expected rgba(63, 182, 24, 1) but was: " + headerTextColor)
+                 .isTrue();
 
          assert headerTextSizeJs != null;
-         assertTrue(headerTextSizeJs.equalsIgnoreCase("37.5px"), "Expected - 45px but was: " + headerTextSize);
+         soft.assertThat(headerTextSizeJs.equalsIgnoreCase("37.5px"))
+                 .as("Expected - 45px but was: " + headerTextSize)
+                 .isTrue();
 
          //Check sub-header text
          WebElement subHeaderText = BaseOperations.locateElementBy("/html/body/div/p","xpath");
          String subHeaderFontSize = subHeaderText.getCssValue("font-size");
 
-         assertTrue(subHeaderFontSize.equalsIgnoreCase("15px"),"Nope. FontSize should be 0.9375rem but got " + subHeaderFontSize);
-         assertEquals(subHeaderText.getText(), "Form submitted successfully. It's just for testing purpose, data not saved.", "Nope, the text is wrong. Should be: " + subHeaderText.getText());
-    }
+         soft.assertThat(subHeaderFontSize.equalsIgnoreCase("15px"))
+                 .as("Nope. FontSize should be 0.9375rem but got " + subHeaderFontSize)
+                 .isTrue();
 
-    @AfterAll
-    public static void tearDown() {
-        TestUtils.quitWebDriver();
+         soft.assertThat(subHeaderText.getText().equals("Form submitted successfully. It's just for testing purpose, data not saved."))
+                 .as("Nope, the text is wrong. Should be: " + subHeaderText.getText())
+                 .isTrue();
     }
 }

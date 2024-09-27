@@ -1,15 +1,15 @@
 package WaitConditions.AlertsTests;
-
-import SamplePages.helperClasses.BaseOperations;
-import SamplePages.helperClasses.TestUtils;
-import WaitConditions.helperClasses.AlertsBaseOperations;
+import SamplePages.Helper.BaseOperations;
+import SamplePages.Helper.BaseTest;
+import SamplePages.Helper.TestUtils;
+import WaitConditions.Helper.AlertsBaseOperations;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AlertsUITests extends BaseOperations {
+public class AlertsUITests extends BaseTest {
 
     @Test
     public void checkAlertData() {
@@ -20,13 +20,8 @@ public class AlertsUITests extends BaseOperations {
 
         assertEquals("I am alerting you!",
                 alert.getText(),
-                String.format("Incorrect alert! Im expecting 'I am alerting you' but got %s",
-                        alert.getText()));
-        alert.accept();
-    }
+                String.format("Incorrect alert! Im expecting 'I am alerting you' but got %s", alert.getText()));
 
-    @AfterAll
-    public static void tearDown() {
-        TestUtils.quitWebDriver();
+        alert.accept();
     }
 }

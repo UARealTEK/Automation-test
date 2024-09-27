@@ -1,4 +1,4 @@
-package SamplePages.helperClasses;// File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
+package SamplePages.Helper; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -37,7 +37,6 @@ public class TestUtils {
         return driver;
     }
 
-    // Method to quit the WebDriver
     public static void quitWebDriver() {
         if (driver != null) {
             driver.quit();

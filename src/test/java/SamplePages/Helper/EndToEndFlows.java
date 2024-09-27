@@ -1,12 +1,13 @@
-package SamplePages.helperClasses;
+package SamplePages.Helper;
 
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
 
+import static SamplePages.Helper.BaseOperations.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EndToEndFlows extends BaseOperations{
+public class EndToEndFlows extends BaseOperations {
     public static void login(String login, String password) {
         //open the page
         openPage("https://play1.automationcamp.ir/login.html");
@@ -73,25 +74,25 @@ public class EndToEndFlows extends BaseOperations{
         Random random = new Random();
 
         // Select a random pizza size
-        BaseOperations.clickElement(BaseOperations.selectRandomPizzaSize());
+        clickElement(selectRandomPizzaSize());
 
         // Select a random pizza flavour
-        BaseOperations.selectRandomPizzaFlavour();
+        selectRandomPizzaFlavour();
 
         // Select a random Sauce
-        BaseOperations.clickElement(BaseOperations.selectRandomSauce());
+        clickElement(selectRandomSauce());
 
         // Select a random pizza topping
         int amountOfToppings = random.nextInt(3) + 1;
-        BaseOperations.selectRandomToppings(amountOfToppings);
+        selectRandomToppings(amountOfToppings);
 
         // Insert desired amount of pizzas
         int amountOfDesiredPizzasToOrder = random.nextInt(3) + 1;
-        BaseOperations.insertAmountOfPizzasToOrder(amountOfDesiredPizzasToOrder);
+        insertAmountOfPizzasToOrder(amountOfDesiredPizzasToOrder);
 
         // Place the order
-        WebElement submitOrderButton = BaseOperations.locateElementBy("//*[@id=\"submit_button\"]","xpath");
-        BaseOperations.clickElement(submitOrderButton);
+        WebElement submitOrderButton = locateElementBy("//*[@id=\"submit_button\"]","xpath");
+        clickElement(submitOrderButton);
 
     }
 }

@@ -1,4 +1,4 @@
-package SamplePages.helperClasses;
+package SamplePages.Helper;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -6,6 +6,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
+
+import static SamplePages.Helper.TestUtils.getDriver;
+import static SamplePages.Helper.TestUtils.getWait;
 
 public class BaseOperations extends TestUtils {
     public static void openPage(String url) {

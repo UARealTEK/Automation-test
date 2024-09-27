@@ -1,8 +1,8 @@
 package WaitConditions.AlertsTests;
-import SamplePages.helperClasses.BaseOperations;
-import SamplePages.helperClasses.TestUtils;
-import WaitConditions.helperClasses.AlertsBaseOperations;
-import org.junit.jupiter.api.AfterAll;
+import SamplePages.Helper.BaseOperations;
+import SamplePages.Helper.BaseTest;
+import WaitConditions.Helper.AlertsBaseOperations;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.openqa.selenium.Alert;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-public class AlertsFunctionalTests extends BaseOperations {
+public class AlertsFunctionalTests extends BaseTest {
 
     @TestFactory
     public List<DynamicTest> exampleTestFactory() {
@@ -29,6 +29,7 @@ public class AlertsFunctionalTests extends BaseOperations {
 
 
     public void isDisplayedAlertAfterDelay(int min, int max) {
+        SoftAssertions soft = new SoftAssertions();
         AlertsBaseOperations.showAlert(min, max); // Assuming these are seconds
         boolean alertIsDisplayed = false;
 
@@ -39,9 +40,12 @@ public class AlertsFunctionalTests extends BaseOperations {
         } catch (Exception e) {
 
         }
-        assertFalse(alertIsDisplayed, String.format("alert was displayed in the first %s seconds", min));
 
-        // Максимальна затримка для чекання
+        soft.assertThat(alertIsDisplayed)
+                .as(String.format("alert was displayed in the first %s seconds", min))
+                .isFalse();
+
+        // Max delay
         WebDriverWait longWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds((max - min)));
 
         try {
@@ -51,12 +55,9 @@ public class AlertsFunctionalTests extends BaseOperations {
         } catch (Exception e) {
 
         }
-        assertTrue(alertIsDisplayed, String.format("Alert was displayed in the window between %s and %s seconds", min, max));
-    }
 
-
-    @AfterAll
-    public static void tearDown() {
-        TestUtils.quitWebDriver();
+        soft.assertThat(alertIsDisplayed)
+                .as(String.format("Alert was displayed in the window between %s and %s seconds", min, max))
+                .isTrue();
     }
 }

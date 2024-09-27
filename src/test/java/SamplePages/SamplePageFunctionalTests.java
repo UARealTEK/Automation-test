@@ -1,16 +1,16 @@
-package SamplePages.Tests;
+package SamplePages;
 
-import SamplePages.helperClasses.BaseOperations;
-import SamplePages.helperClasses.EndToEndFlows;
-import SamplePages.helperClasses.TestUtils;
-import org.junit.jupiter.api.AfterAll;
+import SamplePages.Helper.BaseOperations;
+import SamplePages.Helper.BaseTest;
+import SamplePages.Helper.EndToEndFlows;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SamplePageFunctionalTests extends BaseOperations {
+public class SamplePageFunctionalTests extends BaseTest {
     private static final String login = "admin";
     private static final String password = "admin";
     private static final String firstName = "Vova";
@@ -38,20 +38,20 @@ public class SamplePageFunctionalTests extends BaseOperations {
 
     @Test
     public void setOrder() {
+        SoftAssertions soft = new SoftAssertions();
         EndToEndFlows.placeOrder(login,password);
 
         //First check that the message is displayed after some time
         WebElement successConfirmationMessage = BaseOperations.locateElementBy("//*[@id=\"added_message\"]","xpath");
         BaseOperations.getWait().until(ExpectedConditions.visibilityOf(successConfirmationMessage));
-        assertTrue(successConfirmationMessage.isDisplayed(),"Nope, it is NOT yet displayed after button click");
+        soft.assertThat(successConfirmationMessage.isDisplayed())
+                .as("Nope, it is NOT yet displayed after button click")
+                .isTrue();
 
         //Then check that the message is GONE after some time
         BaseOperations.getWait().until(ExpectedConditions.invisibilityOf(successConfirmationMessage));
-        assertFalse(successConfirmationMessage.isDisplayed(), "Nope, Message is still there for some reason");
-    }
-
-    @AfterAll
-    public static void tearDown() {
-        TestUtils.quitWebDriver();
+        soft.assertThat(successConfirmationMessage.isDisplayed())
+                .as("Nope, Message is still there for some reason")
+                .isFalse();
     }
 }
