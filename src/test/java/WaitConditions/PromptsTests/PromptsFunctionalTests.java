@@ -1,7 +1,6 @@
 package WaitConditions.PromptsTests;
 
 import SamplePages.Helper.BaseOperations;
-import SamplePages.Helper.BaseTest;
 import WaitConditions.Helper.PromptBaseOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DynamicTest;
@@ -14,7 +13,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-public class PromptsFunctionalTests extends BaseTest {
+public class PromptsFunctionalTests extends BaseOperations {
 
     @TestFactory
     public List<DynamicTest> exampleTestFactory() {

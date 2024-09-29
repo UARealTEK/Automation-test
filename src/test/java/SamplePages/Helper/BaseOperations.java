@@ -7,9 +7,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
 
-import static SamplePages.Helper.TestUtils.getDriver;
-import static SamplePages.Helper.TestUtils.getWait;
-
 public class BaseOperations extends TestUtils {
     public static void openPage(String url) {
         getDriver().get(url);

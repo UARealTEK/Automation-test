@@ -1,6 +1,5 @@
 package WaitConditions.AlertsTests;
 import SamplePages.Helper.BaseOperations;
-import SamplePages.Helper.BaseTest;
 import WaitConditions.Helper.AlertsBaseOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DynamicTest;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-public class AlertsFunctionalTests extends BaseTest {
+public class AlertsFunctionalTests extends BaseOperations {
 
     @TestFactory
     public List<DynamicTest> exampleTestFactory() {

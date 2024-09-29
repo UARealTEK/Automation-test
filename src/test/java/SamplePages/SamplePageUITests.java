@@ -1,19 +1,15 @@
 package SamplePages;
 
 import SamplePages.Helper.BaseOperations;
-import SamplePages.Helper.BaseTest;
 import SamplePages.Helper.EndToEndFlows;
-import SamplePages.Helper.TestUtils;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SamplePageUITests extends BaseTest {
+public class SamplePageUITests extends BaseOperations {
     private static final String login = "admin";
     private static final String password = "admin";
     private static final String firstName = "Volodymyr";
@@ -83,6 +79,7 @@ public class SamplePageUITests extends BaseTest {
 
          //Check favicon and title
          String title = BaseOperations.getDriver().getTitle();
+         assert title != null;
          soft.assertThat(title.equals("Confirmation!"))
                  .as("Nope! Should be 'Confirmation!' but was: " + title)
                  .isTrue();

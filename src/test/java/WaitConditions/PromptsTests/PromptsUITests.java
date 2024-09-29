@@ -1,7 +1,6 @@
 package WaitConditions.PromptsTests;
 
 import SamplePages.Helper.BaseOperations;
-import SamplePages.Helper.BaseTest;
 import WaitConditions.Helper.PromptBaseOperations;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -12,7 +11,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PromptsUITests extends BaseTest {
+public class PromptsUITests extends BaseOperations {
 
     @Test
     public void checkPromptData() {

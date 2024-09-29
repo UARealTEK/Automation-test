@@ -4,7 +4,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.*;
 
-import static SamplePages.Helper.BaseOperations.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EndToEndFlows extends BaseOperations {

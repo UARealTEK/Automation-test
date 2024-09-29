@@ -1,7 +1,5 @@
 package WaitConditions.AlertsTests;
 import SamplePages.Helper.BaseOperations;
-import SamplePages.Helper.BaseTest;
-import SamplePages.Helper.TestUtils;
 import WaitConditions.Helper.AlertsBaseOperations;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Alert;
@@ -12,7 +10,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AlertsUITests extends BaseTest {
+public class AlertsUITests extends BaseOperations {
 
     @Test
     public void checkAlertData() {

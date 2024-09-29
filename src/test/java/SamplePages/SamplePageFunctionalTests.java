@@ -1,7 +1,6 @@
 package SamplePages;
 
 import SamplePages.Helper.BaseOperations;
-import SamplePages.Helper.BaseTest;
 import SamplePages.Helper.EndToEndFlows;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SamplePageFunctionalTests extends BaseTest {
+public class SamplePageFunctionalTests extends BaseOperations {
     private static final String login = "admin";
     private static final String password = "admin";
     private static final String firstName = "Vova";
