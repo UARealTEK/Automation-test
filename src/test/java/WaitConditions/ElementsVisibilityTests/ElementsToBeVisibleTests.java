@@ -16,14 +16,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// TBD: to solve the issue with Button triggering (69 row)
+// TBD: to solve the issue with Button triggering (71 row)
 
 public class ElementsToBeVisibleTests extends BaseOperations {
     @TestFactory
     public List<DynamicTest> exampleTestFactory() {
         return Arrays.asList(
                 DynamicTest.dynamicTest("min - 2, max - 5", () -> isVisibleElement(2,5)),
-                DynamicTest.dynamicTest("min - 7, max - 10", () -> isVisibleElement(7,10)));
+                DynamicTest.dynamicTest("min - 7, max - 10", () -> isVisibleElement(7,10)),
+                DynamicTest.dynamicTest("min - 2, max - 5", () -> isElementInvisible(2,5)),
+                DynamicTest.dynamicTest("min - 7, max - 10", () -> isElementInvisible(7,10)));
     }
 
     @TestFactory
@@ -36,14 +38,14 @@ public class ElementsToBeVisibleTests extends BaseOperations {
 
     public void isVisibleElement(int min, int max) {
         SoftAssertions soft = new SoftAssertions();
-        ElementVisibilityBaseOperations.triggerElement(min,max);
+        ElementVisibilityBaseOperations.triggerElementToSee(min,max);
 
         boolean elementIsVisible = false;
-        String appearedSignLocator = "//*[@id=\"visibility_target\"]";
-
+        WebElement appearedSignLocator = BaseOperations.locateElementBy("//*[@id=\"visibility_target\"]","xpath");
         WebDriverWait smallWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds((long) (min - 0.0001)));
+
         try {
-            smallWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(appearedSignLocator)));
+            smallWait.until(ExpectedConditions.visibilityOf(appearedSignLocator));
             elementIsVisible = true;
         } catch (Exception e) {
             //
@@ -55,7 +57,7 @@ public class ElementsToBeVisibleTests extends BaseOperations {
 
         WebDriverWait longWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(max - min));
         try {
-            longWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(appearedSignLocator)));
+            longWait.until(ExpectedConditions.visibilityOf(appearedSignLocator));
             elementIsVisible = true;
         } catch (Exception e) {
             //
@@ -68,7 +70,7 @@ public class ElementsToBeVisibleTests extends BaseOperations {
 
     public void buttonClickFlow(int min, int max) {
         SoftAssertions soft = new SoftAssertions();
-        ElementVisibilityBaseOperations.triggerElement(min,max);
+        ElementVisibilityBaseOperations.triggerElementToSee(min,max);
 
         WebDriverWait buttonWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(10));
         WebElement button = buttonWait.until(ExpectedConditions.elementToBeClickable(By.id("visibility_target")));
@@ -99,6 +101,39 @@ public class ElementsToBeVisibleTests extends BaseOperations {
         soft.assertThat(tooltipHeader.isDisplayed() && tooltipBody.isDisplayed())
                 .as("Tooltip is NOT displayed")
                 .isFalse();
+    }
+
+    public void isElementInvisible(int min, int max) {
+        ElementVisibilityBaseOperations.triggerElementToUnSee(min,max);
+        SoftAssertions soft = new SoftAssertions();
+        WebElement element = BaseOperations.locateElementBy("//*[@id=\"invisibility_target\"]","xpath");
+
+        boolean isInVisibleElement = false;
+        WebDriverWait smallWait = new WebDriverWait(BaseOperations.getDriver(),Duration.ofSeconds((long)(min - 0.001)));
+
+        try {
+            smallWait.until(ExpectedConditions.invisibilityOf(element));
+            isInVisibleElement = true;
+        } catch (Exception e) {
+            //
+        }
+
+        soft.assertThat(isInVisibleElement)
+                .as(String.format("Element became invisible before the %s seconds passed",min))
+                .isFalse();
+
+        WebDriverWait longWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(max - min));
+
+        try {
+            longWait.until(ExpectedConditions.invisibilityOf(element));
+            isInVisibleElement = true;
+        } catch (Exception e) {
+            //
+        }
+
+        soft.assertThat(isInVisibleElement)
+                .as(String.format("Element has NOT became invisible in the timeframe between %s and %s seconds",min,max))
+                .isTrue();
     }
 
 }

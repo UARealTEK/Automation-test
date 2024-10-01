@@ -20,7 +20,7 @@ public class TestUtils {
             System.setProperty("webdriver.chrome.driver", "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver");
             ChromeOptions options = new ChromeOptions();
             driver = new ChromeDriver(options);
-//            options.addArguments("--headless");
+            options.addArguments("--headless");
             driver.manage().window().fullscreen();
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         }
