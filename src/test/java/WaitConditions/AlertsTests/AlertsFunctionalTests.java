@@ -1,5 +1,5 @@
 package WaitConditions.AlertsTests;
-import SamplePages.Helper.BaseOperations;
+import Utils.BaseOperations;
 import WaitConditions.Helper.AlertsBaseOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DynamicTest;

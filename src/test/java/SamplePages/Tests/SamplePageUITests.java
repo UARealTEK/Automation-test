@@ -1,6 +1,6 @@
-package SamplePages;
+package SamplePages.Tests;
 
-import SamplePages.Helper.BaseOperations;
+import Utils.BaseOperations;
 import SamplePages.Helper.EndToEndFlows;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;

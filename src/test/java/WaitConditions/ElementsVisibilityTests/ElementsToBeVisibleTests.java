@@ -1,6 +1,6 @@
 package WaitConditions.ElementsVisibilityTests;
 
-import SamplePages.Helper.BaseOperations;
+import Utils.BaseOperations;
 import WaitConditions.Helper.ElementVisibilityBaseOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DynamicTest;
@@ -14,10 +14,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-// TBD: to solve the issue with Button triggering (71 row)
-
 public class ElementsToBeVisibleTests extends BaseOperations {
     @TestFactory
     public List<DynamicTest> exampleTestFactory() {
@@ -30,9 +26,9 @@ public class ElementsToBeVisibleTests extends BaseOperations {
 
     @TestFactory
     public List<DynamicTest> exampleTestFactory2() {
-        return Arrays.asList(
+        return List.of(
                 DynamicTest.dynamicTest("min - 2, max - 5", () -> buttonClickFlow(2,5)),
-                DynamicTest.dynamicTest("min - 7, max - 10", () -> buttonClickFlow(7,10)));
+                DynamicTest.dynamicTest("min - 1, max - 3", () -> buttonClickFlow(1,3)));
     }
 
 
@@ -52,7 +48,7 @@ public class ElementsToBeVisibleTests extends BaseOperations {
         }
 
         soft.assertThat(elementIsVisible)
-                .as(String.format("The string was displayed before %s seconds passed", min))
+                .as(String.format("The button was displayed before %s seconds passed", min))
                 .isFalse();
 
         WebDriverWait longWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(max - min));
@@ -72,17 +68,13 @@ public class ElementsToBeVisibleTests extends BaseOperations {
         SoftAssertions soft = new SoftAssertions();
         ElementVisibilityBaseOperations.triggerElementToSee(min,max);
 
-        WebDriverWait buttonWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(10));
+        WebDriverWait buttonWait = new WebDriverWait(BaseOperations.getDriver(), Duration.ofSeconds(max));
         WebElement button = buttonWait.until(ExpectedConditions.elementToBeClickable(By.id("visibility_target")));
-        WebElement tooltipHeader = BaseOperations.locateElementBy("//h3[text()='Can you see me?']", "xpath");
-        WebElement tooltipBody = BaseOperations.locateElementBy("//div[text()='I just removed my invisibility cloak!!']", "xpath");
-
-
-        soft.assertThat(button.isDisplayed() && button.isEnabled())
-                .as("Element is NOT clickable")
-                .isTrue();
 
         button.click();
+
+        WebElement tooltipHeader = BaseOperations.locateElementBy("popover-header", "className");
+        WebElement tooltipBody = BaseOperations.locateElementBy("popover-body", "className");
 
         soft.assertThat(button.isDisplayed() && button.isEnabled())
                 .as("Button is GONE")
@@ -99,7 +91,7 @@ public class ElementsToBeVisibleTests extends BaseOperations {
         button.click();
 
         soft.assertThat(tooltipHeader.isDisplayed() && tooltipBody.isDisplayed())
-                .as("Tooltip is NOT displayed")
+                .as("Tooltip is still displayed")
                 .isFalse();
     }
 

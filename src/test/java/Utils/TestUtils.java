@@ -1,4 +1,4 @@
-package SamplePages.Helper; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
+package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,8 @@ public class TestUtils {
         if (driver == null) {
             System.setProperty("webdriver.chrome.driver", "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver");
             ChromeOptions options = new ChromeOptions();
-            driver = new ChromeDriver(options);
             options.addArguments("--headless");
+            driver = new ChromeDriver(options);
             driver.manage().window().fullscreen();
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         }

@@ -1,9 +1,11 @@
-package SamplePages;
+package SamplePages.Tests;
 
-import SamplePages.Helper.BaseOperations;
+import Utils.BaseOperations;
 import SamplePages.Helper.EndToEndFlows;
+import Utils.TestUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -15,14 +17,14 @@ public class SamplePageFunctionalTests extends BaseOperations {
     private static final String firstName = "Vova";
     private static final String lastName = "Test";
     private static final String email = "uarealtek1994@gmail.com";
+    private WebDriver driver = TestUtils.getDriver();
 
 
     @Test
     public void login() {
         EndToEndFlows.login(login,password);
 
-        assertEquals(BaseOperations
-                .getDriver()
+        assertEquals(driver
                 .getCurrentUrl(), "https://play1.automationcamp.ir/order_submit.html", "Login failed. Expected - https://play1.automationcamp.ir/order_submit.html. Current Url is " + BaseOperations.getDriver().getCurrentUrl());
     }
 

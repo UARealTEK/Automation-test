@@ -1,6 +1,6 @@
 package WaitConditions.PromptsTests;
 
-import SamplePages.Helper.BaseOperations;
+import Utils.BaseOperations;
 import WaitConditions.Helper.PromptBaseOperations;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;

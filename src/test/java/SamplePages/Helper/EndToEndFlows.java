@@ -1,9 +1,11 @@
 package SamplePages.Helper;
 
+import Utils.BaseOperations;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
 
+import static SamplePages.Helper.SamplePagesBaseOperation.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EndToEndFlows extends BaseOperations {

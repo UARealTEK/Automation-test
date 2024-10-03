@@ -1,6 +1,6 @@
 package WaitConditions.Helper;
 
-import SamplePages.Helper.BaseOperations;
+import Utils.BaseOperations;
 import org.openqa.selenium.WebElement;
 
 public class AlertsBaseOperations extends BaseOperations {
