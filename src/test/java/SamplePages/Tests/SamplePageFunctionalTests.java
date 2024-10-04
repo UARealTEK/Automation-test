@@ -1,5 +1,6 @@
 package SamplePages.Tests;
 
+import Enums.URLs;
 import Pages.LoginPage;
 import Pages.OrderPage;
 import Utils.BaseOperations;
@@ -23,7 +24,6 @@ public class SamplePageFunctionalTests extends BaseOperations {
     private static final String firstName = "Vova";
     private static final String lastName = "Test";
     private static final String email = "uarealtek1994@gmail.com";
-    private static final String loginPageURL = "https://play1.automationcamp.ir/login.html";
     private static final String orderPageURL = "https://play1.automationcamp.ir/order_submit.html";
     private WebDriver driver = TestUtils.getDriver();
 
@@ -32,11 +32,12 @@ public class SamplePageFunctionalTests extends BaseOperations {
 
     @Test
     public void login() {
+        BaseOperations.navigateTo(URLs.LOGIN_PAGE);
         LoginPage login = new LoginPage(driver);
-        driver.get(loginPageURL);
+        login.validUserLogIn(userName,password);
 
         assertEquals(driver
-                .getCurrentUrl(), orderPageURL, "Login failed. Expected" + orderPageURL + " Current Url is " + driver.getCurrentUrl());
+                .getCurrentUrl(), BaseOperations.getFullURL(URLs.ORDER_PAGE), "Login failed. Expected" + BaseOperations.getFullURL(URLs.ORDER_PAGE) + " Current Url is " + driver.getCurrentUrl());
     }
 
     @Test
@@ -49,7 +50,6 @@ public class SamplePageFunctionalTests extends BaseOperations {
     }
 
 
-    //TBD
     @Test
     public void setOrder() {
         SoftAssertions soft = new SoftAssertions();
@@ -58,13 +58,13 @@ public class SamplePageFunctionalTests extends BaseOperations {
         orderPage.placeOrder(orderPage);
 
         // Check that message is appeared after sometime
-        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, Duration.ofSeconds(10));
-        waitMessageToAppear.until(ExpectedConditions.visibilityOfElementLocated())
+        soft.assertThat(orderPage.isSuccessMessageDisplayed())
+                .as("the Message was not displayed")
+                .isTrue();
 
         //Then check that the message is GONE after some time
-        BaseOperations.getWait().until(ExpectedConditions.invisibilityOf(successConfirmationMessage));
-        soft.assertThat(successConfirmationMessage.isDisplayed())
-                .as("Nope, Message is still there for some reason")
+        soft.assertThat(orderPage.isSuccessMessageDisplayed())
+                .as("the Message was not displayed")
                 .isFalse();
     }
 }

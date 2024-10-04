@@ -23,8 +23,7 @@ public class OrderPage {
     private final By smallSize = By.id("rad_small");
     private final By flavourDropdown = By.id("select_flavor");
     private final By pizzaQuantityField = By.id("quantity");
-    private final By toppingsDiv = By.xpath("//*[@id=\"pizza_order_form\"]/div[4]/div[2]");
-    private final List<WebElement> toppingsList = driver.findElement(toppingsDiv).findElements(By.tagName("input"));
+    private final List<WebElement> toppingsList = driver.findElements(By.xpath("//label[contains(text(), 'Toppings')]/ancestor::div[2]//input[@class='form-check-input']"));
     private final int toppingsAmount = toppingsList.size();
     private final By submitButton = By.id("submit_button");
     private final By errorMessageDiv = By.xpath("//*[@id=\"quantity_modal\"]/div/div/div[1]/i");
@@ -106,8 +105,12 @@ public class OrderPage {
     }
 
     public String getSuccessMessage() {
-
         return driver.findElement(successMessage).getText();
+    }
+
+    public Boolean isSuccessMessageDisplayed() {
+        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, Duration.ofSeconds(10));
+        return waitMessageToAppear.until(ExpectedConditions.visibilityOfElementLocated(successMessage)).isDisplayed();
     }
 
     public String getErrorMessage() {

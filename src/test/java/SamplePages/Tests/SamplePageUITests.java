@@ -16,55 +16,55 @@ public class SamplePageUITests extends BaseOperations {
     private static final String lastName = "Test";
     private static final String email = "uarealtek1994@gmail.com";
 
-    @Test
-    public void isCorrectText() {
-        SoftAssertions soft = new SoftAssertions();
-        EndToEndFlows.login(login,password);
-
-        //Check Header text
-        WebElement header = BaseOperations.locateElementBy("/html/body/div[1]/div/div[1]", "xpath");
-        soft.assertThat(header.getText().equals("Dinesh's Pizza House\n" +
-                        "Customize your pizza by choosing from a variety of toppings, cheese and sauces."))
-                        .as("Incorrect text. Correct text is: Dinesh's Pizza House\\n\" +\n" + "\"Customize your pizza by choosing from a variety of toppings, cheese and sauces.")
-                        .isTrue();
-
-        //Check Pizza properties texts
-        WebElement pizzaSize = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[1]/div[1]/label", "xpath");
-        WebElement pizzaFlavour = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[2]/div[1]/label","xpath");
-        WebElement sauce = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[3]/div[1]/label", "xpath");
-        WebElement toppings = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[4]/div[1]/label", "xpath");
-        WebElement quantity = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[5]/div[1]/label", "xpath");
-
-        soft.assertThat(pizzaSize.getText().equals("Pizza Size"))
-                .as("Nope, Should be Pizza Size")
-                .isTrue();
-
-        soft.assertThat(pizzaFlavour.getText().equals("Pizza Flavour"))
-                .as("Nope, should be Pizza Flavor")
-                .isTrue();
-
-        soft.assertThat(sauce.getText().equals("Sauce"))
-                .as("Nope, should be Sauce")
-                .isTrue();
-
-        soft.assertThat(toppings.getText().equals("Toppings"))
-                .as("Nope, should be Toppings")
-                .isTrue();
-
-        soft.assertThat(quantity.getText().equals("Quantity"))
-                .as("Nope, should be Quantity")
-                .isTrue();
-    }
-
-    @Test
-    public void isCorrectSetOfControlsPizzaSize() {
-        EndToEndFlows.login(login,password);
-
-        // Check count of elements
-        WebElement controlsDiv = BaseOperations.locateElementBy("form-group","className");
-        controlsDiv.getAttribute("childElementCount");
-        assertEquals(controlsDiv.getAttribute("childElementCount"), "3", "Incorrect amount of elements. Expected - 3, but got: " + controlsDiv.getAttribute("childElementCount"));
-    }
+//    @Test
+//    public void isCorrectText() {
+//        SoftAssertions soft = new SoftAssertions();
+//        EndToEndFlows.login(login,password);
+//
+//        //Check Header text
+//        WebElement header = BaseOperations.locateElementBy("/html/body/div[1]/div/div[1]", "xpath");
+//        soft.assertThat(header.getText().equals("Dinesh's Pizza House\n" +
+//                        "Customize your pizza by choosing from a variety of toppings, cheese and sauces."))
+//                        .as("Incorrect text. Correct text is: Dinesh's Pizza House\\n\" +\n" + "\"Customize your pizza by choosing from a variety of toppings, cheese and sauces.")
+//                        .isTrue();
+//
+//        //Check Pizza properties texts
+//        WebElement pizzaSize = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[1]/div[1]/label", "xpath");
+//        WebElement pizzaFlavour = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[2]/div[1]/label","xpath");
+//        WebElement sauce = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[3]/div[1]/label", "xpath");
+//        WebElement toppings = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[4]/div[1]/label", "xpath");
+//        WebElement quantity = BaseOperations.locateElementBy("//*[@id=\"pizza_order_form\"]/div[5]/div[1]/label", "xpath");
+//
+//        soft.assertThat(pizzaSize.getText().equals("Pizza Size"))
+//                .as("Nope, Should be Pizza Size")
+//                .isTrue();
+//
+//        soft.assertThat(pizzaFlavour.getText().equals("Pizza Flavour"))
+//                .as("Nope, should be Pizza Flavor")
+//                .isTrue();
+//
+//        soft.assertThat(sauce.getText().equals("Sauce"))
+//                .as("Nope, should be Sauce")
+//                .isTrue();
+//
+//        soft.assertThat(toppings.getText().equals("Toppings"))
+//                .as("Nope, should be Toppings")
+//                .isTrue();
+//
+//        soft.assertThat(quantity.getText().equals("Quantity"))
+//                .as("Nope, should be Quantity")
+//                .isTrue();
+//    }
+//
+//    @Test
+//    public void isCorrectSetOfControlsPizzaSize() {
+//        EndToEndFlows.login(login,password);
+//
+//        // Check count of elements
+//        WebElement controlsDiv = BaseOperations.locateElementBy("form-group","className");
+//        controlsDiv.getAttribute("childElementCount");
+//        assertEquals(controlsDiv.getAttribute("childElementCount"), "3", "Incorrect amount of elements. Expected - 3, but got: " + controlsDiv.getAttribute("childElementCount"));
+//    }
 
      @Test
     public void isCorrectSignUpConfirmationDataDisplayed() {

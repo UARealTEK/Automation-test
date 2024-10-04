@@ -25,7 +25,7 @@ public class LoginPage {
         return new OrderPage(driver);
     }
 
-    public RegisterPage goToSignUp(String firstName, String lastName, String password, String email) {
+    public RegisterPage goToSignUp() {
         driver.findElement(registerButton).click();
 
         return new RegisterPage(driver);

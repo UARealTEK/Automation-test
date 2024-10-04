@@ -15,6 +15,7 @@ public class RegisterPage {
 
 
     RegisterPage(WebDriver driver) {
+
         this.driver = driver;
     }
 
