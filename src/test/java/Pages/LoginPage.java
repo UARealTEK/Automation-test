@@ -11,8 +11,10 @@ public class LoginPage {
     private By userLogin = By.id("user");
     private By userPassword = By.id("password");
     private By loginButton = By.id("login");
+    private By registerButton = By.linkText("register.html");
 
-    LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
+
         this.driver = driver;
     }
 
@@ -23,7 +25,10 @@ public class LoginPage {
         return new OrderPage(driver);
     }
 
+    public RegisterPage goToSignUp(String firstName, String lastName, String password, String email) {
+        driver.findElement(registerButton).click();
 
-
+        return new RegisterPage(driver);
+    }
 
 }
