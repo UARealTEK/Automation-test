@@ -3,16 +3,13 @@ package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasse
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class TestUtils {
 
     private static WebDriver driver;
 
     // Method to initialize WebDriver
-    public static WebDriver initializeWebDriver() {
+    public static void initializeWebDriver() {
         if (driver == null) {
             System.setProperty("webdriver.chrome.driver", "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver");
             ChromeOptions options = new ChromeOptions();
@@ -21,7 +18,6 @@ public class TestUtils {
             driver.manage().window().fullscreen();
         }
 
-        return driver;
     }
 
     public static WebDriver getDriver() {
