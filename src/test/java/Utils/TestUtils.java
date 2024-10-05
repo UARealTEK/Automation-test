@@ -16,7 +16,7 @@ public class TestUtils {
         if (driver == null) {
             System.setProperty("webdriver.chrome.driver", "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver");
             ChromeOptions options = new ChromeOptions();
-//            options.addArguments("--headless");
+            options.addArguments("--headless");
             driver = new ChromeDriver(options);
             driver.manage().window().fullscreen();
         }
