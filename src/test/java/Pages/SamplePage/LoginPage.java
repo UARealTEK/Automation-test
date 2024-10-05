@@ -1,6 +1,5 @@
-package Pages;
+package Pages.SamplePage;
 
-import Utils.BaseOperations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

@@ -1,7 +1,8 @@
-package Pages;
+package Pages.SamplePage;
 
 import Utils.BaseOperations;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +14,6 @@ import java.util.*;
 
 public class OrderPage {
     private WebDriver driver;
-    private final String successMessageExpected = "Pizza added to the cart!\n";
     private final By successMessage = By.id("added_message");
     private final By sauceMarinara = By.id("rad_marinara");
     private final By sauceBuffalo = By.id("rad_buffalo");
@@ -24,14 +24,14 @@ public class OrderPage {
     private final By smallSize = By.id("rad_small");
     private final By flavourDropdown = By.id("select_flavor");
     private final By pizzaQuantityField = By.id("quantity");
-    private final List<WebElement> toppingsList = driver.findElements(By.xpath("//label[contains(text(), 'Toppings')]/ancestor::div[2]//input[@class='form-check-input']"));
-    private final int toppingsAmount = toppingsList.size();
+    private final By toppings = By.xpath("//label[contains(text(), 'Toppings')]/ancestor::div[2]//input[@class='form-check-input']");
     private final By submitButton = By.id("submit_button");
     private final By errorMessageDiv = By.xpath("//*[@id=\"quantity_modal\"]/div/div/div[1]/i");
 
+    private List<WebElement> toppingList = null;
+
 
     OrderPage(WebDriver driver) {
-
         this.driver = driver;
     }
 
@@ -71,8 +71,13 @@ public class OrderPage {
         driver.findElement(saucesList.get(randomSauceIndex)).click();
     }
 
+    private void getToppingsList() {
+         toppingList = driver.findElements(toppings);
+    }
+
     public void selectRandomToppings(int toppingsAmountToSelect) {
-        if (toppingsAmountToSelect > toppingsAmount) {
+        getToppingsList();
+        if (toppingsAmountToSelect > toppingList.size()) {
             throw new AssertionError("There are only 3 available toppings options. Please insert value from 1 to 3");
         }
 
@@ -81,8 +86,8 @@ public class OrderPage {
         Set<WebElement> selectedToppings = new HashSet<>();
 
         while (selectedToppings.size() < toppingsAmountToSelect) {
-            int randomToppingIndex = random.nextInt(toppingsList.size());
-            selectedToppings.add(toppingsList.get(randomToppingIndex));
+            int randomToppingIndex = random.nextInt(toppingList.size());
+            selectedToppings.add(toppingList.get(randomToppingIndex));
         }
 
         for (WebElement topping : selectedToppings) {
@@ -95,13 +100,14 @@ public class OrderPage {
     }
 
     public void placeOrder(OrderPage orderPage) {
+        getToppingsList();
         Random random = new Random();
 
         orderPage.selectRandomPizzaSize();
         orderPage.selectRandomPizzaFlavour();
         orderPage.selectRandomSauce();
-        orderPage.selectRandomToppings(random.nextInt(toppingsAmount));
-        insertAmountOfPizzas(random.nextInt());
+        orderPage.selectRandomToppings(random.nextInt(toppingList.size()));
+        insertAmountOfPizzas(random.nextInt(10) + 1);
         driver.findElement(submitButton).click();
     }
 
@@ -114,11 +120,17 @@ public class OrderPage {
         return waitMessageToAppear.until(ExpectedConditions.visibilityOfElementLocated(successMessage)).isDisplayed();
     }
 
-    public String getErrorMessage() {
-        return driver.findElement(errorMessageDiv).getText();
+    public Boolean isSuccessMessageDisappeared() {
+        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        try {
+            return waitMessageToAppear.until(ExpectedConditions.invisibilityOfElementLocated(successMessage));
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
-    public String getSuccessMessageExpected() {
-        return successMessageExpected;
+    public String getErrorMessage() {
+        return driver.findElement(errorMessageDiv).getText();
     }
 }
