@@ -25,7 +25,7 @@ public class SamplePageFunctionalTests extends BaseOperations {
     @Test
     public void login() {
         BaseOperations.navigateTo(URLs.LOGIN_PAGE);
-        LoginPage login = new LoginPage(BaseOperations.getDriver());
+        LoginPage login = new LoginPage(driver);
         login.validUserLogIn(userName,password);
 
         assertEquals(driver
