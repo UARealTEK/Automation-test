@@ -1,12 +1,13 @@
 package WaitConditions.Helper;
 
+import Enums.URLs;
 import Utils.BaseOperations;
 import org.openqa.selenium.WebElement;
 
 public class AlertsBaseOperations extends BaseOperations {
 
     public static void showAlert(long minWait, long maxWait) {
-        BaseOperations.openPage("https://play1.automationcamp.ir/expected_conditions.html");
+        BaseOperations.navigateTo(URLs.WAIT_CONDITIONS);
 
         WebElement setMinWaitField = BaseOperations.locateElementBy("//*[@id=\"min_wait\"]","xpath");
         WebElement setMaxWaitField = BaseOperations.locateElementBy("//*[@id=\"max_wait\"]","xpath");

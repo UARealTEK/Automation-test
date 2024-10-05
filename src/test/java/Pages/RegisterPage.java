@@ -12,10 +12,11 @@ public class RegisterPage {
     private By confirmPasswordField = By.id("pwd2");
     private By termsCheckBox = By.name("terms");
     private By signUpButton = By.id("submit_button");
+    private By signUpSuccessHeader = By.tagName("h1");
+    private By signUpSuccessMessage = By.tagName("p");
 
 
     RegisterPage(WebDriver driver) {
-
         this.driver = driver;
     }
 
@@ -28,6 +29,14 @@ public class RegisterPage {
         driver.findElement(termsCheckBox).click();
         driver.findElement(signUpButton).click();
         return new OrderPage(driver);
+    }
+
+    public String getSuccessSignUPHeader() {
+        return driver.findElement(signUpSuccessHeader).getText();
+    }
+
+    public String getSuccessSignUPMessage() {
+        return driver.findElement(signUpSuccessMessage).getText();
     }
 
 

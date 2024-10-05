@@ -14,7 +14,6 @@ public class LoginPage {
     private By registerButton = By.linkText("register.html");
 
     public LoginPage(WebDriver driver) {
-
         this.driver = driver;
     }
 
@@ -27,7 +26,6 @@ public class LoginPage {
 
     public RegisterPage goToSignUp() {
         driver.findElement(registerButton).click();
-
         return new RegisterPage(driver);
     }
 

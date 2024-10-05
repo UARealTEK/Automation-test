@@ -13,6 +13,7 @@ import java.util.*;
 
 public class OrderPage {
     private WebDriver driver;
+    private final String successMessageExpected = "Pizza added to the cart!\n";
     private final By successMessage = By.id("added_message");
     private final By sauceMarinara = By.id("rad_marinara");
     private final By sauceBuffalo = By.id("rad_buffalo");
@@ -114,7 +115,10 @@ public class OrderPage {
     }
 
     public String getErrorMessage() {
-
         return driver.findElement(errorMessageDiv).getText();
+    }
+
+    public String getSuccessMessageExpected() {
+        return successMessageExpected;
     }
 }
