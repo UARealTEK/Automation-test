@@ -1,4 +1,4 @@
-package ExpectedConditions.Tests;
+package Tests.ExpectedConditionsTests;
 
 import Enums.URLs;
 import Pages.ExpectedConditions.ExpectedConditionsPage;

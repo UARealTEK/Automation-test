@@ -1,4 +1,4 @@
-package SamplePages.Tests;
+package Tests.SamplePages;
 
 import Enums.URLs;
 import Pages.SamplePage.LoginPage;
