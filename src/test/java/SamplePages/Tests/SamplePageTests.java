@@ -11,14 +11,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SamplePageFunctionalTests extends BaseOperations {
+public class SamplePageTests extends BaseOperations {
     private static final String userName = "admin";
     private static final String password = "admin";
-    private static final String firstName = "Vova";
+    private static final String firstName = "Volodymyr";
     private static final String lastName = "Test";
     private static final String email = "uarealtek1994@gmail.com";
     private static final String successMessage = "Pizza added to the cart!";

@@ -1,4 +1,6 @@
 package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
+// Windows - "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver"
+// Mac - "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver"
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,9 +13,9 @@ public class TestUtils {
     // Method to initialize WebDriver
     public static void initializeWebDriver() {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver");
+            System.setProperty("webdriver.chrome.driver", "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver.exe");
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
+//            options.addArguments("--headless");
             driver = new ChromeDriver(options);
             driver.manage().window().fullscreen();
         }
