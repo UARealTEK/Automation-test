@@ -33,8 +33,8 @@ public class ExpectedConditionsPage {
     private By waitForFrameButton = By.id("wait_for_frame");
 
     // Waits
-    private WebDriverWait smallWait = new WebDriverWait(driver, Duration.ofSeconds((long) (minFieldValue - 0.0001)));
-    private WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(maxFieldValue - minFieldValue));
+    private WebDriverWait smallWait = null;
+    private WebDriverWait longWait = null;
 
     //Constructor
     public ExpectedConditionsPage(WebDriver driver) {
@@ -43,10 +43,11 @@ public class ExpectedConditionsPage {
 
     //Getter Methods
     public WebDriverWait getSmallWait() {
+        setMinWait();
         return smallWait;
     }
-
     public WebDriverWait getLongWait() {
+        setMaxWait();
         return longWait;
     }
     public int getMinFieldValue() {
@@ -54,6 +55,15 @@ public class ExpectedConditionsPage {
     }
     public int getMaxFieldValue() {
         return maxFieldValue;
+    }
+
+    //Setter Methods
+    private void setMinWait() {
+        smallWait = new WebDriverWait(driver, Duration.ofSeconds((long) (minFieldValue - 0.0001)));
+    }
+
+    private void setMaxWait() {
+        longWait = new WebDriverWait(driver, Duration.ofSeconds(maxFieldValue - minFieldValue));
     }
 
     //Alert Methods

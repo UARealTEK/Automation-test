@@ -13,7 +13,7 @@ public class TestUtils {
     // Method to initialize WebDriver
     public static void initializeWebDriver() {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
             ChromeOptions options = new ChromeOptions();
 //            options.addArguments("--headless");
             driver = new ChromeDriver(options);
