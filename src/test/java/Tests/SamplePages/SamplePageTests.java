@@ -5,7 +5,7 @@ import Pages.SamplePage.LoginPage;
 import Pages.SamplePage.OrderPage;
 import Pages.SamplePage.RegisterPage;
 import Utils.BaseOperations;
-import Utils.TestUtils;
+import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,12 +25,13 @@ public class SamplePageTests extends BaseOperations {
 
     @BeforeEach
     public void setup() {
-        driver = TestUtils.getDriver();
+        driver = DriverOperations.getDriver();
     }
 
     @AfterEach
     public void tearDown() {
         driver.quit();
+        DriverOperations.quitWebDriver();
     }
 
     @Test
