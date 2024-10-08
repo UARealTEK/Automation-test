@@ -21,6 +21,7 @@ public class SamplePageTests extends BaseOperations {
     private static final String lastName = "Test";
     private static final String email = "uarealtek1994@gmail.com";
     private static final String successMessage = "Pizza added to the cart!";
+    private static final String errorMessage = "Quantity must be 1 or more!";
     private WebDriver driver;
 
     @BeforeEach
@@ -61,7 +62,6 @@ public class SamplePageTests extends BaseOperations {
         soft.assertAll();
     }
 
-
     @Test
     public void setOrder() {
         SoftAssertions soft = new SoftAssertions();
@@ -85,6 +85,33 @@ public class SamplePageTests extends BaseOperations {
         soft.assertThat(orderPage.isSuccessMessageDisappeared())
                 .as("the Message was still displayed")
                 .isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkErrorMessage() throws InterruptedException {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.LOGIN_PAGE);
+        LoginPage loginPage = new LoginPage(driver);
+
+        OrderPage orderPage = loginPage.validUserLogIn(userName, password);
+        orderPage.placeInvalidOrder(orderPage);
+
+        //Check that error Message was displayed after a short period of time
+        soft.assertThat(orderPage.isErrorMessageDisplayed())
+                .as("The error message was NOT displayed")
+                .isTrue();
+
+        //Check Error Message Text
+        soft.assertThat(orderPage.getErrorMessage())
+                .isEqualTo(errorMessage);
+
+        //Check that error Modal can be closed
+        orderPage.closeErrorModal();
+        soft.assertThat(orderPage.isErrorMessageDisplayed())
+                .as("The error message was NOT closed")
+                .isFalse();
 
         soft.assertAll();
     }
