@@ -29,6 +29,7 @@ public class OrderPage {
     private final By submitButton = By.id("submit_button");
     private final By errorModal = By.id("quantity_modal");
     private final By errorMessageButton = By.xpath("//button[@class='btn btn-warning' and @type='button']");
+    private final By loaderPopup = By.id("success_modal");
     private final Duration waitTime = Duration.ofSeconds(10);
 
     private List<WebElement> toppingList = null;
@@ -166,4 +167,21 @@ public class OrderPage {
                 Thread.sleep(2000);
             }
     }
+
+    public String getLoaderMessage() {
+        WebDriverWait loaderWait = new WebDriverWait(driver,waitTime);
+        loaderWait.until(ExpectedConditions.visibilityOfElementLocated(loaderPopup));
+        return driver.findElement(loaderPopup).findElement(By.cssSelector(".col.col-sm-10")).getText();
+    }
+
+    public boolean isLoaderDisplayed() {
+        WebDriverWait popupWait = new WebDriverWait(driver,waitTime);
+        try {
+            popupWait.until(ExpectedConditions.attributeToBe(loaderPopup,"style","padding-right: 17px; display: block;"));
+        } catch (TimeoutException e) {
+            //
+        }
+        return driver.findElement(loaderPopup).getAttribute("style").equals("padding-right: 17px; display: block;");
+    }
+
 }

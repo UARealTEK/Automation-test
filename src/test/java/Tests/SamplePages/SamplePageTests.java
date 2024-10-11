@@ -22,6 +22,7 @@ public class SamplePageTests extends BaseOperations {
     private static final String email = "uarealtek1994@gmail.com";
     private static final String successMessage = "Pizza added to the cart!";
     private static final String errorMessage = "Quantity must be 1 or more!";
+    private static final String loaderText = "Adding to the cart...";
     private WebDriver driver;
 
     @BeforeEach
@@ -70,6 +71,15 @@ public class SamplePageTests extends BaseOperations {
         LoginPage loginPage = new LoginPage(driver);
         OrderPage orderPage = loginPage.validUserLogIn(userName, password);
         orderPage.placeOrder(orderPage);
+
+        //Check loader
+        soft.assertThat(orderPage.isLoaderDisplayed())
+                .as("Loader was NOT displayed")
+                .isTrue();
+
+        //Check Loader Message
+        soft.assertThat(orderPage.getLoaderMessage())
+                .isEqualTo(loaderText);
 
         // Check that message is appeared after sometime
         soft.assertThat(orderPage.isSuccessMessageDisplayed())
