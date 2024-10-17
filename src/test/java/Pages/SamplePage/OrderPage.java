@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.sql.Time;
 import java.time.Duration;
 import java.util.*;
 
@@ -26,7 +27,10 @@ public class OrderPage {
     private final By pizzaQuantityField = By.id("quantity");
     private final By toppings = By.xpath("//label[contains(text(), 'Toppings')]/ancestor::div[2]//input[@class='form-check-input']");
     private final By submitButton = By.id("submit_button");
-    private final By errorMessageDiv = By.xpath("//*[@id=\"quantity_modal\"]/div/div/div[1]/i");
+    private final By errorModal = By.id("quantity_modal");
+    private final By errorMessageButton = By.xpath("//button[@class='btn btn-warning' and @type='button']");
+    private final By loaderPopup = By.id("success_modal");
+    private final Duration waitTime = Duration.ofSeconds(10);
 
     private List<WebElement> toppingList = null;
 
@@ -111,17 +115,29 @@ public class OrderPage {
         driver.findElement(submitButton).click();
     }
 
+    public void placeInvalidOrder(OrderPage orderPage) {
+        getToppingsList();
+        Random random = new Random();
+
+        orderPage.selectRandomPizzaSize();
+        orderPage.selectRandomPizzaFlavour();
+        orderPage.selectRandomSauce();
+        orderPage.selectRandomToppings(random.nextInt(toppingList.size()));
+        insertAmountOfPizzas(random.nextInt(-1000,0));
+        driver.findElement(submitButton).click();
+    }
+
     public String getSuccessMessage() {
         return driver.findElement(successMessage).getText();
     }
 
     public Boolean isSuccessMessageDisplayed() {
-        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, waitTime);
         return waitMessageToAppear.until(ExpectedConditions.visibilityOfElementLocated(successMessage)).isDisplayed();
     }
 
     public Boolean isSuccessMessageDisappeared() {
-        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitMessageToAppear = new WebDriverWait(driver, waitTime);
 
         try {
             return waitMessageToAppear.until(ExpectedConditions.invisibilityOfElementLocated(successMessage));
@@ -129,8 +145,43 @@ public class OrderPage {
             return false;
         }
     }
-
     public String getErrorMessage() {
-        return driver.findElement(errorMessageDiv).getText();
+        WebDriverWait errorMessageWait = new WebDriverWait(driver,waitTime);
+        errorMessageWait.until(ExpectedConditions.visibilityOfElementLocated(errorModal));
+        return driver.findElement(errorModal).findElement(By.className("modal-body")).getText();
     }
+    public boolean isErrorMessageDisplayed() {
+        WebDriverWait popupWait = new WebDriverWait(driver,waitTime);
+        try {
+            popupWait.until(ExpectedConditions.attributeToBe(errorModal,"style","padding-right: 17px; display: block;"));
+        } catch (TimeoutException e) {
+            //
+        }
+        return driver.findElement(errorModal).getAttribute("style").equals("padding-right: 17px; display: block;");
+    }
+
+    public void closeErrorModal() throws InterruptedException {
+            WebElement button = driver.findElement(errorMessageButton);
+            button.click();
+            if (button.isDisplayed()) {
+                Thread.sleep(2000);
+            }
+    }
+
+    public String getLoaderMessage() {
+        WebDriverWait loaderWait = new WebDriverWait(driver,waitTime);
+        loaderWait.until(ExpectedConditions.visibilityOfElementLocated(loaderPopup));
+        return driver.findElement(loaderPopup).findElement(By.cssSelector(".col.col-sm-10")).getText();
+    }
+
+    public boolean isLoaderDisplayed() {
+        WebDriverWait popupWait = new WebDriverWait(driver,waitTime);
+        try {
+            popupWait.until(ExpectedConditions.attributeToBe(loaderPopup,"style","padding-right: 17px; display: block;"));
+        } catch (TimeoutException e) {
+            //
+        }
+        return driver.findElement(loaderPopup).getAttribute("style").equals("padding-right: 17px; display: block;");
+    }
+
 }

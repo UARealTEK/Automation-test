@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BaseOperations extends TestUtils {
+public class BaseOperations extends DriverOperations {
 
     public static void navigateTo(URLs page) {
         String url = URLs.getURLValue(page.name());
@@ -21,7 +21,7 @@ public class BaseOperations extends TestUtils {
     }
 
     public static void clickElement(WebElement element) {
-        WebDriverWait elementWait = new WebDriverWait(TestUtils.getDriver(), Duration.ofSeconds(10));
+        WebDriverWait elementWait = new WebDriverWait(DriverOperations.getDriver(), Duration.ofSeconds(10));
         elementWait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
