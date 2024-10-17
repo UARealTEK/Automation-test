@@ -10,7 +10,7 @@ public class LoginPage {
     private By userLogin = By.id("user");
     private By userPassword = By.id("password");
     private By loginButton = By.id("login");
-    private By registerButton = By.linkText("register.html");
+    private By registerButton = By.tagName("a"); // works only if this element is only one on the page
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
