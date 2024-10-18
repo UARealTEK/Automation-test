@@ -2,6 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+chromedriver
+chromedriver.exe
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

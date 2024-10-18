@@ -13,6 +13,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.NoSuchElementException;
+
 public class ExpectedConditionsTests extends BaseOperations {
     private WebDriver driver;
 
@@ -53,5 +55,65 @@ public class ExpectedConditionsTests extends BaseOperations {
                     .isTrue();
 
         soft.assertAll();
+    }
+
+    @Test
+    public void checkPromptAppearance() {
+        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
+        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        SoftAssertions soft = new SoftAssertions();
+
+        page.showPrompt();
+        WebDriverWait smallWait = page.getSmallWait();
+        WebDriverWait longWait = page.getLongWait();
+
+        try {
+            smallWait.until(ExpectedConditions.alertIsPresent());
+            soft.assertThat(page.isAlertDisplayed())
+                    .as(String.format("Alert WAS displayed before the %s has passed", page.getMinFieldValue()))
+                    .isFalse();
+        } catch (TimeoutException e) {
+            //
+        }
+
+        longWait.until(ExpectedConditions.alertIsPresent());
+        soft.assertThat(page.isAlertDisplayed())
+                .as(String.format("The alert was NOT displayed in the timeframe between %s and %s seconds", page.getMinFieldValue(),page.getMaxFieldValue()))
+                .isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkElementAppearance() {
+        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
+        SoftAssertions soft = new SoftAssertions();
+        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+
+        page.showElement();
+        WebDriverWait smallWait = page.getSmallWait();
+        WebDriverWait longWait = page.getLongWait();
+
+        try {
+            smallWait.until(ExpectedConditions.visibilityOf(page.getVisibilityTargetElement()));
+            soft.assertThat(page.getVisibilityTargetElement().isDisplayed())
+                    .as(String.format("Element WAS visible before the %s time has passed", page.getMinFieldValue()))
+                    .isFalse();
+        } catch (TimeoutException e) {
+            //
+        }
+
+        longWait.until(ExpectedConditions.visibilityOf(page.getVisibilityTargetElement()));
+        soft.assertThat(page.getVisibilityTargetElement().isDisplayed())
+                .as(String.format("The Element was NOT present in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()))
+                .isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkElementDisappearance() {
+        SoftAssertions soft = new SoftAssertions();
+
     }
 }

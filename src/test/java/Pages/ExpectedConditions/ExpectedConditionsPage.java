@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class ExpectedConditionsPage {
@@ -23,6 +24,7 @@ public class ExpectedConditionsPage {
     private By showAlertButton = By.id("alert_trigger");
     private By showPromptButton = By.id("prompt_trigger");
     private By triggerElementVisibilityButton = By.id("visibility_trigger");
+    private By visibilityTargetElement = By.id("visibility_target");
     private By triggerElementInVisibilityButton = By.id("invisibility_trigger");
     private By triggerElementEnablingButton = By.id("enabled_trigger");
     private By disabledButton = By.id("enabled_target");
@@ -103,5 +105,24 @@ public class ExpectedConditionsPage {
         maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
 
         driver.findElement(showPromptButton).click();
+    }
+
+    //Element Visibility Methods
+    public void showElement() {
+        WebElement minWaitElement = driver.findElement(minWaitField);
+        minWaitElement.clear();
+        minWaitElement.click();
+        minWaitElement.sendKeys(String.valueOf(minFieldValue));
+
+        WebElement maxWaitElement = driver.findElement(maxWaitField);
+        maxWaitElement.clear();
+        maxWaitElement.click();
+        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
+
+        driver.findElement(triggerElementVisibilityButton).click();
+    }
+
+    public WebElement getVisibilityTargetElement() {
+        return driver.findElement(visibilityTargetElement);
     }
 }
