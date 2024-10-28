@@ -1,6 +1,9 @@
 package Pages.SamplePage;
 
 import Utils.BaseOperations;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -9,17 +12,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.sql.Time;
 import java.time.Duration;
 import java.util.*;
 
+@Log4j2
 public class OrderPage {
     private WebDriver driver;
     private final By successMessage = By.id("added_message");
     private final By sauceMarinara = By.id("rad_marinara");
     private final By sauceBuffalo = By.id("rad_buffalo");
     private final By sauceBarbeque = By.id("rad_barbeque");
-
     private final By largeSize = By.id("rad_large");
     private final By mediumSize = By.id("rad_medium");
     private final By smallSize = By.id("rad_small");
@@ -30,6 +32,7 @@ public class OrderPage {
     private final By errorModal = By.id("quantity_modal");
     private final By errorMessageButton = By.xpath("//button[@class='btn btn-warning' and @type='button']");
     private final By loaderPopup = By.id("success_modal");
+    private final By loaderPopupMessage = By.cssSelector(".col-sm-10");
     private final Duration waitTime = Duration.ofSeconds(10);
 
     private List<WebElement> toppingList = null;
@@ -145,6 +148,7 @@ public class OrderPage {
             return false;
         }
     }
+
     public String getErrorMessage() {
         WebDriverWait errorMessageWait = new WebDriverWait(driver,waitTime);
         errorMessageWait.until(ExpectedConditions.visibilityOfElementLocated(errorModal));
@@ -170,18 +174,22 @@ public class OrderPage {
 
     public String getLoaderMessage() {
         WebDriverWait loaderWait = new WebDriverWait(driver,waitTime);
-        loaderWait.until(ExpectedConditions.visibilityOfElementLocated(loaderPopup));
-        return driver.findElement(loaderPopup).findElement(By.cssSelector(".col.col-sm-10")).getText();
+        try {
+            loaderWait.until(ExpectedConditions.visibilityOfElementLocated(loaderPopup));
+        } catch (TimeoutException e) {
+            log.warn("The loader Element was NOT found");
+        }
+        return driver.findElement(loaderPopupMessage).getText();
     }
 
     public boolean isLoaderDisplayed() {
         WebDriverWait popupWait = new WebDriverWait(driver,waitTime);
         try {
-            popupWait.until(ExpectedConditions.attributeToBe(loaderPopup,"style","padding-right: 17px; display: block;"));
+            popupWait.until(ExpectedConditions.attributeToBe(loaderPopup,"style","display: block;"));
         } catch (TimeoutException e) {
             //
         }
-        return driver.findElement(loaderPopup).getAttribute("style").equals("padding-right: 17px; display: block;");
+        return driver.findElement(loaderPopup).getAttribute("style").equals("display: block;");
     }
 
 }
