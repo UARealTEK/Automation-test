@@ -1,6 +1,8 @@
 package Pages.SamplePage;
 
 import Utils.BaseOperations;
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -8,11 +10,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.sql.Time;
 import java.time.Duration;
 import java.util.*;
 
+
+@Log4j2
+@Getter
 public class OrderPage {
     private WebDriver driver;
     private final By successMessage = By.id("added_message");
@@ -155,7 +158,7 @@ public class OrderPage {
         try {
             popupWait.until(ExpectedConditions.attributeToBe(errorModal,"style","padding-right: 17px; display: block;"));
         } catch (TimeoutException e) {
-            //
+
         }
         return driver.findElement(errorModal).getAttribute("style").equals("padding-right: 17px; display: block;");
     }
@@ -178,8 +181,9 @@ public class OrderPage {
         WebDriverWait popupWait = new WebDriverWait(driver,waitTime);
         try {
             popupWait.until(ExpectedConditions.attributeToBe(loaderPopup,"style","padding-right: 17px; display: block;"));
+
         } catch (TimeoutException e) {
-            //
+
         }
         return driver.findElement(loaderPopup).getAttribute("style").equals("padding-right: 17px; display: block;");
     }
