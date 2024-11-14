@@ -4,36 +4,35 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class ExpectedConditionsPage {
     //Driver
-    private WebDriver driver;
+    private final WebDriver driver;
 
     //Utils
-    private Random random = new Random();
+    private static final Random random = new Random();
 
     //Controls
-    private By minWaitField = By.id("min_wait");
-    private By maxWaitField = By.id("max_wait");
-    private int minFieldValue = random.nextInt(1,11);
-    private int maxFieldValue = random.nextInt(1,11) + minFieldValue;
+    private final By minWaitField = By.id("min_wait");
+    private final By maxWaitField = By.id("max_wait");
+    private final int minFieldValue = random.nextInt(1,11);
+    private final int maxFieldValue = random.nextInt(1,11) + minFieldValue;
 
     // Action Trigger buttons
-    private By showAlertButton = By.id("alert_trigger");
-    private By showPromptButton = By.id("prompt_trigger");
-    private By triggerElementVisibilityButton = By.id("visibility_trigger");
-    private By visibilityTargetElement = By.id("visibility_target");
-    private By triggerElementInVisibilityButton = By.id("invisibility_trigger");
-    private By invisibilityTargetElement = By.id("invisibility_target");
-    private By triggerElementEnablingButton = By.id("enabled_trigger");
-    private By enabledTargetElement = By.id("enabled_target");
-    private By titleChangeButton = By.id("page_title_trigger");
-    private By setFieldValueButton = By.id("text_value_trigger");
-    private By waitingForAValueField = By.id("wait_for_value");
-    private By getWaitingForAValueButton = By.id("wait_for_text");
-    private By waitForFrameButton = By.id("wait_for_frame");
+    private final By showAlertButton = By.id("alert_trigger");
+    private final By showPromptButton = By.id("prompt_trigger");
+    private final By triggerElementVisibilityButton = By.id("visibility_trigger");
+    private final By visibilityTargetElement = By.id("visibility_target");
+    private final By triggerElementInVisibilityButton = By.id("invisibility_trigger");
+    private final By invisibilityTargetElement = By.id("invisibility_target");
+    private final By triggerElementEnablingButton = By.id("enabled_trigger");
+    private final By enabledTargetElement = By.id("enabled_target");
+    private final By titleChangeButton = By.id("page_title_trigger");
+    private final By setFieldValueButton = By.id("text_value_trigger");
+    private final By waitingForAValueField = By.id("wait_for_value");
+    private final By getWaitingForAValueButton = By.id("wait_for_text");
+    private final By waitForFrameButton = By.id("wait_for_frame");
 
     // Waits
     private WebDriverWait smallWait = null;
