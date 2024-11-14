@@ -75,7 +75,7 @@ public class SamplePageTests extends BaseOperations {
         //Check loader
         soft.assertThat(orderPage.isLoaderDisplayed())
                 .as("Loader was NOT displayed")
-                .isFalse();
+                .isTrue();
 
         //Check Loader Message
         soft.assertThat(orderPage.getLoaderMessage())

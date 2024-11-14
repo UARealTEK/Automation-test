@@ -157,11 +157,11 @@ public class OrderPage {
     public boolean isErrorMessageDisplayed() {
         WebDriverWait popupWait = new WebDriverWait(driver,waitTime);
         try {
-            popupWait.until(ExpectedConditions.attributeToBe(errorModal,"style","padding-right: 17px; display: block;"));
+            popupWait.until(ExpectedConditions.attributeToBe(errorModal,"style","display: block;"));
         } catch (TimeoutException e) {
-            //
+            log.warn("The Error message was not displayed after waitTime has passed");
         }
-        return driver.findElement(errorModal).getAttribute("style").equals("padding-right: 17px; display: block;");
+        return driver.findElement(errorModal).getAttribute("style").equals("display: block;");
     }
 
     public void closeErrorModal() throws InterruptedException {
@@ -187,7 +187,7 @@ public class OrderPage {
         try {
             popupWait.until(ExpectedConditions.attributeToBe(loaderPopup,"style","display: block;"));
         } catch (TimeoutException e) {
-            //
+            log.warn("The Loader DIV was NOT FOUND");
         }
         return driver.findElement(loaderPopup).getAttribute("style").equals("display: block;");
     }
