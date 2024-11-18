@@ -1,5 +1,6 @@
 package Pages.ExpectedConditions;
 
+import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,8 +17,6 @@ public class ExpectedConditionsPage {
     //Controls
     private final By minWaitField = By.id("min_wait");
     private final By maxWaitField = By.id("max_wait");
-    private final int minFieldValue = random.nextInt(1,11);
-    private final int maxFieldValue = random.nextInt(1,11) + minFieldValue;
 
     // Action Trigger buttons
     private final By showAlertButton = By.id("alert_trigger");
@@ -52,12 +51,11 @@ public class ExpectedConditionsPage {
         setMaxWait();
         return longWait;
     }
-    public int getMinFieldValue() {
-        return minFieldValue;
-    }
-    public int getMaxFieldValue() {
-        return maxFieldValue;
-    }
+
+    @Getter
+    private final int minFieldValue = random.nextInt(1,11);
+    @Getter
+    private final int maxFieldValue = random.nextInt(1,11) + minFieldValue;
 
     //Setter Methods
     private void setMinWait() {

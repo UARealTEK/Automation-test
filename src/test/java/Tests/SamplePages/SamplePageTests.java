@@ -7,13 +7,14 @@ import Pages.SamplePage.RegisterPage;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.WebDriver;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Execution(ExecutionMode.CONCURRENT) // enabled parallel execution
 public class SamplePageTests extends BaseOperations {
     private static final String userName = "admin";
     private static final String password = "admin";
@@ -23,27 +24,34 @@ public class SamplePageTests extends BaseOperations {
     private static final String successMessage = "Pizza added to the cart!";
     private static final String errorMessage = "Quantity must be 1 or more!";
     private static final String loaderText = "Adding to the cart...";
-    private WebDriver driver;
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     @BeforeEach
     public void setup() {
-        driver = DriverOperations.getDriver();
+        driver.set(DriverOperations.getDriver());
     }
 
     @AfterEach
     public void tearDown() {
-        driver.quit();
+        if (driver.get() != null) {
+            driver.get().quit();
+        }
+        driver.remove();
+    }
+
+    @AfterAll
+    public static void closeWebDriver() {
         DriverOperations.quitWebDriver();
     }
 
     @Test
     public void login() {
         BaseOperations.navigateTo(URLs.LOGIN_PAGE);
-        LoginPage login = new LoginPage(driver);
+        LoginPage login = new LoginPage(driver.get());
         login.validUserLogIn(userName,password);
 
-        assertEquals(driver
-                .getCurrentUrl(), BaseOperations.getFullURL(URLs.ORDER_PAGE), "Login failed. Expected" + BaseOperations.getFullURL(URLs.ORDER_PAGE) + " Current Url is " + driver.getCurrentUrl());
+        assertEquals(driver.get()
+                .getCurrentUrl(), BaseOperations.getFullURL(URLs.ORDER_PAGE), "Login failed. Expected" + BaseOperations.getFullURL(URLs.ORDER_PAGE) + " Current Url is " + driver.get().getCurrentUrl());
     }
 
     @Test
@@ -51,14 +59,14 @@ public class SamplePageTests extends BaseOperations {
         SoftAssertions soft = new SoftAssertions();
 
         BaseOperations.navigateTo(URLs.LOGIN_PAGE);
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(driver.get());
 
         RegisterPage registerPage = loginPage.goToSignUp();
         registerPage.validUserSignUp(firstName,lastName,email,password);
 
-        soft.assertThat(driver.getCurrentUrl())
+        soft.assertThat(driver.get().getCurrentUrl())
                 .isEqualTo(BaseOperations.getFullURL(URLs.SIGN_UP_CONFIRMATION))
-                .as("User was redirected to the wrong page. Expected - " + BaseOperations.getFullURL(URLs.SIGN_UP_CONFIRMATION) + "but got " + driver.getCurrentUrl());
+                .as("User was redirected to the wrong page. Expected - " + BaseOperations.getFullURL(URLs.SIGN_UP_CONFIRMATION) + "but got " + driver.get().getCurrentUrl());
 
         soft.assertAll();
     }
@@ -68,7 +76,7 @@ public class SamplePageTests extends BaseOperations {
         SoftAssertions soft = new SoftAssertions();
 
         BaseOperations.navigateTo(URLs.LOGIN_PAGE);
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(driver.get());
         OrderPage orderPage = loginPage.validUserLogIn(userName, password);
         orderPage.placeOrder(orderPage);
 
@@ -103,7 +111,7 @@ public class SamplePageTests extends BaseOperations {
     public void checkErrorMessage() throws InterruptedException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.LOGIN_PAGE);
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(driver.get());
 
         OrderPage orderPage = loginPage.validUserLogIn(userName, password);
         orderPage.placeInvalidOrder(orderPage);
