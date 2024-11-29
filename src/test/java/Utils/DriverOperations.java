@@ -15,7 +15,7 @@ public class DriverOperations {
         if (driver == null) {
             System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
+//            options.addArguments("--headless");
             driver = new ChromeDriver(options);
             driver.manage().window().fullscreen();
         }

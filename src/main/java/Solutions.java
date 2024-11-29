@@ -1,32 +1,25 @@
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Solutions {
-    public static int singleDigit(int n) {
-        if (String.valueOf(n).length() == 1) {
-            return n;
+
+    public static String wordPattern(final String word){
+        String wordLower = word.toLowerCase();
+        List<Integer> intValues = new ArrayList<>();
+
+        for (int i = 0; i < wordLower.length(); i++) {
+            String letter = String.valueOf(wordLower.charAt(i));
+            intValues.add(wordLower.indexOf(letter));
         }
 
-        while (String.valueOf(n).length() > 1) {
-            n = sumInt(intToBinaryNumeric(n));
+        StringBuilder out = new StringBuilder();
+
+        for (int i = 0; i < intValues.size(); i++) {
+            out.append(intValues.get(i));
+            out.append(".");
         }
 
-        return n;
-    }
-
-    public static int sumInt(BigDecimal arg) {
-        String strVal = String.valueOf(arg);
-        int sum = 0;
-
-        for (int i = 0; i < strVal.length(); i++) {
-            sum += Integer.parseInt(String.valueOf(strVal.charAt(i)));
-        }
-
-        return sum;
-    }
-
-    public static BigDecimal intToBinaryNumeric(int value) {
-        String binaryString = Integer.toBinaryString(value); // Converts the number to a binary string (e.g., "101")
-        return new BigDecimal(binaryString);// Converts the string "101" back to the number 101 (decimal)
+        return out.substring(0,out.length() -1);
     }
 
 }
