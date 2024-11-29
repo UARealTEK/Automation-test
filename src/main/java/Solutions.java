@@ -2,24 +2,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solutions {
+    public static int wordsToMarks (String text) {
+        int sum = 0;
 
-    public static String wordPattern(final String word){
-        String wordLower = word.toLowerCase();
-        List<Integer> intValues = new ArrayList<>();
-
-        for (int i = 0; i < wordLower.length(); i++) {
-            String letter = String.valueOf(wordLower.charAt(i));
-            intValues.add(wordLower.indexOf(letter));
+        for (int i = 0; i < text.length(); i++) {
+            char letter = text.charAt(i);
+            sum += convertToAlphabetPosition(letter);
         }
 
-        StringBuilder out = new StringBuilder();
+        return sum;
+    }
 
-        for (int i = 0; i < intValues.size(); i++) {
-            out.append(intValues.get(i));
-            out.append(".");
-        }
-
-        return out.substring(0,out.length() -1);
+    public static int convertToAlphabetPosition(char letter) {
+        return (int) Character.toLowerCase(letter) - 96;
     }
 
 }
