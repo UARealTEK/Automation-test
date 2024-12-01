@@ -27,7 +27,6 @@ public class ExpectedConditionsPage {
     private final By invisibilityTargetElement = By.id("invisibility_target");
     private final By triggerElementEnablingButton = By.id("enabled_trigger");
     private final By enabledTargetElement = By.id("enabled_target");
-    private final By enabledTargetElementChangedAttribute = By.cssSelector(".btn.btn-success");
     private final By titleChangeButton = By.id("page_title_trigger");
     private final By setFieldValueButton = By.id("text_value_trigger");
     private final By waitingForAValueField = By.id("wait_for_value");
@@ -62,6 +61,8 @@ public class ExpectedConditionsPage {
     private final String changedAttributeValue = "btn btn-success";
     @Getter
     private final String changedAttributeToFind = "class";
+    @Getter
+    private final String targetTitleName = "My New Title!";
 
     //Setter Methods
     private void setMinWait() {
@@ -168,4 +169,22 @@ public class ExpectedConditionsPage {
         return driver.findElement(enabledTargetElement);
     }
 
+    //Title checks methods
+    public void triggerTitleChange() {
+        WebElement minWaitElement = driver.findElement(minWaitField);
+        minWaitElement.clear();
+        minWaitElement.click();
+        minWaitElement.sendKeys(String.valueOf(minFieldValue));
+
+        WebElement maxWaitElement = driver.findElement(maxWaitField);
+        maxWaitElement.clear();
+        maxWaitElement.click();
+        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
+
+        driver.findElement(titleChangeButton).click();
+    }
+
+    public String getTitle() {
+        return driver.getTitle();
+    }
 }

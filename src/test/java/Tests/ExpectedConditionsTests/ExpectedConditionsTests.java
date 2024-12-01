@@ -13,8 +13,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.NoSuchElementException;
-
 public class ExpectedConditionsTests extends BaseOperations {
     private WebDriver driver;
 
@@ -163,9 +161,33 @@ public class ExpectedConditionsTests extends BaseOperations {
                 .as(String.format("The element was NOT clickable in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()))
                 .isTrue();
 
-        soft.assertThat(page.getEnabledElement().getAttribute(page.getChangedAttributeToFind()).equals(page.getChangedAttributeValue()))
-                .as(String.format("The element %s has the attribute value of %s instead of %s", page.getEnabledElement().getText(), page.getEnabledElement().getAttribute(page.getChangedAttributeToFind()), page.getChangedAttributeValue()))
-                .isTrue();
+        soft.assertThat(page.getEnabledElement().getAttribute(page.getChangedAttributeToFind())).isEqualTo(page.getChangedAttributeValue())
+                .as(String.format("The element %s has the attribute value of %s instead of %s", page.getEnabledElement().getText(), page.getEnabledElement().getAttribute(page.getChangedAttributeToFind()), page.getChangedAttributeValue()));
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkTitleChange() {
+        SoftAssertions soft = new SoftAssertions();
+        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
+
+        page.triggerTitleChange();
+        WebDriverWait smallWait = page.getSmallWait();
+        WebDriverWait longWait = page.getLongWait();
+
+        try {
+            smallWait.until(ExpectedConditions.titleIs(page.getTargetTitleName()));
+            soft.assertThat(page.getTitle()).isNotEqualTo(page.getTargetTitleName())
+                    .as(String.format("The title was changed before %s seconds passed", page.getMinFieldValue()));
+        } catch (TimeoutException e) {
+            //
+        }
+
+        longWait.until(ExpectedConditions.titleIs(page.getTargetTitleName()));
+        soft.assertThat(page.getTitle()).isEqualTo(page.getTargetTitleName())
+                .as(String.format("The title was NOT changed in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()));
 
         soft.assertAll();
     }
