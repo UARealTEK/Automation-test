@@ -27,11 +27,13 @@ public class ExpectedConditionsPage {
     private final By invisibilityTargetElement = By.id("invisibility_target");
     private final By triggerElementEnablingButton = By.id("enabled_trigger");
     private final By enabledTargetElement = By.id("enabled_target");
+    private final By enabledTargetElementChangedAttribute = By.cssSelector(".btn.btn-success");
     private final By titleChangeButton = By.id("page_title_trigger");
     private final By setFieldValueButton = By.id("text_value_trigger");
     private final By waitingForAValueField = By.id("wait_for_value");
     private final By getWaitingForAValueButton = By.id("wait_for_text");
     private final By waitForFrameButton = By.id("wait_for_frame");
+
 
     // Waits
     private WebDriverWait smallWait = null;
@@ -56,6 +58,10 @@ public class ExpectedConditionsPage {
     private final int minFieldValue = random.nextInt(1,11);
     @Getter
     private final int maxFieldValue = random.nextInt(1,11) + minFieldValue;
+    @Getter
+    private final String changedAttributeValue = "btn btn-success";
+    @Getter
+    private final String changedAttributeToFind = "class";
 
     //Setter Methods
     private void setMinWait() {
@@ -161,4 +167,5 @@ public class ExpectedConditionsPage {
     public WebElement getEnabledElement() {
         return driver.findElement(enabledTargetElement);
     }
+
 }

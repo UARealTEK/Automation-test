@@ -163,6 +163,10 @@ public class ExpectedConditionsTests extends BaseOperations {
                 .as(String.format("The element was NOT clickable in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()))
                 .isTrue();
 
+        soft.assertThat(page.getEnabledElement().getAttribute(page.getChangedAttributeToFind()).equals(page.getChangedAttributeValue()))
+                .as(String.format("The element %s has the attribute value of %s instead of %s", page.getEnabledElement().getText(), page.getEnabledElement().getAttribute(page.getChangedAttributeToFind()), page.getChangedAttributeValue()))
+                .isTrue();
+
         soft.assertAll();
     }
 }
