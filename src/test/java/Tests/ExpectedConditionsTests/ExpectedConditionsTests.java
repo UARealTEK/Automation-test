@@ -16,16 +16,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ExpectedConditionsTests extends BaseOperations {
     private WebDriver driver;
 
-    @BeforeEach
-    public void setup() {
-        driver = DriverOperations.getDriver();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-        DriverOperations.quitWebDriver();
-    }
+//    @BeforeEach
+//    public void setup() {
+//        driver = DriverOperations.getDriver();
+//    }
+//
+//    @AfterEach
+//    public void tearDown() {
+//        driver.quit();
+//        DriverOperations.quitWebDriver();
+//    }
 
     @Test
     public void checkAlertAppearance() {

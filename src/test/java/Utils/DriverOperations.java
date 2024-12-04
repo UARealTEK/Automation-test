@@ -1,38 +1,47 @@
 package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 // Windows - "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver"
 // Mac - "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver"
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class DriverOperations {
+public abstract class DriverOperations {
 
-    private static WebDriver driver;
+    private static final ThreadLocal<WebDriver> driverThread = ThreadLocal.withInitial(() -> {
+        WebDriver driver = new ChromeDriver(getBrowserOptions());
+        driver.manage().window().maximize();
+        return driver;
+    });
 
-    // Method to initialize WebDriver
-    public static void initializeWebDriver() {
-        if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            driver = new ChromeDriver(options);
-            driver.manage().window().fullscreen();
-        }
+    protected static ChromeOptions getBrowserOptions() {
+        System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
+        ChromeOptions options = new ChromeOptions();
+         options.addArguments("--headless"); // Для запуска без UI
+        return options;
+    }
 
+    @BeforeEach
+    void setUp() {
+        // Инициализация драйвера происходит через ThreadLocal
+        getDriver();
+    }
+
+    @AfterEach
+    void tearDown() {
+        quitDriver();
     }
 
     public static WebDriver getDriver() {
-        if (driver == null) {
-            initializeWebDriver();
-        }
-        return driver;
+        return driverThread.get();
     }
 
-    public static void quitWebDriver() {
+    public static void quitDriver() {
+        WebDriver driver = driverThread.get();
         if (driver != null) {
             driver.quit();
-            driver = null;
+            driverThread.remove(); // Удаляем экземпляр из ThreadLocal
         }
     }
 }
