@@ -1,6 +1,7 @@
 package Utils;
 
 import Enums.URLs;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,6 +21,7 @@ public class BaseOperations extends DriverOperations {
         return String.format(Constants.BASE_URL + url);
     }
 
+    // Change it. No use
     public static void clickElement(WebElement element) {
         WebDriverWait elementWait = new WebDriverWait(DriverOperations.getDriver(), Duration.ofSeconds(10));
         elementWait.until(ExpectedConditions.elementToBeClickable(element));

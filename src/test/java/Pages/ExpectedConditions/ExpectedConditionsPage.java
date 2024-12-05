@@ -30,7 +30,7 @@ public class ExpectedConditionsPage {
     private final By titleChangeButton = By.id("page_title_trigger");
     private final By setFieldValueButton = By.id("text_value_trigger");
     private final By waitingForAValueField = By.id("wait_for_value");
-    private final By getWaitingForAValueButton = By.id("wait_for_text");
+    private final By waitingForAValueButton = By.id("wait_for_text");
     private final By waitForFrameButton = By.id("wait_for_frame");
 
 
@@ -73,8 +73,8 @@ public class ExpectedConditionsPage {
         longWait = new WebDriverWait(driver, Duration.ofSeconds(maxFieldValue - minFieldValue));
     }
 
-    //Alert Methods
-    public void showAlert() {
+    //Action setup method
+    public void actionSetup() {
         WebElement minWaitElement = driver.findElement(minWaitField);
         minWaitElement.clear();
         minWaitElement.click();
@@ -84,7 +84,11 @@ public class ExpectedConditionsPage {
         maxWaitElement.clear();
         maxWaitElement.click();
         maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
+    }
 
+    //Alert Methods
+    public void showAlert() {
+        actionSetup();
         driver.findElement(showAlertButton).click();
     }
 
@@ -99,31 +103,13 @@ public class ExpectedConditionsPage {
 
     //Prompt Methods
     public void showPrompt() {
-        WebElement minWaitElement = driver.findElement(minWaitField);
-        minWaitElement.clear();
-        minWaitElement.click();
-        minWaitElement.sendKeys(String.valueOf(minFieldValue));
-
-        WebElement maxWaitElement = driver.findElement(maxWaitField);
-        maxWaitElement.clear();
-        maxWaitElement.click();
-        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
-
+        actionSetup();
         driver.findElement(showPromptButton).click();
     }
 
     //Element Visibility Methods
     public void showElement() {
-        WebElement minWaitElement = driver.findElement(minWaitField);
-        minWaitElement.clear();
-        minWaitElement.click();
-        minWaitElement.sendKeys(String.valueOf(minFieldValue));
-
-        WebElement maxWaitElement = driver.findElement(maxWaitField);
-        maxWaitElement.clear();
-        maxWaitElement.click();
-        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
-
+        actionSetup();
         driver.findElement(triggerElementVisibilityButton).click();
     }
 
@@ -133,16 +119,7 @@ public class ExpectedConditionsPage {
 
     //Element Invisibility Methods
     public void hideElement() {
-        WebElement minWaitElement = driver.findElement(minWaitField);
-        minWaitElement.clear();
-        minWaitElement.click();
-        minWaitElement.sendKeys(String.valueOf(minFieldValue));
-
-        WebElement maxWaitElement = driver.findElement(maxWaitField);
-        maxWaitElement.clear();
-        maxWaitElement.click();
-        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
-
+        actionSetup();
         driver.findElement(triggerElementInVisibilityButton).click();
     }
 
@@ -152,16 +129,7 @@ public class ExpectedConditionsPage {
 
     //Element Enabling Methods
     public void enableElement() {
-        WebElement minWaitElement = driver.findElement(minWaitField);
-        minWaitElement.clear();
-        minWaitElement.click();
-        minWaitElement.sendKeys(String.valueOf(minFieldValue));
-
-        WebElement maxWaitElement = driver.findElement(maxWaitField);
-        maxWaitElement.clear();
-        maxWaitElement.click();
-        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
-
+        actionSetup();
         driver.findElement(triggerElementEnablingButton).click();
     }
 
@@ -171,20 +139,33 @@ public class ExpectedConditionsPage {
 
     //Title checks methods
     public void triggerTitleChange() {
-        WebElement minWaitElement = driver.findElement(minWaitField);
-        minWaitElement.clear();
-        minWaitElement.click();
-        minWaitElement.sendKeys(String.valueOf(minFieldValue));
-
-        WebElement maxWaitElement = driver.findElement(maxWaitField);
-        maxWaitElement.clear();
-        maxWaitElement.click();
-        maxWaitElement.sendKeys(String.valueOf(maxFieldValue));
-
+        actionSetup();
         driver.findElement(titleChangeButton).click();
     }
 
     public String getTitle() {
         return driver.getTitle();
+    }
+
+    //Button or field specific value checks
+    public void triggerTextFieldSpecificValue() {
+        actionSetup();
+        driver.findElement(setFieldValueButton).click();
+    }
+
+    public String getFieldSpecificValue() {
+        return driver.findElement(waitingForAValueField).getText();
+    }
+
+    public String getButtonSpecificValue() {
+        return driver.findElement(waitingForAValueButton).getText();
+    }
+
+    public WebElement getSpecificField() {
+        return driver.findElement(waitingForAValueField);
+    }
+
+    public WebElement getSpecificButton() {
+        return driver.findElement(waitingForAValueButton);
     }
 }

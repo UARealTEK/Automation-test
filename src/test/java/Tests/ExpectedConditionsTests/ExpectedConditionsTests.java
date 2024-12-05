@@ -5,32 +5,19 @@ import Pages.ExpectedConditions.ExpectedConditionsPage;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ExpectedConditionsTests extends BaseOperations {
-    private WebDriver driver;
-
-//    @BeforeEach
-//    public void setup() {
-//        driver = DriverOperations.getDriver();
-//    }
-//
-//    @AfterEach
-//    public void tearDown() {
-//        driver.quit();
-//        DriverOperations.quitWebDriver();
-//    }
-
+@Execution(ExecutionMode.CONCURRENT) // enabled parallel execution
+public class ExpectedConditionsTests extends DriverOperations {
     @Test
     public void checkAlertAppearance() {
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
-        ExpectedConditionsPage alertPage = new ExpectedConditionsPage(driver);
+        ExpectedConditionsPage alertPage = new ExpectedConditionsPage(getDriver());
         SoftAssertions soft = new SoftAssertions();
 
         alertPage.showAlert();
@@ -58,7 +45,7 @@ public class ExpectedConditionsTests extends BaseOperations {
     @Test
     public void checkPromptAppearance() {
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
-        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
         SoftAssertions soft = new SoftAssertions();
 
         page.showPrompt();
@@ -86,7 +73,7 @@ public class ExpectedConditionsTests extends BaseOperations {
     public void checkElementAppearance() {
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
         SoftAssertions soft = new SoftAssertions();
-        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
 
         page.showElement();
         WebDriverWait smallWait = page.getSmallWait();
@@ -113,7 +100,7 @@ public class ExpectedConditionsTests extends BaseOperations {
     public void checkElementDisappearance() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
-        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
 
         page.hideElement();
         WebDriverWait smallWait = page.getSmallWait();
@@ -140,7 +127,7 @@ public class ExpectedConditionsTests extends BaseOperations {
     @Test
     public void checkEnablingElement() {
         SoftAssertions soft = new SoftAssertions();
-        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
 
         page.enableElement();
@@ -170,7 +157,7 @@ public class ExpectedConditionsTests extends BaseOperations {
     @Test
     public void checkTitleChange() {
         SoftAssertions soft = new SoftAssertions();
-        ExpectedConditionsPage page = new ExpectedConditionsPage(driver);
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
 
         page.triggerTitleChange();
@@ -188,6 +175,36 @@ public class ExpectedConditionsTests extends BaseOperations {
         longWait.until(ExpectedConditions.titleIs(page.getTargetTitleName()));
         soft.assertThat(page.getTitle()).isEqualTo(page.getTargetTitleName())
                 .as(String.format("The title was NOT changed in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()));
+
+        soft.assertAll();
+    }
+
+    //What do I do with TWO waits? can I check two conditions at once?
+    @Test
+    public void checkFieldAndButtonValues() {
+        SoftAssertions soft = new SoftAssertions();
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
+        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
+
+        page.triggerTextFieldSpecificValue();
+        WebDriverWait smallWait = page.getSmallWait();
+        WebDriverWait longWait = page.getLongWait();
+
+        try {
+            smallWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificField(), page.getFieldSpecificValue()));
+            soft.assertThat(page.getSpecificField().getText()).isNotEqualTo(page.getFieldSpecificValue());
+
+            smallWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificButton(), page.getButtonSpecificValue()));
+            soft.assertThat(page.getSpecificButton().getText()).isNotEqualTo(page.getButtonSpecificValue());
+        } catch (TimeoutException e) {
+            //
+        }
+
+        longWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificField(), page.getFieldSpecificValue()));
+        soft.assertThat(page.getSpecificField().getText()).isEqualTo(page.getFieldSpecificValue());
+
+        longWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificButton(), page.getButtonSpecificValue()));
+        soft.assertThat(page.getSpecificButton().getText()).isEqualTo(page.getButtonSpecificValue());
 
         soft.assertAll();
     }
