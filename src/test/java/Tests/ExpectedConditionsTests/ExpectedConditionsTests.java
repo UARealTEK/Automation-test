@@ -192,10 +192,10 @@ public class ExpectedConditionsTests extends DriverOperations {
         //Variable that checks both values of both field and button
         ExpectedCondition<Boolean> bothTextsToBePresent =
                 (driver) -> page.getSpecificField().getAttribute("value").equals(page.getTargetFieldValue())
-                        && page.getSpecificButton().getAttribute("value").equals(page.getTargetButtonValue());
+                        && page.getSpecificButton().getText().equals(page.getTargetButtonValue());
 
         //Check that values were not changed until the smallWait time is passed
-        Boolean smallWaitResult = true;
+        Boolean smallWaitResult = false;
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
         page.triggerTextFieldSpecificValue();
 
@@ -211,10 +211,12 @@ public class ExpectedConditionsTests extends DriverOperations {
         try {
             longWaitResult = longWait.until(bothTextsToBePresent);
         } catch (TimeoutException e) {
-            soft.fail("The button or Field values were not changed");
+            System.out.println((String.format("The vales were NOT changed in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue())));
+
+            System.out.println((String.format("The value of the specific field is: %s, but I expect %s", page.getSpecificField().getAttribute("value"), page.getTargetFieldValue())));
+            System.out.println((String.format("The value of the specific button is: %s, but I expect %s", page.getSpecificButton().getText(), page.getTargetButtonValue())));
         }
         soft.assertThat(longWaitResult).isTrue();
-
 
         soft.assertAll();
     }
