@@ -8,11 +8,13 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+//TDB: Implement creating both waits in the DriverOperations class
 
 @Execution(ExecutionMode.CONCURRENT) // enabled parallel execution
 public class ExpectedConditionsTests extends DriverOperations {
@@ -217,6 +219,30 @@ public class ExpectedConditionsTests extends DriverOperations {
             System.out.println((String.format("The value of the specific button is: %s, but I expect %s", page.getSpecificButton().getText(), page.getTargetButtonValue())));
         }
         soft.assertThat(longWaitResult).isTrue();
+
+        soft.assertAll();
+    }
+
+    //Not working. TBD
+    @Test
+    public void checkFrameAppearance() {
+        SoftAssertions soft = new SoftAssertions();
+        ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
+        WebDriverWait smallWait = page.getSmallWait();
+        WebDriverWait longWait = page.getLongWait();
+
+        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
+        page.triggerFrameAppearance();
+
+        try {
+            smallWait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(page.getFrameLocator()));
+            soft.assertThat(page.getFrameDocumentTitle()).isNotEqualTo(page.getTargetFrameTitleText());
+        } catch (TimeoutException e) {
+            //
+        }
+
+        longWait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(page.getFrameLocator()));
+        soft.assertThat(page.getFrameDocumentTitle()).isEqualTo(page.getTargetFrameTitleText());
 
         soft.assertAll();
     }

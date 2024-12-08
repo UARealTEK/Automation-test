@@ -2,7 +2,6 @@ package Pages.ExpectedConditions;
 
 import lombok.Getter;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -33,7 +32,7 @@ public class ExpectedConditionsPage {
     private final By waitingForAValueField = By.id("wait_for_value");
     private final By waitingForAValueButton = By.id("wait_for_text");
     private final By waitForFrameButton = By.id("wait_for_frame");
-
+    private final By frame = By.xpath("//div[@class='col-sm-5 align-items-center']//iframe");
 
     // Waits
     private WebDriverWait smallWait = null;
@@ -69,6 +68,8 @@ public class ExpectedConditionsPage {
     private final String targetFieldValue = "Dennis Ritchie";
     @Getter
     private final String targetButtonValue = "Submit";
+    @Getter
+    private final String targetFrameTitleText = "Inner Frame";
 
     //Setter Methods
     private void setMinWait() {
@@ -166,4 +167,19 @@ public class ExpectedConditionsPage {
     public WebElement getSpecificButton() {
         return driver.findElement(waitingForAValueButton);
     }
+
+    //Frame appearance methods
+    public void triggerFrameAppearance() {
+        actionSetup();
+        driver.findElement(waitForFrameButton).click();
+    }
+
+    public By getFrameLocator() {
+        return frame;
+    }
+
+    public String getFrameDocumentTitle() {
+        return (String) ((JavascriptExecutor) driver).executeScript("return document.title;");
+    }
+
 }
