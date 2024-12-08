@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -179,32 +181,40 @@ public class ExpectedConditionsTests extends DriverOperations {
         soft.assertAll();
     }
 
-    //What do I do with TWO waits? can I check two conditions at once?
+    //Line 194 - how does it know which driver to use?
     @Test
     public void checkFieldAndButtonValues() {
         SoftAssertions soft = new SoftAssertions();
         ExpectedConditionsPage page = new ExpectedConditionsPage(getDriver());
-        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
-
-        page.triggerTextFieldSpecificValue();
         WebDriverWait smallWait = page.getSmallWait();
         WebDriverWait longWait = page.getLongWait();
 
-        try {
-            smallWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificField(), page.getFieldSpecificValue()));
-            soft.assertThat(page.getSpecificField().getText()).isNotEqualTo(page.getFieldSpecificValue());
+        //Variable that checks both values of both field and button
+        ExpectedCondition<Boolean> bothTextsToBePresent =
+                (driver) -> page.getSpecificField().getAttribute("value").equals(page.getTargetFieldValue())
+                        && page.getSpecificButton().getAttribute("value").equals(page.getTargetButtonValue());
 
-            smallWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificButton(), page.getButtonSpecificValue()));
-            soft.assertThat(page.getSpecificButton().getText()).isNotEqualTo(page.getButtonSpecificValue());
+        //Check that values were not changed until the smallWait time is passed
+        Boolean smallWaitResult = true;
+        BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
+        page.triggerTextFieldSpecificValue();
+
+        try {
+            smallWaitResult = smallWait.until(bothTextsToBePresent);
         } catch (TimeoutException e) {
             //
         }
+        soft.assertThat(smallWaitResult).isFalse();
 
-        longWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificField(), page.getFieldSpecificValue()));
-        soft.assertThat(page.getSpecificField().getText()).isEqualTo(page.getFieldSpecificValue());
+        //Check that values WERE in fact changed during the timeframe of longWait - smallWait
+        Boolean longWaitResult = false;
+        try {
+            longWaitResult = longWait.until(bothTextsToBePresent);
+        } catch (TimeoutException e) {
+            soft.fail("The button or Field values were not changed");
+        }
+        soft.assertThat(longWaitResult).isTrue();
 
-        longWait.until(ExpectedConditions.textToBePresentInElementValue(page.getSpecificButton(), page.getButtonSpecificValue()));
-        soft.assertThat(page.getSpecificButton().getText()).isEqualTo(page.getButtonSpecificValue());
 
         soft.assertAll();
     }

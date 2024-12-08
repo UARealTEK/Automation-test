@@ -18,11 +18,11 @@ public abstract class DriverOperations {
     protected static ChromeOptions getBrowserOptions() {
         System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
         ChromeOptions options = new ChromeOptions();
-         options.addArguments("--headless"); // Для запуска без UI
+        options.addArguments("--headless"); // Для запуска без UI
         return options;
     }
 
-    @BeforeEach
+    @BeforeEach // how ? why in this class?
     void setUp() {
         // Инициализация драйвера происходит через ThreadLocal
         getDriver();

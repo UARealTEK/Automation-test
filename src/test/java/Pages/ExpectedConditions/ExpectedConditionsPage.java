@@ -2,6 +2,7 @@ package Pages.ExpectedConditions;
 
 import lombok.Getter;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -53,6 +54,7 @@ public class ExpectedConditionsPage {
         return longWait;
     }
 
+    //Getters
     @Getter
     private final int minFieldValue = random.nextInt(1,11);
     @Getter
@@ -63,6 +65,10 @@ public class ExpectedConditionsPage {
     private final String changedAttributeToFind = "class";
     @Getter
     private final String targetTitleName = "My New Title!";
+    @Getter
+    private final String targetFieldValue = "Dennis Ritchie";
+    @Getter
+    private final String targetButtonValue = "Submit";
 
     //Setter Methods
     private void setMinWait() {
@@ -151,14 +157,6 @@ public class ExpectedConditionsPage {
     public void triggerTextFieldSpecificValue() {
         actionSetup();
         driver.findElement(setFieldValueButton).click();
-    }
-
-    public String getFieldSpecificValue() {
-        return driver.findElement(waitingForAValueField).getText();
-    }
-
-    public String getButtonSpecificValue() {
-        return driver.findElement(waitingForAValueButton).getText();
     }
 
     public WebElement getSpecificField() {
