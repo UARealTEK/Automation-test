@@ -8,7 +8,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -223,7 +222,6 @@ public class ExpectedConditionsTests extends DriverOperations {
         soft.assertAll();
     }
 
-    //Not working. TBD
     @Test
     public void checkFrameAppearance() {
         SoftAssertions soft = new SoftAssertions();
