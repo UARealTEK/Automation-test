@@ -1,7 +1,7 @@
 package Tests.ExpectedConditionsTests;
 
 import Enums.URLs;
-import Pages.ExpectedConditions.ExpectedConditionsPage;
+import Pages.ExpectedConditionsPage.ExpectedConditionsPage;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;

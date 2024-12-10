@@ -8,7 +8,8 @@ public enum URLs {
     LOGIN_PAGE("login.html"),
     REGISTER_PAGE("register.html"),
     SIGN_UP_CONFIRMATION("confirmation.html"),
-    EXPECTED_CONDITIONS("expected_conditions.html");
+    EXPECTED_CONDITIONS("expected_conditions.html"),
+    FORMS_PAGE("forms.html");
 
     private String endpoint;
 

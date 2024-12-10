@@ -1,4 +1,4 @@
-package Pages.ExpectedConditions;
+package Pages.ExpectedConditionsPage;
 
 import lombok.Getter;
 import org.openqa.selenium.*;
