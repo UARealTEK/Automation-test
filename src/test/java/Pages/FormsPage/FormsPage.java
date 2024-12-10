@@ -17,7 +17,7 @@ public class FormsPage {
     private final By yearsOfExpirienceField = By.id("exp");
 
     //Fields Labels
-    private final By getYearsOfExpirienceFieldLabel = By.xpath("//div[@class = 'form-group']//span[@id='exp_help']");
+    private final By getYearsOfExpirienceFieldLabel = By.id("exp_help");
 
     //Checkboxes
     private final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
@@ -27,7 +27,7 @@ public class FormsPage {
 
     //Checkbox Labels
     private final By BFCCheckboxesLabels = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'check')]"); // Contains java / python / javaScript checkbox labels
-    private final By BFCSelectedCheckboxLabel = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']"); // Label for the selected checkboxes
+    private final By BFCSelectedCheckboxLabel = By.id("check_validate"); // Label for the selected checkboxes
     private final By pythonLabel = By.xpath("//label[@for='check_python']");
     private final By javaLabel = By.xpath("//label[@for='check_java']");
     private final By javaScriptLabel = By.xpath("//label[@for='check_javascript']");
