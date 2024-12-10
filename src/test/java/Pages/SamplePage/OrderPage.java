@@ -58,7 +58,7 @@ public class OrderPage {
         Select flavourSelect = new Select(driver.findElement(flavourDropdown));
         List<WebElement> pizzaFlavoursList = flavourSelect.getOptions();
 
-        BaseOperations.clickElement(driver.findElement(flavourDropdown));
+        driver.findElement(flavourDropdown).click();
 
         int randomPizzaFlavourIndex = random.nextInt(pizzaFlavoursList.size());
         flavourSelect.selectByIndex(randomPizzaFlavourIndex);

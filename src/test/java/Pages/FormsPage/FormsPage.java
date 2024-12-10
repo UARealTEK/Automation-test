@@ -1,7 +1,10 @@
 package Pages.FormsPage;
 
+import Utils.BaseOperations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import lombok.Getter;
+import org.openqa.selenium.WebElement;
 
 /**
  * Do I need to add labels for each separate dropdown option?? (Primary Skill)
@@ -9,15 +12,17 @@ import org.openqa.selenium.WebDriver;
 
 public class FormsPage {
     //WebDriver
-    private WebDriver driver;
+    private final WebDriver driver;
 
     //Basic Form Controls ===
 
     //Fields
-    private final By yearsOfExpirienceField = By.id("exp");
+    @Getter
+    private final By yearsOfExperienceField = By.id("exp");
 
     //Fields Labels
-    private final By getYearsOfExpirienceFieldLabel = By.id("exp_help");
+    @Getter
+    private final By YearsOfExperienceFieldLabel = By.id("exp_help");
 
     //Checkboxes
     private final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
@@ -111,9 +116,35 @@ public class FormsPage {
     private final By disabledTextBoxLabel = By.xpath("//div[@class = 'form-row align-items-center']//label[@for='salary']");
 
     //Constructor
-    FormsPage(WebDriver driver) {
+    public FormsPage(WebDriver driver) {
         this.driver = driver;
     }
+
+    //Expected values
+    @Getter
+    public final String expectedYearsOfExperiencePlaceholder = "years of automation experience";
+
+    //Years Of Experience Methods
+
+    public String getYearsOfExperiencePlaceholder() {
+        return driver.findElement(yearsOfExperienceField).getAttribute("placeholder");
+    }
+
+    public String getYearsOfExperienceInsertedData() {
+        return driver.findElement(yearsOfExperienceField).getAttribute("value");
+    }
+
+    public void insertDataIntoYearsOfExperienceField(By locator) {
+        WebElement element = BaseOperations.getElement(getYearsOfExperienceField());
+        BaseOperations.clickElement(element);
+        element.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
+    }
+
+
+
+
+
+
 
 
 
