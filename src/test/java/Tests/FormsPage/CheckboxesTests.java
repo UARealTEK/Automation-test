@@ -64,4 +64,34 @@ public class CheckboxesTests  extends DriverOperations {
 
         soft.assertAll();
     }
+
+    @Test
+    public void checkCheckboxStateAfterPageReload() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        List<WebElement> checkboxes = page.getListOfCheckboxes();
+
+        for (WebElement checkbox : checkboxes) {
+            if (checkbox.isEnabled()) {
+                checkbox.click();
+                //Check that each checkbox is selected once clicked. Need to make sure it is before page reload
+                soft.assertThat(checkbox.isSelected()).isTrue();
+            }
+        }
+
+        //page reload
+        getDriver().navigate().refresh();
+
+        // Re-fetch the list of checkboxes after page reload - needed because elements become stale
+        checkboxes = page.getListOfCheckboxes();
+
+        //Check that each checkbox is unselected after page reload
+        for (WebElement checkbox : checkboxes) {
+            soft.assertThat(checkbox.isSelected()).isFalse();
+        }
+
+        soft.assertAll();
+    }
 }
