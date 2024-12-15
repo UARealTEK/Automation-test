@@ -2,6 +2,7 @@ package Utils;
 
 import Enums.URLs;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,5 +49,20 @@ public class BaseOperations extends DriverOperations {
     public static int getRandomNumber() {
         Random random = new Random();
         return random.nextInt(101);
+    }
+
+    public static String getJavaScriptPropertyValue(WebElement element, String propertyName) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
+        Object result = jsExecutor.executeScript(String.format("return arguments[0].%s;", propertyName), element);
+
+        if (result instanceof Boolean) {
+            return String.valueOf(result);
+        } else if (result instanceof String) {
+            return (String) result;
+        } else if (result != null) {
+            return result.toString();
+        } else {
+            return null;
+        }
     }
 }

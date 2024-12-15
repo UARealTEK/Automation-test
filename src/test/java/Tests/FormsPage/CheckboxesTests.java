@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CheckboxesTests  extends DriverOperations {
 
@@ -21,28 +22,26 @@ public class CheckboxesTests  extends DriverOperations {
         List<WebElement> checkboxes = page.getListOfCheckboxes();
 
         //Check that all checkboxes are unchecked by default
-        for (int i = 0; i < checkboxes.size(); i++) {
-           soft.assertThat(checkboxes.get(i).isSelected()).isFalse();
-           System.out.println(checkboxes.get(i).getCssValue("checked"));
-//           soft.assertThat(checkboxes.get(i).getAttribute("checked").equals("false")).isTrue();
+        for (WebElement webElement : checkboxes) {
+            soft.assertThat(webElement.isSelected()).isFalse();
         }
 
         //Check that a specific checkbox is currently disabled (Java in this case)
-        for (int i = 0; i < checkboxes.size(); i++) {
-            if (checkboxes.get(i).getAttribute("id").equals(page.getJavaCheckbox().getAttribute("id"))) {
-                soft.assertThat(checkboxes.get(i).isEnabled()).isFalse();
-                soft.assertThat(checkboxes.get(i).getCssValue("disabled").equals("true")).isTrue();
+        for (WebElement element : checkboxes) {
+            if (Objects.requireNonNull(element.getAttribute("id")).equalsIgnoreCase(page.getJavaCheckbox().getAttribute("id"))) {
+                soft.assertThat(element.isEnabled()).isFalse();
+                soft.assertThat(Objects.requireNonNull(BaseOperations.getJavaScriptPropertyValue(element, "disabled")).equalsIgnoreCase("true")).isTrue();
             } else {
-                soft.assertThat(checkboxes.get(i).isEnabled()).isTrue();
-                soft.assertThat(checkboxes.get(i).getCssValue("disabled").equals("false")).isTrue();
+                soft.assertThat(element.isEnabled()).isTrue();
+                soft.assertThat(Objects.requireNonNull(BaseOperations.getJavaScriptPropertyValue(element, "disabled")).equalsIgnoreCase("false")).isTrue();
             }
         }
 
         //Place all enabled checkboxes into a list and click each of them to make sure that they can be selected
         List<WebElement> activeCheckboxes = new ArrayList<>();
-        for (int i = 0; i < checkboxes.size(); i++) {
-            if (checkboxes.get(i).isEnabled()) {
-                activeCheckboxes.add(checkboxes.get(i));
+        for (WebElement element : checkboxes) {
+            if (element.isEnabled()) {
+                activeCheckboxes.add(element);
             }
         }
 

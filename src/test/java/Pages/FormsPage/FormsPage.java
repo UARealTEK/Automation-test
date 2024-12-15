@@ -27,8 +27,8 @@ public class FormsPage {
 
     //Checkboxes
     private final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
-    private final By pythonCheckBox = By.id("check_java");
-    private final By javaCheckBox = By.id("check_python");
+    private final By pythonCheckBox = By.id("check_python");
+    private final By javaCheckBox = By.id("check_java");
     private final By javaScriptCheckBox = By.id("check_javascript");
 
     //Checkbox Labels
