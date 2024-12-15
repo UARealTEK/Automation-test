@@ -19,7 +19,7 @@ public class CheckboxesTests  extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
 
-        List<WebElement> checkboxes = page.getListOfCheckboxes();
+        List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
 
         //Check that all checkboxes are unchecked by default
         for (WebElement webElement : checkboxes) {
@@ -69,9 +69,8 @@ public class CheckboxesTests  extends DriverOperations {
     public void checkCheckboxStateAfterPageReload() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
 
-        List<WebElement> checkboxes = page.getListOfCheckboxes();
+        List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
 
         for (WebElement checkbox : checkboxes) {
             if (checkbox.isEnabled()) {
@@ -85,7 +84,7 @@ public class CheckboxesTests  extends DriverOperations {
         getDriver().navigate().refresh();
 
         // Re-fetch the list of checkboxes after page reload - needed because elements become stale
-        checkboxes = page.getListOfCheckboxes();
+        checkboxes = FormsPage.getListOfCheckboxes();
 
         //Check that each checkbox is unselected after page reload
         for (WebElement checkbox : checkboxes) {
@@ -93,5 +92,28 @@ public class CheckboxesTests  extends DriverOperations {
         }
 
         soft.assertAll();
+    }
+
+    @Test
+    public void checkCheckboxLabelsAfterSelecting() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        //Generate a list of WebElements which will be clicked one by one (same original list but placed on random indices)
+        List<WebElement> webElementList = page.selectRandomCheckboxes();
+
+        //Click on each checkbox
+        for (WebElement checkbox : webElementList) {
+            checkbox.click();
+        }
+
+        //Verify the correctness of the displayed label
+        StringBuilder labelBuilder = new StringBuilder();
+
+        for (WebElement webElement : webElementList) {
+//            labelBuilder.append(webElement.getAttribute())
+        }
+
     }
 }

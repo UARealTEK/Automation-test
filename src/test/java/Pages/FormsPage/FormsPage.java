@@ -6,7 +6,9 @@ import org.openqa.selenium.WebDriver;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Do I need to add labels for each separate dropdown option?? (Primary Skill)
@@ -26,13 +28,13 @@ public class FormsPage {
     private final By YearsOfExperienceFieldLabel = By.id("exp_help");
 
     //Checkboxes
-    private final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
+    private static final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
     private final By pythonCheckBox = By.id("check_python");
     private final By javaCheckBox = By.id("check_java");
     private final By javaScriptCheckBox = By.id("check_javascript");
 
     //Checkbox Labels
-    private final By BFCCheckboxesLabels = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'check')]"); // Contains java / python / javaScript checkbox labels
+    private final static By BFCCheckboxesLabels = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'check')]"); // Contains java / python / javaScript checkbox labels
     private final By BFCSelectedCheckboxLabel = By.id("check_validate"); // Label for the selected checkboxes
     private final By pythonLabel = By.xpath("//label[@for='check_python']");
     private final By javaLabel = By.xpath("//label[@for='check_java']");
@@ -145,8 +147,8 @@ public class FormsPage {
     }
 
     //Checkboxes methods
-    public List<WebElement> getListOfCheckboxes() {
-        return driver.findElements(BFCCheckboxes);
+    public static List<WebElement> getListOfCheckboxes() {
+        return BaseOperations.getDriver().findElements((BFCCheckboxes));
     }
 
     public WebElement getPythonCheckbox() {
@@ -159,6 +161,31 @@ public class FormsPage {
 
     public WebElement getJavaScriptCheckbox() {
         return driver.findElement(javaScriptCheckBox);
+    }
+
+    public List<WebElement> selectRandomCheckboxes() {
+        Random random = new Random();
+        List<WebElement> allCheckboxes = FormsPage.getListOfCheckboxes();
+
+        List<WebElement> activeCheckboxes = new ArrayList<>();
+
+        for (WebElement element : allCheckboxes) {
+            if (element.isEnabled()) {
+                activeCheckboxes.add(element);
+            }
+        }
+        int itemsToSelect = random.nextInt(activeCheckboxes.size());
+
+        List<WebElement> output = new ArrayList<>();
+
+        while (itemsToSelect > 0) {
+            int randomIndex =  random.nextInt(activeCheckboxes.size());
+            output.add(activeCheckboxes.get(randomIndex));
+            activeCheckboxes.remove(randomIndex);
+            itemsToSelect--;
+        }
+
+        return output;
     }
 
 
