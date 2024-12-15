@@ -23,6 +23,7 @@ public class CheckboxesTests  extends DriverOperations {
 
         //Check that all checkboxes are unchecked by default
         for (WebElement webElement : checkboxes) {
+            soft.assertThat(webElement.isDisplayed()).isTrue();
             soft.assertThat(webElement.isSelected()).isFalse();
         }
 
@@ -45,6 +46,7 @@ public class CheckboxesTests  extends DriverOperations {
             }
         }
 
+        //Check that ENABLED (active) checkboxes can be selected and unselected
         for (WebElement activeCheckbox : activeCheckboxes) {
             activeCheckbox.click();
             soft.assertThat(activeCheckbox.isSelected()).isTrue();
