@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 /**
  * Do I need to add labels for each separate dropdown option?? (Primary Skill)
  */
@@ -124,7 +126,6 @@ public class FormsPage {
     public final String expectedYearsOfExperiencePlaceholder = "years of automation experience";
 
     //Years Of Experience Methods
-
     public String getYearsOfExperiencePlaceholder() {
         return driver.findElement(yearsOfExperienceField).getAttribute("placeholder");
     }
@@ -141,6 +142,23 @@ public class FormsPage {
 
     public String getYearsOfExperienceFieldLabel() {
         return driver.findElement(YearsOfExperienceFieldLabel).getText();
+    }
+
+    //Checkboxes methods
+    public List<WebElement> getListOfCheckboxes() {
+        return driver.findElements(BFCCheckboxes);
+    }
+
+    public WebElement getPythonCheckbox() {
+        return driver.findElement(pythonCheckBox);
+    }
+
+    public WebElement getJavaCheckbox() {
+        return driver.findElement(javaCheckBox);
+    }
+
+    public WebElement getJavaScriptCheckbox() {
+        return driver.findElement(javaScriptCheckBox);
     }
 
 
