@@ -21,7 +21,6 @@ public class FormsPage {
     private final By yearsOfExperienceField = By.id("exp");
 
     //Fields Labels
-    @Getter
     private final By YearsOfExperienceFieldLabel = By.id("exp_help");
 
     //Checkboxes
@@ -130,7 +129,7 @@ public class FormsPage {
         return driver.findElement(yearsOfExperienceField).getAttribute("placeholder");
     }
 
-    public String getYearsOfExperienceInsertedData() {
+    public String getYearsOfExperienceInsertedValue() {
         return driver.findElement(yearsOfExperienceField).getAttribute("value");
     }
 
@@ -138,6 +137,10 @@ public class FormsPage {
         WebElement element = BaseOperations.getElement(getYearsOfExperienceField());
         BaseOperations.clickElement(element);
         element.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
+    }
+
+    public String getYearsOfExperienceFieldLabel() {
+        return driver.findElement(YearsOfExperienceFieldLabel).getText();
     }
 
 
