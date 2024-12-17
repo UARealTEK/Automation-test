@@ -7,6 +7,8 @@ import lombok.Getter;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +31,7 @@ public class FormsPage {
 
     //Checkboxes
     private static final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
-    private final By pythonCheckBox = By.id("check_python");
+    private final By pythonCheckBox = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']");
     private final By javaCheckBox = By.id("check_java");
     private final By javaScriptCheckBox = By.id("check_javascript");
 
@@ -148,7 +150,11 @@ public class FormsPage {
 
     //Checkboxes methods
     public static List<WebElement> getListOfCheckboxes() {
-        return BaseOperations.getDriver().findElements((BFCCheckboxes));
+        return BaseOperations.getDriver().findElements(BFCCheckboxes);
+    }
+
+    public String getSelectedCheckboxLabels() {
+        return driver.findElement(BFCCheckboxesLabels).getText();
     }
 
     public WebElement getPythonCheckbox() {
@@ -169,24 +175,26 @@ public class FormsPage {
 
         List<WebElement> activeCheckboxes = new ArrayList<>();
 
+        // Filter out disabled checkboxes
         for (WebElement element : allCheckboxes) {
             if (element.isEnabled()) {
                 activeCheckboxes.add(element);
             }
         }
-        int itemsToSelect = random.nextInt(activeCheckboxes.size());
 
-        List<WebElement> output = new ArrayList<>();
+        int itemsToSelect = random.nextInt(activeCheckboxes.size()) + 1;  // Ensure at least one checkbox is selected
 
-        while (itemsToSelect > 0) {
-            int randomIndex =  random.nextInt(activeCheckboxes.size());
-            output.add(activeCheckboxes.get(randomIndex));
-            activeCheckboxes.remove(randomIndex);
-            itemsToSelect--;
+        Set<WebElement> output = new HashSet<>();
+
+        // Keep selecting random checkboxes until we get the desired count
+        while (output.size() < itemsToSelect) {
+            int randomIndex = random.nextInt(activeCheckboxes.size());
+            output.add(activeCheckboxes.get(randomIndex)); // Adds the element, automatically handles duplicates
         }
 
-        return output;
+        return new ArrayList<>(output);  // Convert Set to List to return
     }
+
 
 
 

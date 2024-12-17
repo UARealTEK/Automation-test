@@ -94,6 +94,8 @@ public class CheckboxesTests  extends DriverOperations {
         soft.assertAll();
     }
 
+
+    //Working wrong. Look into it
     @Test
     public void checkCheckboxLabelsAfterSelecting() {
         SoftAssertions soft = new SoftAssertions();
@@ -109,11 +111,16 @@ public class CheckboxesTests  extends DriverOperations {
         }
 
         //Verify the correctness of the displayed label
-        StringBuilder labelBuilder = new StringBuilder();
+        String selectedCheckboxesLabels = page.getSelectedCheckboxLabels();
+        System.out.println(String.format("selected labels are: %s", selectedCheckboxesLabels));
 
         for (WebElement webElement : webElementList) {
-//            labelBuilder.append(webElement.getAttribute())
+            System.out.println(String.format("label on the label list is: %s", webElement.getText()));
+            soft.assertThat(selectedCheckboxesLabels.contains(webElement.getText())).isTrue();
         }
+
+
+        soft.assertAll();
 
     }
 }
