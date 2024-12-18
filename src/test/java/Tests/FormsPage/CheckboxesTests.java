@@ -95,8 +95,7 @@ public class CheckboxesTests  extends DriverOperations {
     }
 
 
-    //Working wrong. Look into it
-    //attempt to create a tuple or smth similar like this in java
+    //Working. But im not sure how to check that the label for the selected values are displayed IN ORDER
     @Test
     public void checkCheckboxLabelsAfterSelecting() {
         SoftAssertions soft = new SoftAssertions();
@@ -113,15 +112,16 @@ public class CheckboxesTests  extends DriverOperations {
 
         //Verify the correctness of the displayed label
         String selectedCheckboxesLabels = page.getSelectedCheckboxLabels();
-        System.out.println(String.format("selected labels are: %s", selectedCheckboxesLabels));
-
-        for (WebElement webElement : webElementList) {
-            System.out.println(String.format("label on the label list is: %s", webElement.getText()));
-            soft.assertThat(selectedCheckboxesLabels.contains(webElement.getText())).isTrue();
+        List<String> clickedCheckboxesValues = new ArrayList<>();
+        for (int i = 0; i < webElementList.size(); i++) {
+            String value = webElementList.get(i).getAttribute("value");
+            clickedCheckboxesValues.add(value);
         }
 
+        for (String value : clickedCheckboxesValues) {
+            soft.assertThat(selectedCheckboxesLabels.contains(value)).isTrue();
+        }
 
         soft.assertAll();
-
     }
 }
