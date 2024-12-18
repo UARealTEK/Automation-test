@@ -169,6 +169,7 @@ public class FormsPage {
         return driver.findElement(javaScriptCheckBox);
     }
 
+    //Check if it works as expected. Not sure
     public List<WebElement> selectRandomCheckboxes() {
         Random random = new Random();
         List<WebElement> allCheckboxes = FormsPage.getListOfCheckboxes();
