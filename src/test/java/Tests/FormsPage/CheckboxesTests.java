@@ -96,6 +96,7 @@ public class CheckboxesTests  extends DriverOperations {
 
 
     //Working wrong. Look into it
+    //attempt to create a tuple or smth similar like this in java
     @Test
     public void checkCheckboxLabelsAfterSelecting() {
         SoftAssertions soft = new SoftAssertions();
@@ -103,7 +104,7 @@ public class CheckboxesTests  extends DriverOperations {
         FormsPage page = new FormsPage(getDriver());
 
         //Generate a list of WebElements which will be clicked one by one (same original list but placed on random indices)
-        List<WebElement> webElementList = page.selectRandomCheckboxes();
+        List<WebElement> webElementList = page.selectRandomCheckboxes(); // this is only a button. not a text of that button
 
         //Click on each checkbox
         for (WebElement checkbox : webElementList) {

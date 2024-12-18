@@ -37,7 +37,7 @@ public class FormsPage {
 
     //Checkbox Labels
     private final static By BFCCheckboxesLabels = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'check')]"); // Contains java / python / javaScript checkbox labels
-    private final By BFCSelectedCheckboxLabel = By.id("check_validate"); // Label for the selected checkboxes
+    private final By BFCSelectedCheckboxLabel = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']"); // Label for the selected checkboxes
     private final By pythonLabel = By.xpath("//label[@for='check_python']");
     private final By javaLabel = By.xpath("//label[@for='check_java']");
     private final By javaScriptLabel = By.xpath("//label[@for='check_javascript']");
@@ -154,7 +154,7 @@ public class FormsPage {
     }
 
     public String getSelectedCheckboxLabels() {
-        return driver.findElement(BFCCheckboxesLabels).getText();
+        return driver.findElement(BFCSelectedCheckboxLabel).getText();
     }
 
     public WebElement getPythonCheckbox() {
