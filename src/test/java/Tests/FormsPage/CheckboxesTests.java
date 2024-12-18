@@ -65,6 +65,30 @@ public class CheckboxesTests  extends DriverOperations {
         soft.assertAll();
     }
 
+    //Not working!! Check it
+    @Test
+    public void checkCheckboxLabels() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+        
+        List<WebElement> checkboxesList = FormsPage.getListOfCheckboxes();
+        List<String> checkboxLabelsList = page.getListOfCheckboxLabels();
+
+        boolean allCheckboxesMatch = true;
+
+        for (WebElement checkbox : checkboxesList) {
+            String checkboxText = checkbox.getText();
+            if (!checkboxLabelsList.contains(checkboxText)) {
+                allCheckboxesMatch = false;
+                System.out.println("Checkbox text: '" + checkboxText + "' is not found in the checkboxLabelsList.");
+                // Optionally, break here if you only need to find the first mismatch
+            }
+        }
+
+        soft.assertThat(allCheckboxesMatch).isTrue();
+    }
+
     @Test
     public void checkCheckboxStateAfterPageReload() {
         SoftAssertions soft = new SoftAssertions();
