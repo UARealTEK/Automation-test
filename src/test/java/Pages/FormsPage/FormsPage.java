@@ -6,11 +6,7 @@ import org.openqa.selenium.WebDriver;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Do I need to add labels for each separate dropdown option?? (Primary Skill)
@@ -38,9 +34,6 @@ public class FormsPage {
     //Checkbox Labels
     private final static By BFCCheckboxesLabels = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'check')]"); // Contains java / python / javaScript checkbox labels
     private final By BFCSelectedCheckboxLabel = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']"); // Label for the selected checkboxes
-    private final By pythonLabel = By.xpath("//label[@for='check_python']");
-    private final By javaLabel = By.xpath("//label[@for='check_java']");
-    private final By javaScriptLabel = By.xpath("//label[@for='check_javascript']");
 
     //Radiobuttons
     private final By BFCRadiobuttons = By.xpath("//div[@class = 'form-group']//input[@type='radio']"); // Contains all radiobuttons
@@ -204,6 +197,9 @@ public class FormsPage {
 
         return labels;
     }
+
+    //Radiobuttons methods
+
 
 
 
