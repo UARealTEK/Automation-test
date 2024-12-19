@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,20 +66,29 @@ public class CheckboxesTests  extends DriverOperations {
         soft.assertAll();
     }
 
-    //Not working!! Check it
     @Test
-    public void checkCheckboxLabels() {
+    public void checkMatchingForCheckboxLabels() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
         
         List<WebElement> checkboxesList = FormsPage.getListOfCheckboxes();
         List<String> checkboxLabelsList = page.getListOfCheckboxLabels();
+        Iterator<String> iterator = checkboxLabelsList.iterator();
+
+        int index = 0;
+        while (iterator.hasNext()) {
+            String value = iterator.next();
+            String newValue = value.toLowerCase();
+            checkboxLabelsList.set(index,newValue);
+
+            index++;
+        }
 
         boolean allCheckboxesMatch = true;
 
         for (WebElement checkbox : checkboxesList) {
-            String checkboxText = checkbox.getText();
+            String checkboxText = checkbox.getAttribute("name");
             if (!checkboxLabelsList.contains(checkboxText)) {
                 allCheckboxesMatch = false;
                 System.out.println("Checkbox text: '" + checkboxText + "' is not found in the checkboxLabelsList.");
