@@ -10,11 +10,9 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-//add TestCase: Verify that the radio button and label are correctly associated (for attribute in the <label> tag that matches the id of the <input>)
 
 @Execution(ExecutionMode.CONCURRENT)
 public class CheckboxesTests  extends DriverOperations {
@@ -102,7 +100,6 @@ public class CheckboxesTests  extends DriverOperations {
 
 
     //Working. But im not sure how to check that the label for the selected values are displayed IN ORDER
-    //Also implement here the logic that the checkbox and label are correctly associated
     @Test
     public void checkCheckboxLabelsAfterSelecting() {
         SoftAssertions soft = new SoftAssertions();
@@ -120,8 +117,8 @@ public class CheckboxesTests  extends DriverOperations {
         //Verify the correctness of the displayed label
         String selectedCheckboxesLabels = page.getSelectedCheckboxLabels();
         List<String> clickedCheckboxesValues = new ArrayList<>();
-        for (int i = 0; i < webElementList.size(); i++) {
-            String value = webElementList.get(i).getAttribute("value");
+        for (WebElement element : webElementList) {
+            String value = element.getAttribute("value");
             clickedCheckboxesValues.add(value);
         }
 
@@ -132,12 +129,25 @@ public class CheckboxesTests  extends DriverOperations {
         soft.assertAll();
     }
 
+    @Test
     public void verifyLabelForAttributeMatchesInputId() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
 
         List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
         List<WebElement> checkboxLabels = FormsPage.getListOfCheckboxLabels();
+        List<String> checkboxLabelAttributes = new ArrayList<>();
+
+        for (WebElement label : checkboxLabels) {
+            checkboxLabelAttributes.add(label.getAttribute("for"));
+        }
+
+        for (WebElement checkbox : checkboxes) {
+            soft.assertThat(checkboxLabelAttributes.contains(checkbox.getAttribute("id"))).isTrue();
+        }
+
+        soft.assertThat(checkboxes.size()).isEqualTo(checkboxLabels.size());
+
+        soft.assertAll();
     }
 }

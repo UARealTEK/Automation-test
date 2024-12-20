@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-//Also implement here the logic that the checkbox and label are correctly associated
+//add TestCase: Verify that the radio button and label are correctly associated (for attribute in the <label> tag that matches the id of the <input>)
 @Execution(ExecutionMode.CONCURRENT)
 public class RadiobuttonsTests extends DriverOperations {
 
