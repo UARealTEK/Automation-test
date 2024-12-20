@@ -6,12 +6,17 @@ import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+//add TestCase: Verify that the radio button and label are correctly associated (for attribute in the <label> tag that matches the id of the <input>)
+
+@Execution(ExecutionMode.CONCURRENT)
 public class CheckboxesTests  extends DriverOperations {
 
     @Test
@@ -67,39 +72,6 @@ public class CheckboxesTests  extends DriverOperations {
     }
 
     @Test
-    public void checkMatchingForCheckboxLabels() {
-        SoftAssertions soft = new SoftAssertions();
-        BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
-        
-        List<WebElement> checkboxesList = FormsPage.getListOfCheckboxes();
-        List<String> checkboxLabelsList = page.getListOfCheckboxLabels();
-        Iterator<String> iterator = checkboxLabelsList.iterator();
-
-        int index = 0;
-        while (iterator.hasNext()) {
-            String value = iterator.next();
-            String newValue = value.toLowerCase();
-            checkboxLabelsList.set(index,newValue);
-
-            index++;
-        }
-
-        boolean allCheckboxesMatch = true;
-
-        for (WebElement checkbox : checkboxesList) {
-            String checkboxText = checkbox.getAttribute("name");
-            if (!checkboxLabelsList.contains(checkboxText)) {
-                allCheckboxesMatch = false;
-                System.out.println("Checkbox text: '" + checkboxText + "' is not found in the checkboxLabelsList.");
-                // Optionally, break here if you only need to find the first mismatch
-            }
-        }
-
-        soft.assertThat(allCheckboxesMatch).isTrue();
-    }
-
-    @Test
     public void checkCheckboxStateAfterPageReload() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
@@ -130,6 +102,7 @@ public class CheckboxesTests  extends DriverOperations {
 
 
     //Working. But im not sure how to check that the label for the selected values are displayed IN ORDER
+    //Also implement here the logic that the checkbox and label are correctly associated
     @Test
     public void checkCheckboxLabelsAfterSelecting() {
         SoftAssertions soft = new SoftAssertions();
@@ -157,5 +130,14 @@ public class CheckboxesTests  extends DriverOperations {
         }
 
         soft.assertAll();
+    }
+
+    public void verifyLabelForAttributeMatchesInputId() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
+        List<WebElement> checkboxLabels = FormsPage.getListOfCheckboxLabels();
     }
 }

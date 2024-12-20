@@ -6,7 +6,11 @@ import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
+//Also implement here the logic that the checkbox and label are correctly associated
+@Execution(ExecutionMode.CONCURRENT)
 public class YearsOfExperienceTests extends DriverOperations {
 
     @Test

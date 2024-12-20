@@ -41,7 +41,8 @@ public class FormsPage {
     private final By protractorRadiobutton = By.id("rad_protractor");
 
     //Radiobuttons Labels
-    private final By BFCRadiobuttonsLabel = By.id("rad_validate");
+    private final By BFCRadiobuttonsLabel = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'rad')]");
+    private final By BFCRadiobuttonsSelectedLabel = By.id("rad_validate");
     private final By seleniumLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_selenium']");
     private final By protractorLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_protractor']");
 
@@ -188,17 +189,27 @@ public class FormsPage {
         return new ArrayList<>(output);  // Convert Set to List to return
     }
 
-    public List<String> getListOfCheckboxLabels() {
-        List<WebElement> elements = driver.findElements(BFCCheckboxesLabels);
+    public static List<WebElement> getListOfCheckboxLabels() {
+       return BaseOperations.getDriver().findElements(BFCCheckboxesLabels);
+    }
+
+    //Radiobuttons methods
+    public List<WebElement> getListOfRadioButtons() {
+        return driver.findElements(BFCRadiobuttons);
+    }
+
+    public List<String> getListOfRadioButtonLabels() {
+        List<WebElement> elements = driver.findElements(BFCRadiobuttonsLabel);
         List<String> labels = new ArrayList<>();
         for (WebElement element : elements) {
             labels.add(element.getText());
         }
-
         return labels;
     }
 
-    //Radiobuttons methods
+    public String getSelectedRadiobuttonsLabel() {
+        return driver.findElement(BFCRadiobuttonsSelectedLabel).getText();
+    }
 
 
 
