@@ -46,7 +46,7 @@ public class RadiobuttonsTests extends DriverOperations {
         List<WebElement> radiobuttons = page.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
-            soft.assertThat(radiobutton.isDisplayed() && radiobutton.isEnabled()).isTrue();
+            soft.assertThat(radiobutton.isDisplayed() && radiobutton.isEnabled() && (!radiobutton.isSelected())).isTrue();
         }
 
         soft.assertAll();
