@@ -41,7 +41,7 @@ public class FormsPage {
     private final By protractorRadiobutton = By.id("rad_protractor");
 
     //Radiobuttons Labels
-    private final By BFCRadiobuttonsLabel = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'rad')]");
+    private static final By BFCRadiobuttonsLabel = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'rad')]");
     private final By BFCRadiobuttonsSelectedLabel = By.id("rad_validate");
     private final By seleniumLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_selenium']");
     private final By protractorLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_protractor']");
@@ -198,13 +198,8 @@ public class FormsPage {
         return driver.findElements(BFCRadiobuttons);
     }
 
-    public List<String> getListOfRadioButtonLabels() {
-        List<WebElement> elements = driver.findElements(BFCRadiobuttonsLabel);
-        List<String> labels = new ArrayList<>();
-        for (WebElement element : elements) {
-            labels.add(element.getText());
-        }
-        return labels;
+    public List<WebElement> getListOfRadioButtonLabels() {
+        return driver.findElements(BFCRadiobuttonsLabel);
     }
 
     public String getSelectedRadiobuttonsLabel() {
