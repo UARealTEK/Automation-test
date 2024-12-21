@@ -52,6 +52,7 @@ public class RadiobuttonsTests extends DriverOperations {
         soft.assertAll();
     }
 
+    //Add more checks to this case about radiobutton being visually selected (check the selected style parameter)
     @Test
     public void checkRadiobuttonsSelection() {
         SoftAssertions soft = new SoftAssertions();
