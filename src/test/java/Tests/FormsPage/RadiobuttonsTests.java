@@ -101,6 +101,8 @@ public class RadiobuttonsTests extends DriverOperations {
         for (WebElement radiobutton : radiobuttons) {
             soft.assertThat(radiobutton.isSelected()).isFalse();
         }
+
+        soft.assertAll();
     }
 
 }
