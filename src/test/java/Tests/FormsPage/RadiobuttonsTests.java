@@ -105,4 +105,23 @@ public class RadiobuttonsTests extends DriverOperations {
         soft.assertAll();
     }
 
+    @Test
+    public void checkSelectedRadiobuttonLabel() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        page.selectRandomRadiobutton();
+        List<WebElement> radiobuttons = FormsPage.getListOfCheckboxes();
+        String label = page.getSelectedRadiobuttonsLabel();
+
+        for (WebElement radiobutton : radiobuttons) {
+            if (radiobutton.isSelected()) {
+                soft.assertThat(radiobutton.getAttribute("value")).isEqualTo(label);
+            }
+        }
+
+        soft.assertAll();
+    }
+
 }
