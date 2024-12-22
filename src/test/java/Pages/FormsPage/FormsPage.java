@@ -36,7 +36,7 @@ public class FormsPage {
     private final By BFCSelectedCheckboxLabel = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']"); // Label for the selected checkboxes
 
     //Radiobuttons
-    private final By BFCRadiobuttons = By.xpath("//div[@class = 'form-group']//input[@type='radio']"); // Contains all radiobuttons
+    private static final By BFCRadiobuttons = By.xpath("//div[@class = 'form-group']//input[@type='radio']"); // Contains all radiobuttons
     private final By seleniumRadioButton = By.id("rad_selenium");
     private final By protractorRadiobutton = By.id("rad_protractor");
 
@@ -194,8 +194,8 @@ public class FormsPage {
     }
 
     //Radiobuttons methods
-    public List<WebElement> getListOfRadioButtons() {
-        return driver.findElements(BFCRadiobuttons);
+    public static List<WebElement> getListOfRadioButtons() {
+        return BaseOperations.getDriver().findElements(BFCRadiobuttons);
     }
 
     public List<WebElement> getListOfRadioButtonLabels() {
@@ -204,6 +204,14 @@ public class FormsPage {
 
     public String getSelectedRadiobuttonsLabel() {
         return driver.findElement(BFCRadiobuttonsSelectedLabel).getText();
+    }
+
+    public void selectRandomRadiobutton() {
+        Random random = new Random();
+        List<WebElement> radiobuttons = getListOfRadioButtons();
+
+        int randomIndex = random.nextInt(radiobuttons.size());
+        BaseOperations.clickElement(radiobuttons.get(randomIndex));
     }
 
 

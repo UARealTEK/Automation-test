@@ -22,7 +22,7 @@ public class RadiobuttonsTests extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
 
-        List<WebElement> radiobuttons = page.getListOfRadioButtons();
+        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
         List<WebElement> radiobuttonLabels = page.getListOfRadioButtonLabels();
         List<String> radiobuttonLabelAttributes = new ArrayList<>();
 
@@ -41,9 +41,8 @@ public class RadiobuttonsTests extends DriverOperations {
     public void checkRadioButtonDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
 
-        List<WebElement> radiobuttons = page.getListOfRadioButtons();
+        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
             soft.assertThat(radiobutton.isDisplayed() && radiobutton.isEnabled() && (!radiobutton.isSelected())).isTrue();
@@ -52,20 +51,21 @@ public class RadiobuttonsTests extends DriverOperations {
         soft.assertAll();
     }
 
-    //Add more checks to this case about radiobutton being visually selected (check the selected style parameter)
     @Test
     public void checkRadiobuttonsSelection() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
 
-        List<WebElement> radiobuttons = page.getListOfRadioButtons();
+        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
             radiobutton.click();
+            String checkedState = radiobutton.getAttribute("checked");
+            soft.assertThat(checkedState).isEqualTo("true");
             List<WebElement> unselectedRadioButtons = new ArrayList<>();
             for (WebElement unselectedRadiobutton : radiobuttons) {
                 if (!unselectedRadiobutton.isSelected()) {
+                    soft.assertThat(unselectedRadiobutton.getAttribute("checked")).isEqualTo(null);
                     unselectedRadioButtons.add(unselectedRadiobutton);
                 }
             }
@@ -74,6 +74,33 @@ public class RadiobuttonsTests extends DriverOperations {
         }
 
         soft.assertAll();
+    }
+
+    @Test
+    public void verifyButtonStateAfterReload() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
+
+        page.selectRandomRadiobutton();
+
+        int countOfUnselectedButtons = 0;
+        for (WebElement radiobutton : radiobuttons) {
+            if (!radiobutton.isSelected()) {
+                countOfUnselectedButtons++;
+            }
+        }
+
+        soft.assertThat(countOfUnselectedButtons == radiobuttons.size() - 1).isTrue();
+
+        getDriver().navigate().refresh();
+        radiobuttons = FormsPage.getListOfRadioButtons();
+
+        for (WebElement radiobutton : radiobuttons) {
+            soft.assertThat(radiobutton.isSelected()).isFalse();
+        }
     }
 
 }
