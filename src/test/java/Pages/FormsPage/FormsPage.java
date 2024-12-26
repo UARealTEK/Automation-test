@@ -198,8 +198,8 @@ public class FormsPage {
         return BaseOperations.getDriver().findElements(BFCRadiobuttons);
     }
 
-    public List<WebElement> getListOfRadioButtonLabels() {
-        return driver.findElements(BFCRadiobuttonsLabel);
+    public static List<WebElement> getListOfRadioButtonLabels() {
+        return BaseOperations.getDriver().findElements(BFCRadiobuttonsLabel);
     }
 
     public String getSelectedRadiobuttonsLabel() {

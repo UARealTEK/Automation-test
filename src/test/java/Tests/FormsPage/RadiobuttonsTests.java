@@ -124,4 +124,49 @@ public class RadiobuttonsTests extends DriverOperations {
         soft.assertAll();
     }
 
+    @Test
+    public void checkRadiobuttonSelectionViaLabel() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
+        List<WebElement> radiobuttonLabels = FormsPage.getListOfRadioButtonLabels();
+
+        //Checking that for each RadiobuttonLabel there's a corres
+        for (WebElement label : radiobuttonLabels) {
+            String currentLabelForAttribute = label.getAttribute("for");
+            boolean isCorrespondingButtonPresent = radiobuttons.stream()
+                            .anyMatch(r -> r.getAttribute("id")
+                            .equals(currentLabelForAttribute));
+
+            //Clicking the label if its corresponding button is FOUND in the radiobuttons list
+            if (isCorrespondingButtonPresent){
+                label.click();
+            }
+
+            List<WebElement> unselectedButtons = new ArrayList<>();
+            for (WebElement radiobutton : radiobuttons) {
+                if ((!radiobutton.isSelected()) && radiobutton.getAttribute("checked") == null) {
+                    unselectedButtons.add(radiobutton);
+                }
+            }
+
+            //Check that all other buttons are unselected after clicking on the label
+            soft.assertThat(unselectedButtons.size() == radiobuttons.size() -1).isTrue();
+
+        }
+        
+    }
+
+    /**
+     * check that after clicking on the label the radiobutton is being selected
+     *
+     * TODO:
+     * Verify that for each specific radiobutton, theres a corresponding label in other list
+     * (work with labels)
+     * Click that label
+     * Check that all other radiobuttons in the list are unchecked
+     */
+
 }
