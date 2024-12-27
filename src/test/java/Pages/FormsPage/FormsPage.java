@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
 
@@ -55,8 +56,7 @@ public class FormsPage {
     private final By primarySkillDropdownSelectedLabel = By.id("select_tool_validate");
 
     //Choose Language multiSelect dropdown
-    private final By languageSelectMultiDropdown = By.id("select_lang");
-    private final By languageSelectMultiDropdownOptions = By.xpath("//div[@class = 'form-group']//select[@id='select_lang']//option");
+    private static final By languageSelectMultiDropdown = By.id("select_lang");
 
     //Choose Language multiSelect dropdown Labels
     private final By languageSelectMultiDropdownLabel = By.xpath("//div[@class = 'form-group']//label[@for='select_lang']");
@@ -212,6 +212,15 @@ public class FormsPage {
 
         int randomIndex = random.nextInt(radiobuttons.size());
         BaseOperations.clickElement(radiobuttons.get(randomIndex));
+    }
+
+    //Multiselect dropdown methods
+    public static Select getMultiSelectDropdown() {
+        return new Select(BaseOperations.getDriver().findElement(languageSelectMultiDropdown));
+    }
+
+    public WebElement getSelectedDropdownOptionsLabel() {
+        return driver.findElement(languageSelectMultiDropdownSelectedOptionsLabel);
     }
 
 
