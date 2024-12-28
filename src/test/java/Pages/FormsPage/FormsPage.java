@@ -223,6 +223,21 @@ public class FormsPage {
         return driver.findElement(languageSelectMultiDropdownSelectedOptionsLabel);
     }
 
+    public static int getCountOfSelectedOptions() {
+        int count = 0;
+        List<WebElement> dropdownOptions = FormsPage
+                .getMultiSelectDropdown()
+                .getOptions();
+        for (WebElement option : dropdownOptions) {
+            if (option.isSelected()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+
 
 
 
