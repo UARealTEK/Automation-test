@@ -15,6 +15,11 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Add assertions in the checkElementMultiSelection
+ * Make sure that the label is updated accordingly after each option is selected
+ */
+
 @Execution(ExecutionMode.CONCURRENT)
 public class MultiselectDropdownTests extends DriverOperations {
 
