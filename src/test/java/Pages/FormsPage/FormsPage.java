@@ -2,9 +2,11 @@ package Pages.FormsPage;
 
 import Utils.BaseOperations;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
@@ -234,6 +236,29 @@ public class FormsPage {
             }
         }
         return count;
+    }
+
+    //Select random options in the multiselect Dropdown
+    public void selectRandomOptions(List<WebElement> options) {
+        Random random = new Random();
+
+        int itemsToSelect = random.nextInt(options.size()) + 1; // this makes sure that at least 1 option will be selected
+        Set<WebElement> selectedOptions = new HashSet<>();
+
+        Actions action = new Actions(driver);
+        action.keyDown(Keys.CONTROL).perform();
+
+        while(getCountOfSelectedOptions() < itemsToSelect) {
+            int randomIndex = random.nextInt(options.size());
+            WebElement element = options.get(randomIndex);
+
+            if (!selectedOptions.contains(element) && !element.isSelected()) {
+                action.click(element).perform();
+                selectedOptions.add(element);
+            }
+        }
+
+        action.keyUp(Keys.CONTROL).perform(); // Release the CTRL key after selection
     }
 
 
