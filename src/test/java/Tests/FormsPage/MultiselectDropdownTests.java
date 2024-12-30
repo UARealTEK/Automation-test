@@ -4,6 +4,7 @@ import Enums.URLs;
 import Pages.FormsPage.FormsPage;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
+import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -11,9 +12,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
 import java.util.*;
 
+@Log4j2
 @Execution(ExecutionMode.CONCURRENT)
 public class MultiselectDropdownTests extends DriverOperations {
 
@@ -89,7 +90,7 @@ public class MultiselectDropdownTests extends DriverOperations {
         StringBuilder labelBuilder = new StringBuilder();
         List<WebElement> list = FormsPage.getMultiSelectDropdown().getOptions();
 
-        page.selectRandomOptions(list);
+        page.selectRandomOptions(list,list.size());
         for (WebElement element : list) {
             if (element.isSelected()) {
                 labelBuilder.append(element.getAttribute("value")).append(",");
@@ -101,6 +102,47 @@ public class MultiselectDropdownTests extends DriverOperations {
 
         soft.assertThat(actualLabel).isEqualTo(expectedLabel)
                 .as(String.format("The label is not correct. I have received ' %s ', but expecting ' %s ' ", actualLabel,expectedLabel));
+
+        soft.assertAll();
+    }
+
+    //Work on it. Not working
+    @Test
+    public void checkOptionDeselection() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        List<WebElement> list = FormsPage
+                .getMultiSelectDropdown()
+                .getOptions();
+
+        page.selectRandomOptions(list,list.size());
+
+        int index = 0;
+
+        while (page.isAnyOptionSelected(list)) {
+            WebElement element = list.get(index);
+            if (element.isSelected()) {
+                page.deselectedOptionAtIndex(list,index);
+                soft.assertThat(element.isSelected()).isFalse();
+
+                StringBuilder currentSelectedOptions = new StringBuilder();
+                for (WebElement option : list) {
+                    if (option.isSelected()) {
+                        currentSelectedOptions.append(option.getAttribute("value")).append(",");
+                    }
+                }
+
+                String currentActualSelectedOptions = currentSelectedOptions.substring(0,currentSelectedOptions.length() -1);
+                String currentLabel = page.getSelectedDropdownOptionsLabel().getText();
+
+                soft.assertThat(currentActualSelectedOptions)
+                        .isEqualTo(currentLabel)
+                        .as(String.format("The current label is - %s , but we are expecting - %s ", currentActualSelectedOptions, currentLabel));
+            }
+            index++;
+        }
 
         soft.assertAll();
     }

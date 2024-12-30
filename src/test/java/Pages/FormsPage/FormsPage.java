@@ -1,6 +1,8 @@
 package Pages.FormsPage;
 
 import Utils.BaseOperations;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +18,7 @@ import java.util.*;
  */
 
 public class FormsPage {
+    private static final Logger log = LogManager.getLogger(FormsPage.class);
     //WebDriver
     private final WebDriver driver;
 
@@ -239,16 +242,16 @@ public class FormsPage {
     }
 
     //Select random options in the multiselect Dropdown
-    public void selectRandomOptions(List<WebElement> options) {
+    public void selectRandomOptions(List<WebElement> options, int itemsToSelect) {
         Random random = new Random();
 
-        int itemsToSelect = random.nextInt(options.size()) + 1; // this makes sure that at least 1 option will be selected
+        int optionsToSelect = random.nextInt(itemsToSelect) + 1; // this makes sure that at least 1 option will be selected
         Set<WebElement> selectedOptions = new HashSet<>();
 
         Actions action = new Actions(driver);
         action.keyDown(Keys.CONTROL).perform();
 
-        while(getCountOfSelectedOptions() < itemsToSelect) {
+        while(getCountOfSelectedOptions() < optionsToSelect) {
             int randomIndex = random.nextInt(options.size());
             WebElement element = options.get(randomIndex);
 
@@ -259,6 +262,36 @@ public class FormsPage {
         }
 
         action.keyUp(Keys.CONTROL).perform(); // Release the CTRL key after selection
+    }
+
+    public void deselectSelectedOptions(List<WebElement> list) {
+        Actions action = new Actions(driver);
+        action.keyDown(Keys.CONTROL).perform();
+        for (WebElement element : list) {
+            if (element.isSelected()) {
+                action.click(element).perform();
+            }
+        }
+        action.keyUp(Keys.CONTROL).perform();
+    }
+
+    public void deselectedOptionAtIndex(List<WebElement> list, int index) {
+        Actions action = new Actions(driver);
+        WebElement element = list.get(index);
+
+        if (element.isSelected()) {
+            action
+                    .keyDown(Keys.CONTROL)
+                    .click(element)
+                    .keyUp(Keys.CONTROL)
+                    .perform();
+        } else {
+            log.warn("The item was NOT selected at index - {}", index);
+        }
+    }
+
+    public boolean isAnyOptionSelected(List<WebElement> list) {
+        return list.stream().anyMatch(WebElement::isSelected);
     }
 
 
