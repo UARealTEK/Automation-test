@@ -119,19 +119,26 @@ public class MultiselectDropdownTests extends DriverOperations {
 
         page.selectRandomOptions(list,list.size());
 
-        int index = 0;
-
         while (page.isAnyOptionSelected(list)) {
-            WebElement element = list.get(index);
-            if (element.isSelected()) {
-                page.deselectedOptionAtIndex(list,index);
+            List<WebElement> selectedOptions = new ArrayList<>();
+            for (WebElement element : list) {
+                if (element.isSelected()) {
+                    selectedOptions.add(element);
+                }
+            }
+
+            Iterator<WebElement> iterator = selectedOptions.iterator();
+            while (iterator.hasNext()) {
+                WebElement element = iterator.next();
+                int index = selectedOptions.indexOf(element);
+
+                page.deselectedOptionAtIndex(selectedOptions,index);
                 soft.assertThat(element.isSelected()).isFalse();
 
+
                 StringBuilder currentSelectedOptions = new StringBuilder();
-                for (WebElement option : list) {
-                    if (option.isSelected()) {
-                        currentSelectedOptions.append(option.getAttribute("value")).append(",");
-                    }
+                for (WebElement option : selectedOptions) {
+                    currentSelectedOptions.append(option.getAttribute("value")).append(",");
                 }
 
                 String currentActualSelectedOptions = currentSelectedOptions.substring(0,currentSelectedOptions.length() -1);
@@ -140,8 +147,9 @@ public class MultiselectDropdownTests extends DriverOperations {
                 soft.assertThat(currentActualSelectedOptions)
                         .isEqualTo(currentLabel)
                         .as(String.format("The current label is - %s , but we are expecting - %s ", currentActualSelectedOptions, currentLabel));
+
+                iterator.remove();
             }
-            index++;
         }
 
         soft.assertAll();
