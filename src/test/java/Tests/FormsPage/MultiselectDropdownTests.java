@@ -106,7 +106,6 @@ public class MultiselectDropdownTests extends DriverOperations {
         soft.assertAll();
     }
 
-    //Work on it. Not working
     @Test
     public void checkOptionDeselection() {
         SoftAssertions soft = new SoftAssertions();
@@ -119,39 +118,33 @@ public class MultiselectDropdownTests extends DriverOperations {
 
         page.selectRandomOptions(list,list.size());
 
-        while (page.isAnyOptionSelected(list)) {
-            List<WebElement> selectedOptions = new ArrayList<>();
-            for (WebElement element : list) {
-                if (element.isSelected()) {
-                    selectedOptions.add(element);
-                }
+        List<WebElement> selectedOptions = page.getSelectedOptionsList();
+        for (WebElement option : selectedOptions) {
+            int indexOption = selectedOptions.indexOf(option);
+            page.deselectedOptionAtIndex(selectedOptions,indexOption);
+            soft.assertThat(option.isSelected()).isFalse();
+            selectedOptions = page.getSelectedOptionsList();
+
+            StringBuilder currentSelectedOptions = new StringBuilder();
+            for (WebElement label : selectedOptions) {
+                currentSelectedOptions.append(label.getAttribute("value")).append(",");
             }
 
-            Iterator<WebElement> iterator = selectedOptions.iterator();
-            while (iterator.hasNext()) {
-                WebElement element = iterator.next();
-                int index = selectedOptions.indexOf(element);
-
-                page.deselectedOptionAtIndex(selectedOptions,index);
-                soft.assertThat(element.isSelected()).isFalse();
-
-
-                StringBuilder currentSelectedOptions = new StringBuilder();
-                for (WebElement option : selectedOptions) {
-                    currentSelectedOptions.append(option.getAttribute("value")).append(",");
-                }
-
-                String currentActualSelectedOptions = currentSelectedOptions.substring(0,currentSelectedOptions.length() -1);
-                String currentLabel = page.getSelectedDropdownOptionsLabel().getText();
-
-                soft.assertThat(currentActualSelectedOptions)
-                        .isEqualTo(currentLabel)
-                        .as(String.format("The current label is - %s , but we are expecting - %s ", currentActualSelectedOptions, currentLabel));
-
-                iterator.remove();
+            String currentActualSelectedOptions = "";
+            if (!currentSelectedOptions.isEmpty()) {
+                currentActualSelectedOptions = currentSelectedOptions.substring(0,currentSelectedOptions.length() -1);
+            } else {
+                currentActualSelectedOptions = currentSelectedOptions.toString();
             }
+
+            String currentLabel = page.getSelectedDropdownOptionsLabel().getText();
+            System.out.println(currentActualSelectedOptions);
+            System.out.println(currentLabel);
+
+            soft.assertThat(currentActualSelectedOptions)
+                    .isEqualTo(currentLabel)
+                    .as(String.format("The current label is - %s , but we are expecting - %s ", currentActualSelectedOptions, currentLabel));
         }
-
         soft.assertAll();
     }
 }

@@ -264,17 +264,6 @@ public class FormsPage {
         action.keyUp(Keys.CONTROL).perform(); // Release the CTRL key after selection
     }
 
-    public void deselectSelectedOptions(List<WebElement> list) {
-        Actions action = new Actions(driver);
-        action.keyDown(Keys.CONTROL).perform();
-        for (WebElement element : list) {
-            if (element.isSelected()) {
-                action.click(element).perform();
-            }
-        }
-        action.keyUp(Keys.CONTROL).perform();
-    }
-
     public void deselectedOptionAtIndex(List<WebElement> list, int index) {
         Actions action = new Actions(driver);
         WebElement element = list.get(index);
@@ -290,8 +279,19 @@ public class FormsPage {
         }
     }
 
-    public boolean isAnyOptionSelected(List<WebElement> list) {
-        return list.stream().anyMatch(WebElement::isSelected);
+    public List<WebElement> getSelectedOptionsList() {
+        List<WebElement> list = FormsPage
+                .getMultiSelectDropdown()
+                .getOptions();
+
+        List<WebElement> selectedOptions = new ArrayList<>();
+        for (WebElement element : list) {
+            if (element.isSelected()) {
+                selectedOptions.add(element);
+            }
+        }
+
+        return selectedOptions;
     }
 
 
