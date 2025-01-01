@@ -13,6 +13,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Execution(ExecutionMode.CONCURRENT)
@@ -125,26 +126,18 @@ public class MultiselectDropdownTests extends DriverOperations {
             soft.assertThat(option.isSelected()).isFalse();
             selectedOptions = page.getSelectedOptionsList();
 
-            StringBuilder currentSelectedOptions = new StringBuilder();
-            for (WebElement label : selectedOptions) {
-                currentSelectedOptions.append(label.getAttribute("value")).append(",");
-            }
-
-            String currentActualSelectedOptions = "";
-            if (!currentSelectedOptions.isEmpty()) {
-                currentActualSelectedOptions = currentSelectedOptions.substring(0,currentSelectedOptions.length() -1);
-            } else {
-                currentActualSelectedOptions = currentSelectedOptions.toString();
-            }
+            String currentActualSelectedOptions = selectedOptions.stream()
+                    .map(label -> label.getAttribute("value"))
+                    .collect(Collectors.joining(","));
 
             String currentLabel = page.getSelectedDropdownOptionsLabel().getText();
-            System.out.println(currentActualSelectedOptions);
-            System.out.println(currentLabel);
 
+            log.debug("Current label: '{}' vs actual selected options: '{}'", currentLabel, currentActualSelectedOptions);
+
+            // Assert that the selected options' value matches the dropdown label
             soft.assertThat(currentActualSelectedOptions)
-                    .isEqualTo(currentLabel)
-                    .as(String.format("The current label is - %s , but we are expecting - %s ", currentActualSelectedOptions, currentLabel));
-        }
+                    .as(String.format("Expected selected options: '%s', but got: '%s'", currentActualSelectedOptions, currentLabel))
+                    .isEqualTo(currentLabel);        }
         soft.assertAll();
     }
 }
