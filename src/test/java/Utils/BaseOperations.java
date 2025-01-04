@@ -65,4 +65,10 @@ public class BaseOperations extends DriverOperations {
             return null;
         }
     }
+
+    public static Boolean isElementVisible(WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
+        return (Boolean) jsExecutor.executeScript(
+                "return window.getComputedStyle(arguments[0]).display === 'none';", element);
+    }
 }

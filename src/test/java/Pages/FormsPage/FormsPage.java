@@ -3,11 +3,8 @@ package Pages.FormsPage;
 import Utils.BaseOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import lombok.Getter;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
@@ -53,7 +50,7 @@ public class FormsPage {
     private final By protractorLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_protractor']");
 
     //Primary skill dropdown
-    private final By primarySkillDropdown = By.id("select_tool");
+    private static final By primarySkillDropdown = By.id("select_tool");
     private final By primarySkillDropdownOptions = By.xpath("//div[@class = 'form-group']//select[@id='select_tool']//option");
 
     //Primary skill dropdown Label
@@ -293,6 +290,24 @@ public class FormsPage {
 
         return selectedOptions;
     }
+
+    // Dropdown methods
+    public static List<WebElement> getDropdownOptionsList() {
+        Select options = new Select(BaseOperations.getDriver().findElement(primarySkillDropdown));
+        return new ArrayList<>(options.getOptions());
+    }
+
+    public static Select getDropdown() {
+        return new Select(BaseOperations.getDriver().findElement(primarySkillDropdown));
+    }
+
+    public static String getDropdownText(Select dropdown) {
+        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
+        return (String) js.executeScript(
+                "return arguments[0].options[arguments[0].selectedIndex].text;", dropdown.getWrappedElement());
+    }
+
+
 
 
 
