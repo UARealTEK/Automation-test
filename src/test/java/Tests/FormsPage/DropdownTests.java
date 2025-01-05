@@ -111,6 +111,22 @@ public class DropdownTests extends DriverOperations {
 
     @Test
     public void checkOptionSelectionByIndex() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
 
+        Select dropdown = FormsPage.getDropdown();
+        Set<String> selectedOptions = new HashSet<>();
+        selectedOptions.add(dropdown.getFirstSelectedOption().getText());
+
+        while (selectedOptions.size() < dropdown.getOptions().size()) {
+            FormsPage.selectRandomDropdownOptionByIndex(dropdown);
+            selectedOptions.add(dropdown.getFirstSelectedOption().getText());
+            log.debug(dropdown.getFirstSelectedOption().getAttribute("value"));
+            log.debug(FormsPage.getDropdownLabel());
+            soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
+                    .isEqualTo(FormsPage.getDropdownLabel());
+        }
+
+        soft.assertAll();
     }
 }

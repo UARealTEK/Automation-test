@@ -359,6 +359,23 @@ public class FormsPage {
         dropdown.selectByValue(randomValue);
     }
 
+    public static void selectRandomDropdownOptionByIndex(Select dropdown) {
+        Random random = new Random();
+        dropdown = getDropdown();
+
+        List<WebElement> options = dropdown.getOptions();
+
+        int randomIndex;
+        WebElement option;
+
+        do {
+            randomIndex = random.nextInt(options.size());
+            option = options.get(randomIndex);
+        } while (option.isSelected());
+
+        dropdown.selectByIndex(randomIndex);
+    }
+
 
 
 
