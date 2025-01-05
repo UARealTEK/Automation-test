@@ -385,6 +385,10 @@ public class FormsPage {
 
     }
 
+    public boolean isElementFocused(WebElement element) {
+        return element.equals(driver.switchTo().activeElement());
+    }
+
 
 
 

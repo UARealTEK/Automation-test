@@ -11,7 +11,9 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.HashSet;
@@ -127,5 +129,41 @@ public class DropdownTests extends DriverOperations {
         }
 
         soft.assertAll();
+    }
+
+
+    //Work on it. Will have issues with getFirstSelectedOption()
+    @Test
+    public void checkDropdownNavigationUsingKeyboard() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        Select dropdown = FormsPage.getDropdown();
+        List<WebElement> dropdownOptions = dropdown.getOptions();
+        Actions action = new Actions(getDriver());
+
+        dropdown.getWrappedElement().click();
+
+        //Series of checks to verify the changes after clicking on the dropdown
+        soft.assertThat(page.isElementFocused(dropdown.getFirstSelectedOption())).isTrue();
+
+        soft.assertThat(dropdown.getFirstSelectedOption().getText())
+                .isEqualTo(FormsPage.getDropdownText(dropdown));
+
+        soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
+                .isEqualTo(FormsPage.getDropdownLabel());
+
+        //Check that all elements are displayed once the dropdown list is expanded
+        for (WebElement option : dropdownOptions) {
+            soft.assertThat(option.isDisplayed()).isTrue();
+        }
+
+        while (!dropdown.getFirstSelectedOption().getText().equals(dropdownOptions.getLast().getText())) {
+            action.sendKeys(Keys.ARROW_DOWN).perform();
+
+        }
+
+
     }
 }
