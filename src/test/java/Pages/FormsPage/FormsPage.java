@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Do I need to add labels for each separate dropdown option?? (Primary Skill)
  */
@@ -320,12 +322,40 @@ public class FormsPage {
         List<String> optionsTexts = options.stream()
                 .map(WebElement::getText).toList();
 
-        int randomIndex = random.nextInt(optionsTexts.size());
-        String randomValue = optionsTexts.get(randomIndex);
+        int randomIndex;
+        String randomValue;
+        WebElement option;
 
-        if (!options.get(randomIndex).isSelected()) {
-            dropdown.selectByVisibleText(randomValue);
-        }
+        do {
+            randomIndex = random.nextInt(optionsTexts.size());
+            randomValue = optionsTexts.get(randomIndex);
+            option = options.get(randomIndex);
+        } while (option.isSelected());
+
+        dropdown.selectByVisibleText(randomValue);
+    }
+
+
+    public static void selectRandomDropdownOptionByValue(Select dropdown) {
+        Random random = new Random();
+        dropdown = getDropdown();
+
+        List<WebElement> options = dropdown.getOptions();
+        List<String> optionsValues = options.stream()
+                .map(option -> option.getAttribute("value"))
+                .toList();
+
+        int randomIndex;
+        String randomValue;
+        WebElement option;
+
+        do {
+            randomIndex = random.nextInt(optionsValues.size());
+            randomValue = optionsValues.get(randomIndex);
+            option = options.get(randomIndex);
+        } while (option.isSelected());
+
+        dropdown.selectByValue(randomValue);
     }
 
 

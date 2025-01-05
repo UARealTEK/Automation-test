@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,12 +75,12 @@ public class DropdownTests extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
 
         Select dropdown = FormsPage.getDropdown();
-        Set<WebElement> selectedOptions = new HashSet<>();
-        selectedOptions.add(dropdown.getFirstSelectedOption());
+        Set<String> selectedOptions = new HashSet<>();
+        selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
             FormsPage.selectRandomDropdownOptionByText(dropdown);
-            selectedOptions.add(dropdown.getFirstSelectedOption());
+            selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
                     .isEqualTo(FormsPage.getDropdownLabel());
         }
@@ -89,7 +90,23 @@ public class DropdownTests extends DriverOperations {
 
     @Test
     public void checkOptionSelectionByValue() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
 
+        Select dropdown = FormsPage.getDropdown();
+        Set<String> selectedOptions = new HashSet<>();
+        selectedOptions.add(dropdown.getFirstSelectedOption().getText());
+
+        while (selectedOptions.size() < dropdown.getOptions().size()) {
+            FormsPage.selectRandomDropdownOptionByValue(dropdown);
+            selectedOptions.add(dropdown.getFirstSelectedOption().getText());
+            log.debug(dropdown.getFirstSelectedOption().getAttribute("value"));
+            log.debug(FormsPage.getDropdownLabel());
+            soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
+                    .isEqualTo(FormsPage.getDropdownLabel());
+        }
+
+        soft.assertAll();
     }
 
     @Test
