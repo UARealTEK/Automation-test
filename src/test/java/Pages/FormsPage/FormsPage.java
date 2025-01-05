@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Do I need to add labels for each separate dropdown option?? (Primary Skill)
@@ -55,7 +56,7 @@ public class FormsPage {
 
     //Primary skill dropdown Label
     private final By primarySkillDropdownLabel = By.xpath("//div[@class = 'form-group']//label[@for='select_tool']");
-    private final By primarySkillDropdownSelectedLabel = By.id("select_tool_validate");
+    private static final By primarySkillDropdownSelectedLabel = By.id("select_tool_validate");
 
     //Choose Language multiSelect dropdown
     private static final By languageSelectMultiDropdown = By.id("select_lang");
@@ -305,6 +306,26 @@ public class FormsPage {
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
         return (String) js.executeScript(
                 "return arguments[0].options[arguments[0].selectedIndex].text;", dropdown.getWrappedElement());
+    }
+
+    public static String getDropdownLabel() {
+        return BaseOperations.getDriver().findElement(primarySkillDropdownSelectedLabel).getText();
+    }
+
+    public static void selectRandomDropdownOptionByText(Select dropdown) {
+        Random random = new Random();
+        dropdown = getDropdown();
+
+        List<WebElement> options = dropdown.getOptions();
+        List<String> optionsTexts = options.stream()
+                .map(WebElement::getText).toList();
+
+        int randomIndex = random.nextInt(optionsTexts.size());
+        String randomValue = optionsTexts.get(randomIndex);
+
+        if (!options.get(randomIndex).isSelected()) {
+            dropdown.selectByVisibleText(randomValue);
+        }
     }
 
 
