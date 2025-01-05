@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Do I need to add labels for each separate dropdown option?? (Primary Skill)
+work on "selectRandomDropdownOptionBy... method"
+ Need to work it with different selection arguments (Text / Index / Value)
  */
 
 public class FormsPage {
