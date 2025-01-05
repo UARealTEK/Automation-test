@@ -1,5 +1,6 @@
 package Pages.FormsPage;
 
+import Enums.DropdownSelectCriteria;
 import Utils.BaseOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,9 +10,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 /**
 work on "selectRandomDropdownOptionBy... method"
@@ -317,7 +315,6 @@ public class FormsPage {
 
     public static void selectRandomDropdownOptionByText(Select dropdown) {
         Random random = new Random();
-        dropdown = getDropdown();
 
         List<WebElement> options = dropdown.getOptions();
         List<String> optionsTexts = options.stream()
@@ -339,7 +336,6 @@ public class FormsPage {
 
     public static void selectRandomDropdownOptionByValue(Select dropdown) {
         Random random = new Random();
-        dropdown = getDropdown();
 
         List<WebElement> options = dropdown.getOptions();
         List<String> optionsValues = options.stream()
@@ -361,7 +357,6 @@ public class FormsPage {
 
     public static void selectRandomDropdownOptionByIndex(Select dropdown) {
         Random random = new Random();
-        dropdown = getDropdown();
 
         List<WebElement> options = dropdown.getOptions();
 
@@ -374,6 +369,20 @@ public class FormsPage {
         } while (option.isSelected());
 
         dropdown.selectByIndex(randomIndex);
+    }
+
+    public static void selectRandomDropdownOptionBy(Select dropdown, DropdownSelectCriteria criteria) {
+        if (criteria == null) {
+            throw new IllegalArgumentException("DropdownSelectCriteria cannot be null");
+        }
+
+        switch (criteria) {
+            case BY_TEXT -> selectRandomDropdownOptionByText(dropdown);
+            case BY_INDEX -> selectRandomDropdownOptionByIndex(dropdown);
+            case BY_VALUE -> selectRandomDropdownOptionByValue(dropdown);
+            default -> throw new IllegalArgumentException(String.format("The passed in value %s was NOT recognized as a criteria", criteria));
+        }
+
     }
 
 

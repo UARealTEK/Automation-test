@@ -1,5 +1,6 @@
 package Tests.FormsPage;
 
+import Enums.DropdownSelectCriteria;
 import Enums.URLs;
 import Pages.FormsPage.FormsPage;
 import Utils.BaseOperations;
@@ -13,8 +14,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,7 +78,7 @@ public class DropdownTests extends DriverOperations {
         selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
-            FormsPage.selectRandomDropdownOptionByText(dropdown);
+            FormsPage.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_TEXT);
             selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
                     .isEqualTo(FormsPage.getDropdownLabel());
@@ -98,7 +97,7 @@ public class DropdownTests extends DriverOperations {
         selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
-            FormsPage.selectRandomDropdownOptionByValue(dropdown);
+            FormsPage.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_VALUE);
             selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             log.debug(dropdown.getFirstSelectedOption().getAttribute("value"));
             log.debug(FormsPage.getDropdownLabel());
@@ -119,7 +118,7 @@ public class DropdownTests extends DriverOperations {
         selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
-            FormsPage.selectRandomDropdownOptionByIndex(dropdown);
+            FormsPage.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_INDEX);
             selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             log.debug(dropdown.getFirstSelectedOption().getAttribute("value"));
             log.debug(FormsPage.getDropdownLabel());
