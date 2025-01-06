@@ -385,8 +385,12 @@ public class FormsPage {
 
     }
 
-    public boolean isElementFocused(WebElement element){
-        return element.equals(driver.switchTo().activeElement());
+
+    public static boolean isOptionHovered(WebElement option) {
+        // You can check the CSS hover effect, or a class indicating the hover
+        String backgroundColor = option.getCssValue("background-color");
+        // Assuming the hover effect changes the background color, e.g., to yellow
+        return backgroundColor.equals("rgba(39, 128, 227)"); // Adjust based on your actual hover color
     }
 
 
