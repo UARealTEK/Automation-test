@@ -5,6 +5,7 @@ import Enums.URLs;
 import Pages.FormsPage.FormsPage;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
@@ -159,11 +160,15 @@ public class DropdownTests extends DriverOperations {
             soft.assertThat(option.isDisplayed()).isTrue();
         }
 
-        while (!dropdown.getFirstSelectedOption().getText().equals(dropdownOptions.getLast().getText())) {
+        while (!dropdown.getFirstSelectedOption().getText().equals(dropdownOptions.get(dropdownOptions.size() -1).getText())) {
             action.sendKeys(Keys.ARROW_DOWN).perform();
-
+            soft.assertThat(page.isElementFocused(dropdown.getFirstSelectedOption())).isTrue();
+            soft.assertThat(dropdown.getFirstSelectedOption().getText())
+                    .isEqualTo(FormsPage.getDropdownText(dropdown));
+            soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
+                    .isEqualTo(FormsPage.getDropdownLabel());
         }
 
-
+        soft.assertAll();
     }
 }
