@@ -140,19 +140,12 @@ public class DropdownTests extends DriverOperations {
         List<WebElement> dropdownOptions = FormsPage.getDropdownOptionsList();
         Actions action = new Actions(getDriver());
 
-        dropdown.getWrappedElement().click();
-        log.debug("The background color is: {}", dropdownOptions.getFirst().getCssValue("box-shadow"));
         for (WebElement option : dropdownOptions) {
+            dropdown.getWrappedElement().click();
+            soft.assertThat(option.getText())
+                    .isEqualTo(FormsPage.getDropdownText(dropdown));
             soft.assertThat(option.isDisplayed()).isTrue();
-            action.keyDown(Keys.ARROW_DOWN).keyUp(Keys.ARROW_DOWN).perform();
-            WebElement currentlyHoveredOnOption = dropdownOptions.stream()
-                    .filter(FormsPage::isOptionHovered)
-                    .findFirst()
-                    .orElse(null);
-
-            for (WebElement dropdownOption : dropdownOptions) {
-                log.debug("The {} option color is {}", dropdownOption.getText(), dropdownOption.getCssValue("border-color"));
-            }
+            FormsPage.navigateAndSelectNextOption(action);
         }
 
         soft.assertAll();

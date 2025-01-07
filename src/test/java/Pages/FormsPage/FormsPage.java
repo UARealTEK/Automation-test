@@ -385,12 +385,19 @@ public class FormsPage {
 
     }
 
+    public static WebElement getHoveredElement() {
+        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
+        return  (WebElement) js.executeScript(
+                "return document.querySelector(':hover');");
+    }
 
-    public static boolean isOptionHovered(WebElement option) {
-        // You can check the CSS hover effect, or a class indicating the hover
-        String backgroundColor = option.getCssValue("background-color");
-        // Assuming the hover effect changes the background color, e.g., to yellow
-        return backgroundColor.equals("rgba(39, 128, 227)"); // Adjust based on your actual hover color
+    public static void navigateAndSelectNextOption(Actions action) {
+            action
+                    .keyDown(Keys.ARROW_DOWN)
+                    .keyUp(Keys.ARROW_DOWN)
+                    .keyDown(Keys.ENTER)
+                    .keyUp(Keys.ENTER)
+                    .perform();
     }
 
 
