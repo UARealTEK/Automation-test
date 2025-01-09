@@ -23,12 +23,11 @@ public class YearsOfExperienceTests extends DriverOperations {
         soft.assertThat(page.getYearsOfExperiencePlaceholder()).isEqualTo(page.expectedYearsOfExperiencePlaceholder);
 
         BaseOperations.clickElement(BaseOperations.getElement(page.getYearsOfExperienceField()));
-        System.out.println(String.format("Heres the data that is currently in the field: %s", page.getYearsOfExperienceInsertedValue()));
 
         //Check that placeholder is NOT gone
         soft.assertThat(page.getYearsOfExperiencePlaceholder()).isEqualTo(page.expectedYearsOfExperiencePlaceholder);
 
-        page.insertDataIntoYearsOfExperienceField(page.getYearsOfExperienceField());
+        page.insertDataIntoYearsOfExperienceField();
 
         //Check the placeholder is gone by checking that the value in the field does not contain the placeholder value
         soft.assertThat(page.getYearsOfExperienceInsertedValue().contains(page.getYearsOfExperiencePlaceholder())).isFalse();

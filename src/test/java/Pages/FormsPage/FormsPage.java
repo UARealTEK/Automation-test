@@ -26,6 +26,8 @@ public class FormsPage {
     //Fields
     @Getter
     private final By yearsOfExperienceField = By.id("exp");
+    @Getter
+    private static final String expectedFreeTextAreaPlaceholder = "Notes";
 
     //Fields Labels
     private final By YearsOfExperienceFieldLabel = By.id("exp_help");
@@ -67,10 +69,10 @@ public class FormsPage {
     private final By languageSelectMultiDropdownSelectedOptionsLabel = By.id("select_lang_validate");
 
     //Notes field
-    private final By notesField = By.id("notes");
+    private static final By notesField = By.id("notes");
 
     //Notes field Label
-    private final By notesFieldLabel = By.id("area_notes_validate");
+    private static final By notesFieldLabel = By.id("area_notes_validate");
 
     //Mandatory field
     private final By mandatoryField = By.id("common_sense");
@@ -136,7 +138,7 @@ public class FormsPage {
         return driver.findElement(yearsOfExperienceField).getAttribute("value");
     }
 
-    public void insertDataIntoYearsOfExperienceField(By locator) {
+    public void insertDataIntoYearsOfExperienceField() {
         WebElement element = BaseOperations.getElement(getYearsOfExperienceField());
         BaseOperations.clickElement(element);
         element.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
@@ -399,6 +401,35 @@ public class FormsPage {
                     .keyUp(Keys.ENTER)
                     .perform();
     }
+
+    //Free text input field methods
+    public static WebElement getTextAreaField() {
+        return BaseOperations.getDriver().findElement(notesField);
+    }
+
+    public static String getTextAreaInsertedText() {
+        return getTextAreaField().getAttribute("value");
+    }
+
+    public static String getTextAreaFieldLabel() {
+        return BaseOperations.getDriver().findElement(notesFieldLabel).getText();
+    }
+
+    public static String getTextAreaFieldPlaceholder() {
+        return getTextAreaField().getAttribute("placeholder");
+    }
+
+    public static void insertRandomTextIntoField(WebElement textField) {
+        textField.click();
+        textField.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
+    }
+
+    public static boolean isPlaceholderVisible(WebElement textArea) {
+        String placeholderCssDisplay = BaseOperations.getPseudoElementPropertyValue(textArea, "placeholder", "display");
+        return !placeholderCssDisplay.equals("none");
+    }
+
+
 
 
 

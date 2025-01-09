@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BaseOperations extends DriverOperations {
 
@@ -34,7 +35,7 @@ public class BaseOperations extends DriverOperations {
     }
 
     public static String getRandomString(int number) {
-        Random random = new Random();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder builder = new StringBuilder();
 
@@ -47,7 +48,7 @@ public class BaseOperations extends DriverOperations {
     }
 
     public static int getRandomNumber() {
-        Random random = new Random();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         return random.nextInt(101);
     }
 
@@ -70,5 +71,11 @@ public class BaseOperations extends DriverOperations {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         return (Boolean) jsExecutor.executeScript(
                 "return window.getComputedStyle(arguments[0]).display === 'none';", element);
+    }
+
+    public static String getPseudoElementPropertyValue(WebElement element, String pseudoElement, String cssProperty) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
+        String script = String.format("return window.getComputedStyle(arguments[0], '::%s').getPropertyValue('%s');", pseudoElement,cssProperty);
+        return (String) jsExecutor.executeScript(script,element);
     }
 }
