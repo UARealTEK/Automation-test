@@ -48,4 +48,32 @@ public class FreeTextAreaTests extends DriverOperations {
         soft.assertAll();
     }
 
+    @RepeatedTest(3)
+    public void checkTextAreaStateAfterPageReload() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+
+        FormsPage.insertRandomTextIntoField(FormsPage.getTextAreaField());
+        soft.assertThat(FormsPage.isPlaceholderVisible(FormsPage.getTextAreaField())).isFalse();
+        soft.assertThat(FormsPage.getTextAreaInsertedText().isEmpty()).isFalse();
+        soft.assertThat(FormsPage.getTextAreaFieldLabel().isEmpty()).isFalse();
+        log.debug("The currently inserted text in the field is: {}", FormsPage.getTextAreaInsertedText());
+        log.debug("The currently displayed label is: {}", FormsPage.getTextAreaFieldLabel());
+
+        BaseOperations.reloadPage(getDriver());
+
+        soft.assertThat(FormsPage.isPlaceholderVisible(FormsPage.getTextAreaField())).isTrue();
+        soft.assertThat(FormsPage.getTextAreaInsertedText().isEmpty()).isTrue();
+        soft.assertThat(FormsPage.getTextAreaFieldLabel().isEmpty()).isTrue();
+        log.debug("The currently inserted text in the field is: {}", FormsPage.getTextAreaInsertedText());
+        log.debug("The currently displayed label is: {}", FormsPage.getTextAreaFieldLabel());
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkTextAreaResizing() {
+
+    }
+
 }

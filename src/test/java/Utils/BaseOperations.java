@@ -3,12 +3,12 @@ package Utils;
 import Enums.URLs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BaseOperations extends DriverOperations {
@@ -25,6 +25,7 @@ public class BaseOperations extends DriverOperations {
     }
 
     public static WebElement getElement(By locator) {
+
         return getDriver().findElement(locator);
     }
 
@@ -77,5 +78,11 @@ public class BaseOperations extends DriverOperations {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         String script = String.format("return window.getComputedStyle(arguments[0], '::%s').getPropertyValue('%s');", pseudoElement,cssProperty);
         return (String) jsExecutor.executeScript(script,element);
+    }
+
+    public static void reloadPage(WebDriver driver) {
+        getDriver().navigate().refresh();
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        wait.until(driver1 -> ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
     }
 }
