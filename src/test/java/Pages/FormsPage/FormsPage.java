@@ -429,6 +429,14 @@ public class FormsPage {
         return !placeholderCssDisplay.equals("none");
     }
 
+    public static void resizeTextAreaViaJS(WebElement element, WebDriver driver, int specifiedHeight) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        int elementHeight = element.getSize().getHeight();
+        String script = "arguments[0].style.height = arguments[1] + 'px';";
+        // Resize the textarea by setting height and width directly
+        js.executeScript(script, element, elementHeight + specifiedHeight);
+    }
+
 
 
 

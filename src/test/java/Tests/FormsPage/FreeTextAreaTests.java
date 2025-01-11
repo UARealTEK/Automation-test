@@ -13,6 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 
 @Execution(ExecutionMode.CONCURRENT)
 public class FreeTextAreaTests extends DriverOperations {
@@ -73,7 +75,19 @@ public class FreeTextAreaTests extends DriverOperations {
 
     @Test
     public void checkTextAreaResizing() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        WebElement textArea = FormsPage.getTextAreaField();
 
+        int currentHeight = textArea.getSize().getHeight();
+        FormsPage.resizeTextAreaViaJS(textArea,getDriver(),200);
+        int newHeight = textArea.getSize().getHeight();
+        soft.assertThat(currentHeight + 200 == newHeight).isTrue();
+        log.debug("current Height is: {}", currentHeight);
+        log.debug("new Height is: {}", newHeight);
+
+        soft.assertAll();
     }
+
 
 }
