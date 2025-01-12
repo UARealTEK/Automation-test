@@ -437,6 +437,24 @@ public class FormsPage {
         js.executeScript(script, element, elementHeight + specifiedHeight);
     }
 
+    public static int getTextAreaScrollHeight(WebElement textArea) {
+        Optional<String> scrollHeight = Optional.ofNullable(textArea.getAttribute("scrollHeight"));
+        return scrollHeight.map(Integer::parseInt).orElse(0);
+    }
+
+    public static int getTextAreaClientHeight(WebElement textArea) {
+        Optional<String> clientHeight = Optional.ofNullable(textArea.getAttribute("clientHeight"));
+        return clientHeight.map(Integer::parseInt).orElse(0);
+    }
+
+    public static boolean hasVerticalScrollbar(WebElement textArea) {
+        Optional<String> scrollHeight = Optional.ofNullable(textArea.getAttribute("scrollHeight"));
+        Optional<String> clientHeight = Optional.ofNullable(textArea.getAttribute("clientHeight"));
+        if (scrollHeight.isEmpty() || clientHeight.isEmpty()) {
+            return false;
+        } else return Integer.parseInt(scrollHeight.get()) > Integer.parseInt(clientHeight.get());
+    }
+
 
 
 

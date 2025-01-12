@@ -95,7 +95,18 @@ public class FreeTextAreaTests extends DriverOperations {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         WebElement textArea = FormsPage.getTextAreaField();
-        log.debug("aria role is: {}", textArea.getAriaRole());
+
+        do {
+            FormsPage.insertRandomTextIntoField(textArea);
+        } while (!FormsPage.hasVerticalScrollbar(textArea));
+
+        int scrollHeight = FormsPage.getTextAreaScrollHeight(textArea);
+        int clientHeight = FormsPage.getTextAreaClientHeight(textArea);
+
+        log.debug("The scrollHeight is: {}", scrollHeight);
+        log.debug("The clientHeight is: {}", clientHeight);
+        soft.assertThat(scrollHeight > clientHeight).isTrue();
+        soft.assertAll();
     }
 
 }
