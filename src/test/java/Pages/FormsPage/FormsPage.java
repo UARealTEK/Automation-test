@@ -129,7 +129,7 @@ public class FormsPage {
     @Getter
     public final String expectedYearsOfExperiencePlaceholder = "years of automation experience";
     @Getter
-    public final String expectedReadOnlyPlaceholder = "Common Sense";
+    public static final String expectedReadOnlyPlaceholder = "Common Sense";
 
     //Years Of Experience Methods
     public String getYearsOfExperiencePlaceholder() {

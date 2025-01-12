@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 
+import static Pages.FormsPage.FormsPage.expectedReadOnlyPlaceholder;
+
 public class ReadOnlyFieldTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(ReadOnlyFieldTests.class);
@@ -23,12 +25,14 @@ public class ReadOnlyFieldTests extends DriverOperations {
         WebElement textbox = FormsPage.getReadOnlyTextbox();
         soft.assertThat(textbox.isDisplayed()).isTrue();
         soft.assertThat(textbox.getAttribute("readonly")).isNotEmpty();
-        soft.assertThat(FormsPage.getReadOnlyTextboxPlaceholder()).isEqualTo(FormsPage.getExpectedFreeTextAreaPlaceholder());
+        soft.assertThat(FormsPage.getReadOnlyTextboxPlaceholder()).isEqualTo(FormsPage.getExpectedReadOnlyPlaceholder());
         soft.assertThat(FormsPage.isFieldEmpty(textbox)).isTrue();
 
         FormsPage.insertRandomTextIntoField(textbox);
 
         soft.assertThat(FormsPage.isFieldEmpty(textbox)).isTrue();
+
+        soft.assertAll();
     }
 
     @Test
