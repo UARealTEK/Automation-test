@@ -466,8 +466,8 @@ public class FormsPage {
         return getReadOnlyTextbox().getAttribute("placeholder");
     }
 
-    public static String getReadOnlyTextboxInsertedData(){
-        return getReadOnlyTextbox().getAttribute("value");
+    public static boolean isFieldEmpty(WebElement element) {
+        return Objects.requireNonNull(element.getAttribute("value")).isEmpty();
     }
 
 
