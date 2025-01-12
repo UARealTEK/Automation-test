@@ -74,11 +74,11 @@ public class FormsPage {
     //Notes field Label
     private static final By notesFieldLabel = By.id("area_notes_validate");
 
-    //Mandatory field
-    private final By mandatoryField = By.id("common_sense");
+    //ReadOnly field
+    private static final By readonlyField = By.id("common_sense");
 
     //Mandatory field Label
-    private final By mandatoryFieldLabel = By.xpath("//div[@class = 'form-row align-items-center']//label[@for='common_sense']");
+    private final By readonlyFieldLabel = By.xpath("//div[@class = 'form-row align-items-center']//label[@for='common_sense']");
 
     //Switch checkbox
     private final By switchBoxButton = By.id("german");
@@ -128,6 +128,8 @@ public class FormsPage {
     //Expected values
     @Getter
     public final String expectedYearsOfExperiencePlaceholder = "years of automation experience";
+    @Getter
+    public final String expectedReadOnlyPlaceholder = "Common Sense";
 
     //Years Of Experience Methods
     public String getYearsOfExperiencePlaceholder() {
@@ -455,6 +457,18 @@ public class FormsPage {
         } else return Integer.parseInt(scrollHeight.get()) > Integer.parseInt(clientHeight.get());
     }
 
+    //Read-only textbox methods
+    public static WebElement getReadOnlyTextbox() {
+        return BaseOperations.getDriver().findElement(readonlyField);
+    }
+
+    public static String getReadOnlyTextboxPlaceholder() {
+        return getReadOnlyTextbox().getAttribute("placeholder");
+    }
+
+    public static String getReadOnlyTextboxInsertedData(){
+        return getReadOnlyTextbox().getAttribute("value");
+    }
 
 
 
