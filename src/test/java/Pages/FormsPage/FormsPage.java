@@ -84,8 +84,8 @@ public class FormsPage {
     private final By switchBoxButton = By.id("german");
 
     //Switch checkbox Label
-    private final By switchBoxButtonLabel = By.xpath("//div[@class = 'form-row align-items-center']//label[@for='german']");
-    private final By switchBoxButtonState = By.id("german_validate");
+    private final By switchBoxLabel = By.xpath("//div[@class = 'form-row align-items-center']//label[@for='german']");
+    private final By switchBoxValidate = By.id("german_validate");
 
     //Fluency level
     private final By fluencyLevelScroll = By.id("fluency");
@@ -468,6 +468,23 @@ public class FormsPage {
 
     public static boolean isFieldEmpty(WebElement element) {
         return Objects.requireNonNull(element.getAttribute("value")).isEmpty();
+    }
+
+    //Toggle switch methods
+    public WebElement getToggleSwitch() {
+        return BaseOperations.getDriver().findElement(switchBoxButton);
+    }
+
+    public WebElement getToggleSwitchLabelElement() {
+        return BaseOperations.getDriver().findElement(switchBoxLabel);
+    }
+
+    public boolean isToggleSwitchChecked() {
+        return Optional.ofNullable(getToggleSwitch().getAttribute("checked")).isPresent();
+    }
+
+    public String getToggleSwitchValidateLabel() {
+        return BaseOperations.getDriver().findElement(switchBoxValidate).getText();
     }
 
 

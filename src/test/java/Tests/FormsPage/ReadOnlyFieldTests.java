@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 
-import static Pages.FormsPage.FormsPage.expectedReadOnlyPlaceholder;
-
 public class ReadOnlyFieldTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(ReadOnlyFieldTests.class);
