@@ -14,7 +14,6 @@ public class ToggleSwitchTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(ToggleSwitchTests.class);
 
-    //Why content / display properties are not working? How do I check that the ::before is used when the toggle is unchecked?
     @Test
     public void checkDefaultToggleSwitchState() {
         SoftAssertions soft = new SoftAssertions();
