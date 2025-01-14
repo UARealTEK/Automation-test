@@ -487,6 +487,22 @@ public class FormsPage {
         return BaseOperations.getDriver().findElement(switchBoxValidate).getText();
     }
 
+    public boolean isLabelMatched() {
+        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
+        Object firstInteraction = js.executeScript("return window.firstInteractionDone;");
+        boolean isSelected = getToggleSwitch().isSelected();
+        String labelValue = getToggleSwitchValidateLabel();
+        Optional<String> toggleStateValue = Optional.ofNullable(BaseOperations.getJavaScriptPropertyValue(getToggleSwitch(),"checked"));
+
+        if (firstInteraction == null && toggleStateValue.isPresent() && !isSelected) {
+            return labelValue.isEmpty() && toggleStateValue.get().equals("false");
+        } else if (toggleStateValue.isPresent() && isSelected) {
+            return labelValue.equals(toggleStateValue.get());
+        }
+
+        return false;
+    }
+
 
 
 
