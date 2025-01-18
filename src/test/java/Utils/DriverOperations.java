@@ -16,7 +16,7 @@ public abstract class DriverOperations {
     });
 
     protected static ChromeOptions getBrowserOptions() {
-        System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Для запуска без UI
         return options;

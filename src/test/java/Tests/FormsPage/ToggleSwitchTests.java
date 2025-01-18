@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
 
 public class ToggleSwitchTests extends DriverOperations {
 
@@ -21,6 +20,7 @@ public class ToggleSwitchTests extends DriverOperations {
         FormsPage page = new FormsPage(getDriver());
 
         soft.assertThat(!page.isToggleSwitchChecked()).isTrue();
+        log.debug(BaseOperations.getJavaScriptPropertyValue(page.getToggleSwitch(),"checked"));
         soft.assertThat(!page.getToggleSwitch().isDisplayed()).isTrue();
         soft.assertThat(!page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isTrue();
@@ -34,15 +34,15 @@ public class ToggleSwitchTests extends DriverOperations {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        log.debug(BaseOperations.getJavaScriptPropertyValue(page.getToggleSwitch(),"checked"));
 
         page.getToggleSwitchLabelElement().click();
 
         soft.assertThat(page.isToggleSwitchChecked()).isTrue();
+        log.debug("");
         soft.assertThat(!page.getToggleSwitch().isDisplayed()).isTrue();
         soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
-        log.debug(js.executeScript("return window.localStorage.getItem('firstPageLoadFlag');"));
         log.debug(page.getToggleSwitchValidateLabel());
         log.debug(BaseOperations.getJavaScriptPropertyValue(page.getToggleSwitch(),"checked"));
         soft.assertThat(page.isLabelMatched()).isTrue();
