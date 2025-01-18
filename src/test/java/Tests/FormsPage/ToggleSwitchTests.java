@@ -79,7 +79,7 @@ public class ToggleSwitchTests extends DriverOperations {
     }
 
     @Test
-    public void checkToggleSwitchUsingSpaceKey() {
+    public void checkToggleSwitchUsingSpaceKeyButton() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
