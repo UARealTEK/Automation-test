@@ -466,10 +466,6 @@ public class FormsPage {
         return getReadOnlyTextbox().getAttribute("placeholder");
     }
 
-    public static boolean isFieldEmpty(WebElement element) {
-        return Objects.requireNonNull(element.getAttribute("value")).isEmpty();
-    }
-
     //Toggle switch methods
     public WebElement getToggleSwitch() {
         return BaseOperations.getDriver().findElement(switchBoxButton);
@@ -492,10 +488,10 @@ public class FormsPage {
         Object firstInteraction = js.executeScript("return window.firstInteractionDone;");
         boolean isSelected = getToggleSwitch().isSelected();
         String labelValue = getToggleSwitchValidateLabel();
-        Optional<String> toggleStateValue = Optional.ofNullable(BaseOperations.getJavaScriptPropertyValue(getToggleSwitch(),"checked"));
+        Optional<String> toggleStateValue = Optional.ofNullable(getToggleSwitch().getAttribute("checked"));
 
-        if (firstInteraction == null && toggleStateValue.isPresent() && !isSelected) {
-            return labelValue.isEmpty() && toggleStateValue.get().equals("false");
+        if (firstInteraction == null && !isSelected && toggleStateValue.isEmpty()) {
+            return labelValue.isEmpty();
         } else if (toggleStateValue.isPresent() && isSelected) {
             return labelValue.equals(toggleStateValue.get());
         }

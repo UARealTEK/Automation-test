@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 
 public class ToggleSwitchTests extends DriverOperations {
 
@@ -20,7 +22,7 @@ public class ToggleSwitchTests extends DriverOperations {
         FormsPage page = new FormsPage(getDriver());
 
         soft.assertThat(!page.isToggleSwitchChecked()).isTrue();
-        log.debug(BaseOperations.getJavaScriptPropertyValue(page.getToggleSwitch(),"checked"));
+        log.debug(page.getToggleSwitch().getAttribute("checked"));
         soft.assertThat(!page.getToggleSwitch().isDisplayed()).isTrue();
         soft.assertThat(!page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isTrue();
@@ -29,22 +31,71 @@ public class ToggleSwitchTests extends DriverOperations {
         soft.assertAll();
     }
 
+    //GetAttribute() method returns "true" after the toggle switch due to its implementation
     @Test
     public void checkToggleSwitchSelection() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
-        log.debug(BaseOperations.getJavaScriptPropertyValue(page.getToggleSwitch(),"checked"));
+        log.debug(page.isToggleSwitchChecked());
+        log.debug(page.getToggleSwitch().getAttribute("checked"));
+
 
         page.getToggleSwitchLabelElement().click();
 
         soft.assertThat(page.isToggleSwitchChecked()).isTrue();
-        log.debug("");
+        log.debug(page.isToggleSwitchChecked());
+        log.debug(page.getToggleSwitch().getAttribute("checked"));
         soft.assertThat(!page.getToggleSwitch().isDisplayed()).isTrue();
         soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
         log.debug(page.getToggleSwitchValidateLabel());
-        log.debug(BaseOperations.getJavaScriptPropertyValue(page.getToggleSwitch(),"checked"));
+        soft.assertThat(page.isLabelMatched()).isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkToggleStateAfterPageReload() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        page.getToggleSwitchLabelElement().click();
+
+        soft.assertThat(page.isToggleSwitchChecked()).isTrue();
+        soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
+        soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
+        soft.assertThat(page.isLabelMatched()).isTrue();
+
+        BaseOperations.reloadPage(getDriver());
+
+        soft.assertThat(page.isToggleSwitchChecked()).isFalse();
+        soft.assertThat(page.getToggleSwitch().isSelected()).isFalse();
+        soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isTrue();
+        soft.assertThat(page.isLabelMatched()).isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkToggleSwitchUsingSpaceKey() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+        Actions action = new Actions(getDriver());
+
+        soft.assertThat(BaseOperations.isFocused(page.getToggleSwitch())).isFalse();
+
+        BaseOperations.focusOnElement(page.getToggleSwitch());
+        soft.assertThat(BaseOperations.isFocused(page.getToggleSwitch())).isTrue();
+        log.debug(BaseOperations.isFocused(page.getToggleSwitch()));
+
+        action.sendKeys(Keys.SPACE).perform();
+
+        soft.assertThat(page.isToggleSwitchChecked()).isTrue();
+        soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
+        soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
         soft.assertThat(page.isLabelMatched()).isTrue();
 
         soft.assertAll();

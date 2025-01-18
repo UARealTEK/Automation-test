@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BaseOperations extends DriverOperations {
@@ -84,5 +85,17 @@ public class BaseOperations extends DriverOperations {
         getDriver().navigate().refresh();
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         wait.until(driver1 -> ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
+    }
+
+    public static boolean isFieldEmpty(WebElement element) {
+        return Objects.requireNonNull(element.getAttribute("value")).isEmpty();
+    }
+
+    public static boolean isFocused(WebElement element) {
+        return element.equals(BaseOperations.getDriver().switchTo().activeElement());
+    }
+
+    public static void focusOnElement(WebElement element) {
+        ((JavascriptExecutor) BaseOperations.getDriver()).executeScript("arguments[0].focus();", element);
     }
 }

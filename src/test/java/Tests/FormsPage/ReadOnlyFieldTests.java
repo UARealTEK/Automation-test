@@ -24,11 +24,11 @@ public class ReadOnlyFieldTests extends DriverOperations {
         soft.assertThat(textbox.isDisplayed()).isTrue();
         soft.assertThat(textbox.getAttribute("readonly")).isNotEmpty();
         soft.assertThat(FormsPage.getReadOnlyTextboxPlaceholder()).isEqualTo(FormsPage.getExpectedReadOnlyPlaceholder());
-        soft.assertThat(FormsPage.isFieldEmpty(textbox)).isTrue();
+        soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
 
         FormsPage.insertRandomTextIntoField(textbox);
 
-        soft.assertThat(FormsPage.isFieldEmpty(textbox)).isTrue();
+        soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
 
         soft.assertAll();
     }
@@ -40,7 +40,7 @@ public class ReadOnlyFieldTests extends DriverOperations {
         WebElement textbox = FormsPage.getReadOnlyTextbox();
 
         FormsPage.insertRandomTextIntoField(textbox);
-        soft.assertThat(FormsPage.isFieldEmpty(textbox)).isTrue();
+        soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
         soft.assertThat(BaseOperations.getPseudoElementPropertyValue(textbox,"placeholder","visibility"))
                 .isEqualTo("visible");
 

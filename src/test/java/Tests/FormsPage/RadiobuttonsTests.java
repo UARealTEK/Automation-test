@@ -96,7 +96,7 @@ public class RadiobuttonsTests extends DriverOperations {
 
         soft.assertThat(countOfUnselectedButtons == radiobuttons.size() - 1).isTrue();
 
-        getDriver().navigate().refresh();
+        BaseOperations.reloadPage(getDriver());
         radiobuttons = FormsPage.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
