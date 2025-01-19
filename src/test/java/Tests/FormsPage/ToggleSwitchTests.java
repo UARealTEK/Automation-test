@@ -8,9 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
+@Execution(ExecutionMode.CONCURRENT)
 public class ToggleSwitchTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(ToggleSwitchTests.class);
@@ -26,7 +29,7 @@ public class ToggleSwitchTests extends DriverOperations {
         soft.assertThat(!page.getToggleSwitch().isDisplayed()).isTrue();
         soft.assertThat(!page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isTrue();
-        soft.assertThat(page.isLabelMatched()).isTrue();
+        soft.assertThat(page.isToggleSwitchLabelMatched()).isTrue();
 
         soft.assertAll();
     }
@@ -50,7 +53,7 @@ public class ToggleSwitchTests extends DriverOperations {
         soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
         log.debug(page.getToggleSwitchValidateLabel());
-        soft.assertThat(page.isLabelMatched()).isTrue();
+        soft.assertThat(page.isToggleSwitchLabelMatched()).isTrue();
 
         soft.assertAll();
     }
@@ -66,14 +69,14 @@ public class ToggleSwitchTests extends DriverOperations {
         soft.assertThat(page.isToggleSwitchChecked()).isTrue();
         soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
-        soft.assertThat(page.isLabelMatched()).isTrue();
+        soft.assertThat(page.isToggleSwitchLabelMatched()).isTrue();
 
         BaseOperations.reloadPage(getDriver());
 
         soft.assertThat(page.isToggleSwitchChecked()).isFalse();
         soft.assertThat(page.getToggleSwitch().isSelected()).isFalse();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isTrue();
-        soft.assertThat(page.isLabelMatched()).isTrue();
+        soft.assertThat(page.isToggleSwitchLabelMatched()).isTrue();
 
         soft.assertAll();
     }
@@ -96,7 +99,7 @@ public class ToggleSwitchTests extends DriverOperations {
         soft.assertThat(page.isToggleSwitchChecked()).isTrue();
         soft.assertThat(page.getToggleSwitch().isSelected()).isTrue();
         soft.assertThat(page.getToggleSwitchValidateLabel().isEmpty()).isFalse();
-        soft.assertThat(page.isLabelMatched()).isTrue();
+        soft.assertThat(page.isToggleSwitchLabelMatched()).isTrue();
 
         soft.assertAll();
     }

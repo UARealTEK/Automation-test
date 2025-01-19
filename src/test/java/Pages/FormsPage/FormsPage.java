@@ -9,7 +9,9 @@ import lombok.Getter;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import javax.management.AttributeNotFoundException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
 work on "selectRandomDropdownOptionBy... method"
@@ -483,7 +485,7 @@ public class FormsPage {
         return BaseOperations.getDriver().findElement(switchBoxValidate).getText();
     }
 
-    public boolean isLabelMatched() {
+    public boolean isToggleSwitchLabelMatched() {
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
         Object firstInteraction = js.executeScript("return window.firstInteractionDone;");
         boolean isSelected = getToggleSwitch().isSelected();
@@ -518,13 +520,59 @@ public class FormsPage {
         maxRangeValue = maxValue.map(Integer::parseInt).orElse(null);
 
         if (minRangeValue != null && maxRangeValue != null) {
-            int roundedUpValue = (int) Math.ceil((minRangeValue + maxRangeValue) / 2.0);
+            int roundedUpValue = (int) Math.round((minRangeValue + maxRangeValue) / 2.0);
             return String.valueOf (roundedUpValue);
         } else return null;
     }
 
     public String getRangeLabel() {
         return driver.findElement(fluencyLevelScrollState).getText();
+    }
+
+    public boolean isRangeLabelMatched() {
+        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
+        Object firstInteraction = js.executeScript("return window.firstInteractionDone;");
+        String labelValue = getRangeLabel();
+
+        if (firstInteraction == null) {
+            return labelValue.isEmpty();
+        } else {
+            return labelValue.equals(getRangeElementValue());
+        }
+    }
+
+    public void changeRange() throws AttributeNotFoundException {
+        ThreadLocalRandom random =ThreadLocalRandom.current();
+        Actions action = new Actions(driver);
+        WebElement range = getRangeElement();
+        double rangeWidth = range.getSize().getWidth();
+
+        Optional<String> optionalOptionsAmount = Optional.ofNullable(range.getAttribute("max"));
+        Integer optionsAmount = optionalOptionsAmount.map(Integer::parseInt).orElse(null);
+        double optionWidth;
+
+        if (optionsAmount != null) {
+            optionWidth = rangeWidth / optionsAmount;
+        } else throw new AttributeNotFoundException("max attribute was not found");
+
+        List<Double> options = new ArrayList<>();
+
+        while (options.size() < optionsAmount) {
+            if (options.isEmpty()) {
+                options.add(optionWidth);
+            } else {
+                options.add(options.getLast() + optionWidth);
+            }
+        }
+
+        double optionToSelect = options.get(random.nextInt(options.size()));
+
+        action
+                .moveToElement(range)
+                .moveByOffset(-((int)rangeWidth / 2),0)
+                .moveByOffset((int)optionToSelect,0)
+                .click()
+                .perform();
     }
 
 

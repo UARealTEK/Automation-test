@@ -8,6 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
+
+import javax.management.AttributeNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class RangeTests extends DriverOperations {
 
@@ -26,6 +32,25 @@ public class RangeTests extends DriverOperations {
         soft.assertThat(BaseOperations.getJavaScriptPropertyValue(page.getRangeElement(),"value"))
                 .isEqualTo(page.getDefaultRangeElementValue());
         log.debug(page.getDefaultRangeElementValue());
+        soft.assertThat(page.isRangeLabelMatched()).isTrue();
+
+        //Essentially - below check is included in the assertion above. Just explicitly added it separately
+        soft.assertThat(page.getRangeLabel()).isEmpty();
+
+        soft.assertAll();
+    }
+
+    //Still working on it
+    @Test
+    public void checkRangeSelectionUsingMouse() throws AttributeNotFoundException {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        page.changeRange();
+        soft.assertThat(page.isRangeLabelMatched()).isTrue();
+        log.debug(page.getRangeLabel());
+        log.debug(page.getRangeElementValue());
 
         soft.assertAll();
     }
