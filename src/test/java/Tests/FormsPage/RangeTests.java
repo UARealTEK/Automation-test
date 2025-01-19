@@ -7,8 +7,11 @@ import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import javax.management.AttributeNotFoundException;
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ public class RangeTests extends DriverOperations {
     private static final Logger log = LogManager.getLogger(RangeTests.class);
 
     @Test
-    public void checkRangeDefaultState() {
+    public void checkRangeDefaultState() throws InterruptedException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
@@ -40,17 +43,19 @@ public class RangeTests extends DriverOperations {
         soft.assertAll();
     }
 
-    //Still working on it
+    //Still working on it. Something is wrong with detecting first action on the page (isLabelMatched methods)
     @Test
-    public void checkRangeSelectionUsingMouse() throws AttributeNotFoundException {
+    public void checkRangeSelectionUsingMouse() throws AttributeNotFoundException, InterruptedException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
 
+        log.debug("Before action - label: {}", page.getRangeLabel());
         page.changeRange();
+        log.debug("After action - label: {}", page.getRangeLabel());
+        log.debug("After action - 'value' attribute: {}", page.getRangeElementValue());
+
         soft.assertThat(page.isRangeLabelMatched()).isTrue();
-        log.debug(page.getRangeLabel());
-        log.debug(page.getRangeElementValue());
 
         soft.assertAll();
     }

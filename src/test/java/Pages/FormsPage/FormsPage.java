@@ -7,9 +7,11 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import lombok.Getter;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import javax.management.AttributeNotFoundException;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -391,12 +393,6 @@ public class FormsPage {
 
     }
 
-    public static WebElement getHoveredElement() {
-        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
-        return  (WebElement) js.executeScript(
-                "return document.querySelector(':hover');");
-    }
-
     public static void navigateAndSelectNextOption(Actions action) {
             action
                     .keyDown(Keys.ARROW_DOWN)
@@ -529,20 +525,27 @@ public class FormsPage {
         return driver.findElement(fluencyLevelScrollState).getText();
     }
 
-    public boolean isRangeLabelMatched() {
+    public boolean isRangeLabelMatched() throws InterruptedException {
+        Thread.sleep(500);
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
         Object firstInteraction = js.executeScript("return window.firstInteractionDone;");
+        BaseOperations.getWait().until(ExpectedConditions.jsReturnsValue("return window.firstInteractionDone !== null;"));
         String labelValue = getRangeLabel();
+        String rangeValue = getRangeElementValue();
+
+        log.debug("First Interaction State: {}", firstInteraction);
+        log.debug("Label Value: {}", labelValue);
+        log.debug("Range Element Value: {}", rangeValue);
 
         if (firstInteraction == null) {
-            return labelValue.isEmpty();
+            return labelValue.isEmpty();  // Ensure the label is empty initially
         } else {
-            return labelValue.equals(getRangeElementValue());
+            return labelValue.equals(rangeValue);  // Compare label and value after interaction
         }
     }
 
     public void changeRange() throws AttributeNotFoundException {
-        ThreadLocalRandom random =ThreadLocalRandom.current();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         Actions action = new Actions(driver);
         WebElement range = getRangeElement();
         double rangeWidth = range.getSize().getWidth();

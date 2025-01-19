@@ -1,11 +1,13 @@
 package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 // Windows - "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver"
-// Mac - "/Users/volodymyrprydatko/Downloads/chromedriver-mac-arm64/chromedriver"
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public abstract class DriverOperations {
 
@@ -14,6 +16,8 @@ public abstract class DriverOperations {
         driver.manage().window().maximize();
         return driver;
     });
+
+    private static final ThreadLocal<WebDriverWait> threadLocalWait = ThreadLocal.withInitial(() -> new WebDriverWait(getDriver(),Duration.ofSeconds(5)));
 
     protected static ChromeOptions getBrowserOptions() {
         System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
@@ -35,6 +39,10 @@ public abstract class DriverOperations {
 
     public static WebDriver getDriver() {
         return driverThread.get();
+    }
+
+    public static WebDriverWait getWait() {
+        return threadLocalWait.get();
     }
 
     public static void quitDriver() {
