@@ -129,7 +129,7 @@ public class FormsPage {
     @Getter
     public final String expectedYearsOfExperiencePlaceholder = "years of automation experience";
     @Getter
-    public static final String expectedReadOnlyPlaceholder = "Common Sense";
+    public final String expectedReadOnlyPlaceholder = "Common Sense";
 
     //Years Of Experience Methods
     public String getYearsOfExperiencePlaceholder() {
@@ -497,6 +497,34 @@ public class FormsPage {
         }
 
         return false;
+    }
+
+    //Range Methods
+    public WebElement getRangeElement() {
+        return driver.findElement(fluencyLevelScroll);
+    }
+
+    public String getRangeElementValue() {
+        return BaseOperations.getJavaScriptPropertyValue(getRangeElement(),"value");
+    }
+
+    public String getDefaultRangeElementValue() {
+        Optional<String> minValue = Optional.ofNullable(getRangeElement().getAttribute("min"));
+        Optional<String> maxValue = Optional.ofNullable(getRangeElement().getAttribute("max"));
+        Integer minRangeValue;
+        Integer maxRangeValue;
+
+        minRangeValue = minValue.map(Integer::parseInt).orElse(null);
+        maxRangeValue = maxValue.map(Integer::parseInt).orElse(null);
+
+        if (minRangeValue != null && maxRangeValue != null) {
+            int roundedUpValue = (int) Math.ceil((minRangeValue + maxRangeValue) / 2.0);
+            return String.valueOf (roundedUpValue);
+        } else return null;
+    }
+
+    public String getRangeLabel() {
+        return driver.findElement(fluencyLevelScrollState).getText();
     }
 
 

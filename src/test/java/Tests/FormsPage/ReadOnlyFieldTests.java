@@ -19,11 +19,12 @@ public class ReadOnlyFieldTests extends DriverOperations {
     public void checkReadOnlyFieldDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
 
         WebElement textbox = FormsPage.getReadOnlyTextbox();
         soft.assertThat(textbox.isDisplayed()).isTrue();
         soft.assertThat(textbox.getAttribute("readonly")).isNotEmpty();
-        soft.assertThat(FormsPage.getReadOnlyTextboxPlaceholder()).isEqualTo(FormsPage.getExpectedReadOnlyPlaceholder());
+        soft.assertThat(FormsPage.getReadOnlyTextboxPlaceholder()).isEqualTo(page.getExpectedReadOnlyPlaceholder());
         soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
 
         FormsPage.insertRandomTextIntoField(textbox);
