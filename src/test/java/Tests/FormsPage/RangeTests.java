@@ -17,6 +17,15 @@ import javax.management.AttributeNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+
+/**
+ * TODO:
+ * - solve issue with "isRangeLabelMatched"
+ * - complete "changeRangeViaMouseInteraction" method.
+ * It now accepts an int as a parameter and NOT generating a random value by itself
+ * - complete checkRangeSelectionUsingKeyboard
+ */
 
 public class RangeTests extends DriverOperations {
 
@@ -48,13 +57,27 @@ public class RangeTests extends DriverOperations {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FormsPage page = new FormsPage(getDriver());
+        ThreadLocalRandom random = ThreadLocalRandom.current();
 
         log.debug("Before action - label: {}", page.getRangeLabel());
-        page.changeRange();
+        page.changeRangeViaMouseInteraction(random.nextInt(5));
         log.debug("After action - label: {}", page.getRangeLabel());
         log.debug("After action - 'value' attribute: {}", page.getRangeElementValue());
 
         soft.assertThat(page.isRangeLabelMatched()).isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkRangeSelectionUsingKeyboard() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FormsPage page = new FormsPage(getDriver());
+
+        log.debug("Before action - label text: {}", page.getRangeLabel());
+        page.changeRangeViaKeyboard();
+        log.debug("After action - label text: {}", page.getRangeLabel());
 
         soft.assertAll();
     }

@@ -506,6 +506,15 @@ public class FormsPage {
         return BaseOperations.getJavaScriptPropertyValue(getRangeElement(),"value");
     }
 
+    public int getRangeElementMaxSize() throws AttributeNotFoundException {
+        Optional<String> maxSize = Optional.ofNullable(BaseOperations.getJavaScriptPropertyValue(getRangeElement(),"max"));
+        if (maxSize.isEmpty()) {
+            throw new AttributeNotFoundException("Max attribute value is absent");
+        } else {
+            return Integer.parseInt(maxSize.get());
+        }
+    }
+
     public String getDefaultRangeElementValue() {
         Optional<String> minValue = Optional.ofNullable(getRangeElement().getAttribute("min"));
         Optional<String> maxValue = Optional.ofNullable(getRangeElement().getAttribute("max"));
@@ -544,7 +553,7 @@ public class FormsPage {
         }
     }
 
-    public void changeRange() throws AttributeNotFoundException {
+    public void changeRangeViaMouseInteraction(int rangeValue) throws AttributeNotFoundException {
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
         js.executeScript(
                 "var slider = document.querySelector('input[id=\"fluency\"]');" +
@@ -553,7 +562,6 @@ public class FormsPage {
                         "});"
         );
 
-        ThreadLocalRandom random = ThreadLocalRandom.current();
         Actions action = new Actions(driver);
         WebElement range = getRangeElement();
         double rangeWidth = range.getSize().getWidth();
@@ -576,7 +584,11 @@ public class FormsPage {
             }
         }
 
-        double optionToSelect = options.get(random.nextInt(options.size()));
+        if (rangeValue > options.size()) {
+            throw new IndexOutOfBoundsException("Specified value is larger than maximum possible option");
+        }
+
+        double optionToSelect = options.get(rangeValue - 1);
 
         action
                 .moveToElement(range)
@@ -584,6 +596,22 @@ public class FormsPage {
                 .moveByOffset((int)optionToSelect,0)
                 .click()
                 .perform();
+    }
+
+    public void changeRangeViaKeyboard() {
+        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
+        js.executeScript(
+                "var slider = document.querySelector('input[id=\"fluency\"]');" +
+                        "slider.addEventListener('input', function() {" +
+                        "  slider.dataset.interacted = true;" +
+                        "});"
+        );
+
+        Actions action = new Actions(driver);
+        WebElement range = getRangeElement();
+
+        action.click(range).perform();
+        log.debug("The selected value is: {}", getRangeElementValue());
     }
 
 
