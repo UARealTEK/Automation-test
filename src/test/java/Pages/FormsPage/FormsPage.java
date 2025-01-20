@@ -525,19 +525,19 @@ public class FormsPage {
         return driver.findElement(fluencyLevelScrollState).getText();
     }
 
-    public boolean isRangeLabelMatched() throws InterruptedException {
-        Thread.sleep(500);
+    public boolean isRangeLabelMatched() {
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
-        Object firstInteraction = js.executeScript("return window.firstInteractionDone;");
-        BaseOperations.getWait().until(ExpectedConditions.jsReturnsValue("return window.firstInteractionDone !== null;"));
+        Object interaction = js.executeScript(
+                "return document.querySelector('input[id=\"fluency\"]').dataset.interacted;"
+        );
         String labelValue = getRangeLabel();
         String rangeValue = getRangeElementValue();
 
-        log.debug("First Interaction State: {}", firstInteraction);
+        log.debug("The interaction data is: {}",interaction);
         log.debug("Label Value: {}", labelValue);
         log.debug("Range Element Value: {}", rangeValue);
 
-        if (firstInteraction == null) {
+        if (interaction == null) {
             return labelValue.isEmpty();  // Ensure the label is empty initially
         } else {
             return labelValue.equals(rangeValue);  // Compare label and value after interaction
@@ -545,6 +545,14 @@ public class FormsPage {
     }
 
     public void changeRange() throws AttributeNotFoundException {
+        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
+        js.executeScript(
+                "var slider = document.querySelector('input[id=\"fluency\"]');" +
+                        "slider.addEventListener('input', function() {" +
+                        "  slider.dataset.interacted = true;" +
+                        "});"
+        );
+
         ThreadLocalRandom random = ThreadLocalRandom.current();
         Actions action = new Actions(driver);
         WebElement range = getRangeElement();

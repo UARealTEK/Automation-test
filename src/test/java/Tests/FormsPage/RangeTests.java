@@ -43,7 +43,6 @@ public class RangeTests extends DriverOperations {
         soft.assertAll();
     }
 
-    //Still working on it. Something is wrong with detecting first action on the page (isLabelMatched methods)
     @Test
     public void checkRangeSelectionUsingMouse() throws AttributeNotFoundException, InterruptedException {
         SoftAssertions soft = new SoftAssertions();
