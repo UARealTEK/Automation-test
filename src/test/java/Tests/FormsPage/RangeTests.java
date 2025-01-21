@@ -19,13 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * TODO:
- * - solve issue with "isRangeLabelMatched"
- * - complete "changeRangeViaMouseInteraction" method.
- * It now accepts an int as a parameter and NOT generating a random value by itself
- * - complete checkRangeSelectionUsingKeyboard
- */
 
 public class RangeTests extends DriverOperations {
 

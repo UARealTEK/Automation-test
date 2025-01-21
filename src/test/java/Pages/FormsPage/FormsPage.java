@@ -584,11 +584,7 @@ public class FormsPage {
             throw new IndexOutOfBoundsException(String.format("Specified value: %s is not in a valid range", rangeValue));
         }
         double optionToSelect;
-//        if (rangeValue == 5) {
-//            optionToSelect = options.getLast() - 5;
-//        } else {
             optionToSelect = options.get(rangeValue -1) -2;
-//        }
 
         action
                 .moveToElement(range)
