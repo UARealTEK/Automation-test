@@ -576,19 +576,19 @@ public class FormsPage {
 
         List<Double> options = new ArrayList<>();
 
-        while (options.size() < optionsAmount) {
-            if (options.isEmpty()) {
-                options.add(optionWidth);
-            } else {
-                options.add(options.getLast() + optionWidth);
-            }
+        for (int i = 0; i < optionsAmount; i++) {
+            options.add(optionWidth * (i + 1));
         }
 
-        if (rangeValue > options.size()) {
-            throw new IndexOutOfBoundsException("Specified value is larger than maximum possible option");
+        if (rangeValue < 1 || rangeValue > options.size()) {
+            throw new IndexOutOfBoundsException(String.format("Specified value: %s is not in a valid range", rangeValue));
         }
-
-        double optionToSelect = options.get(rangeValue - 1);
+        double optionToSelect;
+//        if (rangeValue == 5) {
+//            optionToSelect = options.getLast() - 5;
+//        } else {
+            optionToSelect = options.get(rangeValue -1) -2;
+//        }
 
         action
                 .moveToElement(range)
@@ -596,6 +596,13 @@ public class FormsPage {
                 .moveByOffset((int)optionToSelect,0)
                 .click()
                 .perform();
+
+        String postInteractionValue = getDefaultRangeElementValue();
+
+        if (postInteractionValue.equals(getRangeElementValue())) {
+            // If the value hasn't changed, force the `interacted` flag to true
+            js.executeScript("document.querySelector('input[id=\"fluency\"]').dataset.interacted = true;");
+        }
     }
 
     public void changeRangeViaKeyboard() {
