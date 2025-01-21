@@ -515,6 +515,15 @@ public class FormsPage {
         }
     }
 
+    public int getRangeElementMinSize() throws AttributeNotFoundException {
+        Optional<String> minSize = Optional.ofNullable(BaseOperations.getJavaScriptPropertyValue(getRangeElement(),"min"));
+        if (minSize.isEmpty()) {
+            throw new AttributeNotFoundException("Min attribute value is absent");
+        } else {
+            return Integer.parseInt(minSize.get());
+        }
+    }
+
     public String getDefaultRangeElementValue() {
         Optional<String> minValue = Optional.ofNullable(getRangeElement().getAttribute("min"));
         Optional<String> maxValue = Optional.ofNullable(getRangeElement().getAttribute("max"));
@@ -534,6 +543,10 @@ public class FormsPage {
         return driver.findElement(fluencyLevelScrollState).getText();
     }
 
+    public WebElement getRangeTitle() {
+        return driver.findElement(fluencyLevelScrollLabel);
+    }
+
     public boolean isRangeLabelMatched() {
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
         Object interaction = js.executeScript(
@@ -541,10 +554,6 @@ public class FormsPage {
         );
         String labelValue = getRangeLabel();
         String rangeValue = getRangeElementValue();
-
-        log.debug("The interaction data is: {}",interaction);
-        log.debug("Label Value: {}", labelValue);
-        log.debug("Range Element Value: {}", rangeValue);
 
         if (interaction == null) {
             return labelValue.isEmpty();  // Ensure the label is empty initially
@@ -565,6 +574,7 @@ public class FormsPage {
         Actions action = new Actions(driver);
         WebElement range = getRangeElement();
         double rangeWidth = range.getSize().getWidth();
+        log.debug(rangeWidth);
 
         Optional<String> optionalOptionsAmount = Optional.ofNullable(range.getAttribute("max"));
         Integer optionsAmount = optionalOptionsAmount.map(Integer::parseInt).orElse(null);
@@ -573,6 +583,8 @@ public class FormsPage {
         if (optionsAmount != null) {
             optionWidth = rangeWidth / optionsAmount;
         } else throw new AttributeNotFoundException("max attribute was not found");
+        log.debug(optionWidth);
+        log.debug(optionWidth * 5);
 
         List<Double> options = new ArrayList<>();
 
@@ -580,16 +592,22 @@ public class FormsPage {
             options.add(optionWidth * (i + 1));
         }
 
-        if (rangeValue < 1 || rangeValue > options.size()) {
+        if (rangeValue < 0 || rangeValue > options.size()) {
             throw new IndexOutOfBoundsException(String.format("Specified value: %s is not in a valid range", rangeValue));
         }
-        double optionToSelect;
-            optionToSelect = options.get(rangeValue -1) -2;
+        double offsetToClick = optionWidth * rangeValue;
+        if (rangeValue == optionsAmount) {
+            // Avoid the edge case where the click happens exactly at the end
+            offsetToClick -= 2;
+        } else if (offsetToClick == 0) {
+            // Avoid the edge case where the click happens exactly at the start
+            offsetToClick += 2;
+        }
 
         action
                 .moveToElement(range)
                 .moveByOffset(-((int)rangeWidth / 2),0)
-                .moveByOffset((int)optionToSelect,0)
+                .moveByOffset((int) offsetToClick,0)
                 .click()
                 .perform();
 
@@ -601,7 +619,7 @@ public class FormsPage {
         }
     }
 
-    public void changeRangeViaKeyboard() {
+    public void changeRangeViaKeyboard(int rangeValue) throws AttributeNotFoundException {
         JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
         js.executeScript(
                 "var slider = document.querySelector('input[id=\"fluency\"]');" +
@@ -611,10 +629,48 @@ public class FormsPage {
         );
 
         Actions action = new Actions(driver);
-        WebElement range = getRangeElement();
+        WebElement rangeLabel = getRangeTitle();
 
-        action.click(range).perform();
-        log.debug("The selected value is: {}", getRangeElementValue());
+        action.click(rangeLabel).perform();
+
+        if (rangeValue < 0 || rangeValue > getRangeElementMaxSize()) {
+            throw new IndexOutOfBoundsException(String.format("Specified value: %s is not in a valid range", rangeValue));
+        }
+
+        int movesToMake = rangeValue - Integer.parseInt(getDefaultRangeElementValue());
+
+        while (movesToMake != 0) {
+            if (movesToMake > 0) {
+                action.sendKeys(Keys.ARROW_RIGHT).perform();
+                movesToMake--;
+            } else {
+                action.sendKeys(Keys.ARROW_LEFT).perform();
+                movesToMake++;
+            }
+        }
+
+        String postInteractionValue = getDefaultRangeElementValue();
+
+        if (postInteractionValue.equals(getRangeElementValue())) {
+            // If the value hasn't changed, force the `interacted` flag to true
+            js.executeScript("document.querySelector('input[id=\"fluency\"]').dataset.interacted = true;");
+        }
+    }
+
+    public void setRangeToMaxOption() throws AttributeNotFoundException {
+        Actions action = new Actions(driver);
+
+        while (Integer.parseInt(getRangeElementValue()) != getRangeElementMaxSize()) {
+            action.sendKeys(Keys.ARROW_RIGHT).perform();
+        }
+    }
+
+    public void setRangeToMinOption() throws AttributeNotFoundException {
+        Actions action = new Actions(driver);
+
+        while (Integer.parseInt(getRangeElementValue()) != getRangeElementMinSize()) {
+            action.sendKeys(Keys.ARROW_LEFT).perform();
+        }
     }
 
 
