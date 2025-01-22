@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.Radiobutton.Radiobuttons;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
@@ -22,9 +22,10 @@ public class RadiobuttonsTests extends DriverOperations {
     public void verifyLabelForAttributeMatchesInputId() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Radiobuttons page = new Radiobuttons(getDriver());
 
-        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
-        List<WebElement> radiobuttonLabels = FormsPage.getListOfRadioButtonLabels();
+        List<WebElement> radiobuttons = page.getListOfRadioButtons();
+        List<WebElement> radiobuttonLabels = page.getListOfRadioButtonLabels();
         List<String> radiobuttonLabelAttributes = new ArrayList<>();
 
         for (WebElement label : radiobuttonLabels) {
@@ -42,8 +43,9 @@ public class RadiobuttonsTests extends DriverOperations {
     public void checkRadioButtonDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Radiobuttons page = new Radiobuttons(getDriver());
 
-        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
+        List<WebElement> radiobuttons = page.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
             soft.assertThat(radiobutton.isDisplayed() && radiobutton.isEnabled() && (!radiobutton.isSelected())).isTrue();
@@ -56,8 +58,9 @@ public class RadiobuttonsTests extends DriverOperations {
     public void checkRadiobuttonsSelection() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Radiobuttons page = new Radiobuttons(getDriver());
 
-        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
+        List<WebElement> radiobuttons = page.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
             radiobutton.click();
@@ -81,9 +84,9 @@ public class RadiobuttonsTests extends DriverOperations {
     public void verifyButtonStateAfterReload() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        Radiobuttons page = new Radiobuttons(getDriver());
 
-        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
+        List<WebElement> radiobuttons = page.getListOfRadioButtons();
 
         page.selectRandomRadiobutton();
 
@@ -97,7 +100,7 @@ public class RadiobuttonsTests extends DriverOperations {
         soft.assertThat(countOfUnselectedButtons == radiobuttons.size() - 1).isTrue();
 
         BaseOperations.reloadPage(getDriver());
-        radiobuttons = FormsPage.getListOfRadioButtons();
+        radiobuttons = page.getListOfRadioButtons();
 
         for (WebElement radiobutton : radiobuttons) {
             soft.assertThat(radiobutton.isSelected()).isFalse();
@@ -110,10 +113,10 @@ public class RadiobuttonsTests extends DriverOperations {
     public void checkSelectedRadiobuttonLabel() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        Radiobuttons page = new Radiobuttons(getDriver());
 
         page.selectRandomRadiobutton();
-        List<WebElement> radiobuttons = FormsPage.getListOfCheckboxes();
+        List<WebElement> radiobuttons = page.getListOfRadioButtons();
         String label = page.getSelectedRadiobuttonsLabel();
 
         for (WebElement radiobutton : radiobuttons) {
@@ -129,9 +132,10 @@ public class RadiobuttonsTests extends DriverOperations {
     public void checkRadiobuttonSelectionViaLabel() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Radiobuttons page = new Radiobuttons(getDriver());
 
-        List<WebElement> radiobuttons = FormsPage.getListOfRadioButtons();
-        List<WebElement> radiobuttonLabels = FormsPage.getListOfRadioButtonLabels();
+        List<WebElement> radiobuttons = page.getListOfRadioButtons();
+        List<WebElement> radiobuttonLabels = page.getListOfRadioButtonLabels();
 
         //Checking that for each RadiobuttonLabel there's a corresponding radiobutton
         for (WebElement label : radiobuttonLabels) {

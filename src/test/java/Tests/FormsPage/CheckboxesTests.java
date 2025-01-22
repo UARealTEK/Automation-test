@@ -1,6 +1,6 @@
 package Tests.FormsPage;
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.Checkbox.Checkboxes;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
@@ -21,9 +21,9 @@ public class CheckboxesTests  extends DriverOperations {
     public void checkCheckboxesDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        Checkboxes page = new Checkboxes(getDriver());
 
-        List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
+        List<WebElement> checkboxes = page.getListOfCheckboxes();
 
         //Check that all checkboxes are unchecked by default
         for (WebElement webElement : checkboxes) {
@@ -73,8 +73,9 @@ public class CheckboxesTests  extends DriverOperations {
     public void checkCheckboxStateAfterPageReload() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Checkboxes page = new Checkboxes(getDriver());
 
-        List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
+        List<WebElement> checkboxes = page.getListOfCheckboxes();
 
         for (WebElement checkbox : checkboxes) {
             if (checkbox.isEnabled()) {
@@ -88,7 +89,7 @@ public class CheckboxesTests  extends DriverOperations {
         getDriver().navigate().refresh();
 
         // Re-fetch the list of checkboxes after page reload - needed because elements become stale
-        checkboxes = FormsPage.getListOfCheckboxes();
+        checkboxes = page.getListOfCheckboxes();
 
         //Check that each checkbox is unselected after page reload
         for (WebElement checkbox : checkboxes) {
@@ -104,7 +105,7 @@ public class CheckboxesTests  extends DriverOperations {
     public void checkCheckboxLabelsAfterSelecting() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        Checkboxes page = new Checkboxes(getDriver());
 
         //Generate a list of WebElements which will be clicked one by one (same original list but placed on random indices)
         List<WebElement> webElementList = page.selectRandomCheckboxes(); // this is only a button. not a text of that button
@@ -133,9 +134,10 @@ public class CheckboxesTests  extends DriverOperations {
     public void verifyLabelForAttributeMatchesInputId() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Checkboxes page = new Checkboxes(getDriver());
 
-        List<WebElement> checkboxes = FormsPage.getListOfCheckboxes();
-        List<WebElement> checkboxLabels = FormsPage.getListOfCheckboxLabels();
+        List<WebElement> checkboxes = page.getListOfCheckboxes();
+        List<WebElement> checkboxLabels = page.getListOfCheckboxLabels();
         List<String> checkboxLabelAttributes = new ArrayList<>();
 
         for (WebElement label : checkboxLabels) {

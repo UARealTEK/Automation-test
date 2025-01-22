@@ -7,55 +7,20 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import lombok.Getter;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import javax.management.AttributeNotFoundException;
-import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-/**
-work on "selectRandomDropdownOptionBy... method"
- Need to work it with different selection arguments (Text / Index / Value)
- */
 
 public class FormsPage {
     private static final Logger log = LogManager.getLogger(FormsPage.class);
+
     //WebDriver
     private final WebDriver driver;
 
-    //Basic Form Controls ===
-
     //Fields
     @Getter
-    private final By yearsOfExperienceField = By.id("exp");
-    @Getter
     private static final String expectedFreeTextAreaPlaceholder = "Notes";
-
-    //Fields Labels
-    private final By YearsOfExperienceFieldLabel = By.id("exp_help");
-
-    //Checkboxes
-    private static final By BFCCheckboxes = By.xpath("//div[@class = 'form-group']//input[@type='checkbox'] [starts-with(@id,'check')]"); // Contains java / python / javaScript checkboxes
-    private final By pythonCheckBox = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']");
-    private final By javaCheckBox = By.id("check_java");
-    private final By javaScriptCheckBox = By.id("check_javascript");
-
-    //Checkbox Labels
-    private final static By BFCCheckboxesLabels = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'check')]"); // Contains java / python / javaScript checkbox labels
-    private final By BFCSelectedCheckboxLabel = By.xpath("//div[@class = 'form-group']//span[@id='check_validate']"); // Label for the selected checkboxes
-
-    //Radiobuttons
-    private static final By BFCRadiobuttons = By.xpath("//div[@class = 'form-group']//input[@type='radio']"); // Contains all radiobuttons
-    private final By seleniumRadioButton = By.id("rad_selenium");
-    private final By protractorRadiobutton = By.id("rad_protractor");
-
-    //Radiobuttons Labels
-    private static final By BFCRadiobuttonsLabel = By.xpath("//div[@class = 'form-group']//label[starts-with(@for,'rad')]");
-    private final By BFCRadiobuttonsSelectedLabel = By.id("rad_validate");
-    private final By seleniumLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_selenium']");
-    private final By protractorLabel = By.xpath("//div[@class = 'form-group']//label[@for='rad_protractor']");
 
     //Primary skill dropdown
     private static final By primarySkillDropdown = By.id("select_tool");
@@ -131,100 +96,7 @@ public class FormsPage {
 
     //Expected values
     @Getter
-    public final String expectedYearsOfExperiencePlaceholder = "years of automation experience";
-    @Getter
     public final String expectedReadOnlyPlaceholder = "Common Sense";
-
-    //Years Of Experience Methods
-    public String getYearsOfExperiencePlaceholder() {
-        return driver.findElement(yearsOfExperienceField).getAttribute("placeholder");
-    }
-
-    public String getYearsOfExperienceInsertedValue() {
-        return driver.findElement(yearsOfExperienceField).getAttribute("value");
-    }
-
-    public void insertDataIntoYearsOfExperienceField() {
-        WebElement element = BaseOperations.getElement(getYearsOfExperienceField());
-        BaseOperations.clickElement(element);
-        element.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
-    }
-
-    public String getYearsOfExperienceFieldLabel() {
-        return driver.findElement(YearsOfExperienceFieldLabel).getText();
-    }
-
-    //Checkboxes methods
-    public static List<WebElement> getListOfCheckboxes() {
-        return BaseOperations.getDriver().findElements(BFCCheckboxes);
-    }
-
-    public String getSelectedCheckboxLabels() {
-        return driver.findElement(BFCSelectedCheckboxLabel).getText();
-    }
-
-    public WebElement getPythonCheckbox() {
-        return driver.findElement(pythonCheckBox);
-    }
-
-    public WebElement getJavaCheckbox() {
-        return driver.findElement(javaCheckBox);
-    }
-
-    public WebElement getJavaScriptCheckbox() {
-        return driver.findElement(javaScriptCheckBox);
-    }
-
-    public List<WebElement> selectRandomCheckboxes() {
-        Random random = new Random();
-        List<WebElement> allCheckboxes = FormsPage.getListOfCheckboxes();
-
-        List<WebElement> activeCheckboxes = new ArrayList<>();
-
-        // Filter out disabled checkboxes
-        for (WebElement element : allCheckboxes) {
-            if (element.isEnabled()) {
-                activeCheckboxes.add(element);
-            }
-        }
-
-        int itemsToSelect = random.nextInt(activeCheckboxes.size()) + 1;  // Ensure at least one checkbox is selected
-
-        Set<WebElement> output = new HashSet<>();
-
-        // Keep selecting random checkboxes until we get the desired count
-        while (output.size() < itemsToSelect) {
-            int randomIndex = random.nextInt(activeCheckboxes.size());
-            output.add(activeCheckboxes.get(randomIndex)); // Adds the element, automatically handles duplicates
-        }
-
-        return new ArrayList<>(output);  // Convert Set to List to return
-    }
-
-    public static List<WebElement> getListOfCheckboxLabels() {
-       return BaseOperations.getDriver().findElements(BFCCheckboxesLabels);
-    }
-
-    //Radiobuttons methods
-    public static List<WebElement> getListOfRadioButtons() {
-        return BaseOperations.getDriver().findElements(BFCRadiobuttons);
-    }
-
-    public static List<WebElement> getListOfRadioButtonLabels() {
-        return BaseOperations.getDriver().findElements(BFCRadiobuttonsLabel);
-    }
-
-    public String getSelectedRadiobuttonsLabel() {
-        return driver.findElement(BFCRadiobuttonsSelectedLabel).getText();
-    }
-
-    public void selectRandomRadiobutton() {
-        Random random = new Random();
-        List<WebElement> radiobuttons = getListOfRadioButtons();
-
-        int randomIndex = random.nextInt(radiobuttons.size());
-        BaseOperations.clickElement(radiobuttons.get(randomIndex));
-    }
 
     //Multiselect dropdown methods
     public static Select getMultiSelectDropdown() {
@@ -299,107 +171,6 @@ public class FormsPage {
         }
 
         return selectedOptions;
-    }
-
-    // Dropdown methods
-    public static List<WebElement> getDropdownOptionsList() {
-        Select options = new Select(BaseOperations.getDriver().findElement(primarySkillDropdown));
-        return new ArrayList<>(options.getOptions());
-    }
-
-    public static Select getDropdown() {
-        return new Select(BaseOperations.getDriver().findElement(primarySkillDropdown));
-    }
-
-    public static String getDropdownText(Select dropdown) {
-        JavascriptExecutor js = (JavascriptExecutor) BaseOperations.getDriver();
-        return (String) js.executeScript(
-                "return arguments[0].options[arguments[0].selectedIndex].text;", dropdown.getWrappedElement());
-    }
-
-    public static String getDropdownLabel() {
-        return BaseOperations.getDriver().findElement(primarySkillDropdownSelectedLabel).getText();
-    }
-
-    public static void selectRandomDropdownOptionByText(Select dropdown) {
-        Random random = new Random();
-
-        List<WebElement> options = dropdown.getOptions();
-        List<String> optionsTexts = options.stream()
-                .map(WebElement::getText).toList();
-
-        int randomIndex;
-        String randomValue;
-        WebElement option;
-
-        do {
-            randomIndex = random.nextInt(optionsTexts.size());
-            randomValue = optionsTexts.get(randomIndex);
-            option = options.get(randomIndex);
-        } while (option.isSelected());
-
-        dropdown.selectByVisibleText(randomValue);
-    }
-
-
-    public static void selectRandomDropdownOptionByValue(Select dropdown) {
-        Random random = new Random();
-
-        List<WebElement> options = dropdown.getOptions();
-        List<String> optionsValues = options.stream()
-                .map(option -> option.getAttribute("value"))
-                .toList();
-
-        int randomIndex;
-        String randomValue;
-        WebElement option;
-
-        do {
-            randomIndex = random.nextInt(optionsValues.size());
-            randomValue = optionsValues.get(randomIndex);
-            option = options.get(randomIndex);
-        } while (option.isSelected());
-
-        dropdown.selectByValue(randomValue);
-    }
-
-    public static void selectRandomDropdownOptionByIndex(Select dropdown) {
-        Random random = new Random();
-
-        List<WebElement> options = dropdown.getOptions();
-
-        int randomIndex;
-        WebElement option;
-
-        do {
-            randomIndex = random.nextInt(options.size());
-            option = options.get(randomIndex);
-        } while (option.isSelected());
-
-        dropdown.selectByIndex(randomIndex);
-    }
-
-    public static void selectRandomDropdownOptionBy(Select dropdown, DropdownSelectCriteria criteria) {
-        if (criteria == null) {
-            throw new IllegalArgumentException("DropdownSelectCriteria cannot be null");
-        }
-
-        switch (criteria) {
-            case BY_TEXT -> selectRandomDropdownOptionByText(dropdown);
-            case BY_INDEX -> selectRandomDropdownOptionByIndex(dropdown);
-            case BY_VALUE -> selectRandomDropdownOptionByValue(dropdown);
-            default -> throw new IllegalArgumentException(String.format("The passed in value %s was NOT recognized as a criteria", criteria));
-        }
-
-    }
-
-    public static void navigateAndSelectNextOption(Actions action) {
-            action
-                    .keyDown(Keys.ARROW_DOWN)
-                    .keyUp(Keys.ARROW_DOWN)
-                    .keyDown(Keys.ENTER)
-                    .keyUp(Keys.ENTER)
-                    .perform();
     }
 
     //Free text input field methods

@@ -2,6 +2,7 @@ package Tests.FormsPage;
 
 import Enums.URLs;
 import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.YearsOfExpirience.YearsOfExperience;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
@@ -13,19 +14,18 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 public class YearsOfExperienceTests extends DriverOperations {
 
     @Test
-    //checks for placeholder value, inserted value, field label
     public void checkYearsOfExperienceDefaultBehavior() {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SoftAssertions soft = new SoftAssertions();
-        FormsPage page = new FormsPage(getDriver());
+        YearsOfExperience page = new YearsOfExperience(getDriver());
 
         //Check placeholder of the field
-        soft.assertThat(page.getYearsOfExperiencePlaceholder()).isEqualTo(page.expectedYearsOfExperiencePlaceholder);
+        soft.assertThat(page.getYearsOfExperiencePlaceholder()).isEqualTo(page.getExpectedYearsOfExperiencePlaceholder());
 
-        BaseOperations.clickElement(BaseOperations.getElement(page.getYearsOfExperienceField()));
+        page.getYearsOfExperienceField().click();
 
         //Check that placeholder is NOT gone
-        soft.assertThat(page.getYearsOfExperiencePlaceholder()).isEqualTo(page.expectedYearsOfExperiencePlaceholder);
+        soft.assertThat(page.getYearsOfExperiencePlaceholder()).isEqualTo(page.getExpectedYearsOfExperiencePlaceholder());
 
         page.insertDataIntoYearsOfExperienceField();
 

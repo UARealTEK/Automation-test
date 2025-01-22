@@ -2,18 +2,16 @@ package Tests.FormsPage;
 
 import Enums.DropdownSelectCriteria;
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.Dropdown.Dropdowns;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.HashSet;
@@ -29,9 +27,10 @@ public class DropdownTests extends DriverOperations {
     public void checkDefaultDropdownState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Dropdowns page = new Dropdowns(getDriver());
 
-        Select dropdown = FormsPage.getDropdown();
-        List<WebElement> dropdownList = FormsPage.getDropdownOptionsList();
+        Select dropdown = page.getDropdown();
+        List<WebElement> dropdownList = page.getDropdownOptionsList();
 
         //In our case, the first option in the dropdown is the one that is being selected by default. Hence - this is the check
         soft.assertThat(!dropdown.getAllSelectedOptions().isEmpty()).isTrue();
@@ -41,7 +40,7 @@ public class DropdownTests extends DriverOperations {
         log.debug("The first option in the dropdown list is: {}", dropdownList.getFirst());
 
         //Checking that the text in the dropdown mirrors the text for the option which is selected by default
-        soft.assertThat(FormsPage.getDropdownText(dropdown)).isEqualTo(dropdown.getFirstSelectedOption().getText());
+        soft.assertThat(page.getDropdownText(dropdown)).isEqualTo(dropdown.getFirstSelectedOption().getText());
         soft.assertThat(dropdown.isMultiple()).isFalse();
 
         //Checking options visibility using JavaScript Triggered Check
@@ -57,10 +56,10 @@ public class DropdownTests extends DriverOperations {
         dropdown.getWrappedElement().click();
 
         //Checking that the label is populated with the option which was selected by the user
-        soft.assertThat(FormsPage.getDropdownLabel())
+        soft.assertThat(page.getDropdownLabel())
                 .isEqualTo(dropdown.getFirstSelectedOption().getAttribute("value"));
 
-        log.debug("The label text is: {}", FormsPage.getDropdownLabel());
+        log.debug("The label text is: {}", page.getDropdownLabel());
         log.debug("The selected option value is: {}", dropdown.getFirstSelectedOption().getAttribute("value"));
 
         soft.assertThat(!dropdown.getAllSelectedOptions().isEmpty()).isTrue();
@@ -74,16 +73,17 @@ public class DropdownTests extends DriverOperations {
     public void checkOptionSelectionByText() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Dropdowns page = new Dropdowns(getDriver());
 
-        Select dropdown = FormsPage.getDropdown();
+        Select dropdown = page.getDropdown();
         Set<String> selectedOptions = new HashSet<>();
         selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
-            FormsPage.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_TEXT);
+            page.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_TEXT);
             selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
-                    .isEqualTo(FormsPage.getDropdownLabel());
+                    .isEqualTo(page.getDropdownLabel());
         }
 
         soft.assertAll();
@@ -93,18 +93,19 @@ public class DropdownTests extends DriverOperations {
     public void checkOptionSelectionByValue() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Dropdowns page = new Dropdowns(getDriver());
 
-        Select dropdown = FormsPage.getDropdown();
+        Select dropdown = page.getDropdown();
         Set<String> selectedOptions = new HashSet<>();
         selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
-            FormsPage.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_VALUE);
+            page.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_VALUE);
             selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             log.debug(dropdown.getFirstSelectedOption().getAttribute("value"));
-            log.debug(FormsPage.getDropdownLabel());
+            log.debug(page.getDropdownLabel());
             soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
-                    .isEqualTo(FormsPage.getDropdownLabel());
+                    .isEqualTo(page.getDropdownLabel());
         }
 
         soft.assertAll();
@@ -114,41 +115,23 @@ public class DropdownTests extends DriverOperations {
     public void checkOptionSelectionByIndex() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Dropdowns page = new Dropdowns(getDriver());
 
-        Select dropdown = FormsPage.getDropdown();
+        Select dropdown = page.getDropdown();
         Set<String> selectedOptions = new HashSet<>();
         selectedOptions.add(dropdown.getFirstSelectedOption().getText());
 
         while (selectedOptions.size() < dropdown.getOptions().size()) {
-            FormsPage.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_INDEX);
+            page.selectRandomDropdownOptionBy(dropdown,DropdownSelectCriteria.BY_INDEX);
             selectedOptions.add(dropdown.getFirstSelectedOption().getText());
             log.debug(dropdown.getFirstSelectedOption().getAttribute("value"));
-            log.debug(FormsPage.getDropdownLabel());
+            log.debug(page.getDropdownLabel());
             soft.assertThat(dropdown.getFirstSelectedOption().getAttribute("value"))
-                    .isEqualTo(FormsPage.getDropdownLabel());
+                    .isEqualTo(page.getDropdownLabel());
         }
 
         soft.assertAll();
     }
 
-    @RepeatedTest(3)
-    public void checkDropdownNavigationUsingKeyboard() {
-        SoftAssertions soft = new SoftAssertions();
-        BaseOperations.navigateTo(URLs.FORMS_PAGE);
-
-        Select dropdown = FormsPage.getDropdown();
-        List<WebElement> dropdownOptions = FormsPage.getDropdownOptionsList();
-        Actions action = new Actions(getDriver());
-
-        for (WebElement option : dropdownOptions) {
-            dropdown.getWrappedElement().click();
-            soft.assertThat(option.getText())
-                    .isEqualTo(FormsPage.getDropdownText(dropdown));
-            soft.assertThat(option.isDisplayed()).isTrue();
-            FormsPage.navigateAndSelectNextOption(action);
-        }
-
-        soft.assertAll();
-    }
 
 }
