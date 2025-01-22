@@ -11,7 +11,9 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.HashSet;
@@ -132,6 +134,38 @@ public class DropdownTests extends DriverOperations {
 
         soft.assertAll();
     }
+
+    @Test
+    public void checkDropdownNavigationUsingKeyboard() throws InterruptedException {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        Dropdowns page = new Dropdowns(getDriver());
+
+        Select dropdown = page.getDropdown();
+        List<WebElement> dropdownOptions = page.getDropdownOptionsList();
+        Actions action = new Actions(getDriver());
+
+        for (WebElement option : dropdownOptions) {
+            action.click(dropdown.getWrappedElement()).build().perform();
+            // Assert the current option matches expected text
+            soft.assertThat(option.getText())
+                    .isEqualTo(page.getDropdownText(dropdown));
+            log.debug("Current option: {}", option.getText());
+
+            action
+                    .keyDown(Keys.ARROW_DOWN)
+                    .keyUp(Keys.ARROW_DOWN)
+                    .keyDown(Keys.ENTER)
+                    .keyUp(Keys.ENTER)
+                    .build()
+                    .perform();
+
+            Thread.sleep(300);
+        }
+
+        soft.assertAll();
+    }
+
 
 
 }
