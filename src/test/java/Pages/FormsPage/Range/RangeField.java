@@ -37,6 +37,14 @@ public class RangeField {
         return BaseOperations.getJavaScriptPropertyValue(getRangeElement(),"value");
     }
 
+    public int getRangeElementWidth() {
+        return getRangeElement().getSize().getWidth();
+    }
+
+    public int getRangeOptionWidth() throws AttributeNotFoundException {
+        return (int) ((double) getRangeElement().getSize().getWidth() / getRangeElementMaxSize());
+    }
+
     public int getRangeElementMaxSize() throws AttributeNotFoundException {
         Optional<String> maxSize = Optional.ofNullable(BaseOperations.getJavaScriptPropertyValue(getRangeElement(),"max"));
         if (maxSize.isEmpty()) {
@@ -104,7 +112,7 @@ public class RangeField {
 
         Actions action = new Actions(driver);
         WebElement range = getRangeElement();
-        double rangeWidth = range.getSize().getWidth();
+        double rangeWidth = getRangeElementWidth();
         log.debug(rangeWidth);
 
         Optional<String> optionalOptionsAmount = Optional.ofNullable(range.getAttribute("max"));
@@ -112,7 +120,7 @@ public class RangeField {
         double optionWidth;
 
         if (optionsAmount != null) {
-            optionWidth = rangeWidth / optionsAmount;
+            optionWidth = getRangeOptionWidth();
         } else throw new AttributeNotFoundException("max attribute was not found");
         log.debug(optionWidth);
         log.debug(optionWidth * 5);
@@ -189,18 +197,36 @@ public class RangeField {
     }
 
     public void setRangeToMaxOption() throws AttributeNotFoundException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         Actions action = new Actions(driver);
-
+        BaseOperations.focusOnElement(getRangeElement());
         while (Integer.parseInt(getRangeElementValue()) != getRangeElementMaxSize()) {
             action.sendKeys(Keys.ARROW_RIGHT).perform();
         }
+        js.executeScript("document.querySelector('input[id=\"fluency\"]').dataset.interacted = true;");
+
     }
 
     public void setRangeToMinOption() throws AttributeNotFoundException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         Actions action = new Actions(driver);
-
+        BaseOperations.focusOnElement(getRangeElement());
         while (Integer.parseInt(getRangeElementValue()) != getRangeElementMinSize()) {
             action.sendKeys(Keys.ARROW_LEFT).perform();
         }
+        js.executeScript("document.querySelector('input[id=\"fluency\"]').dataset.interacted = true;");
+
+    }
+
+    public void dragRangeByOffset(int XOffset) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        Actions action = new Actions(driver);
+        action
+                .moveToElement(getRangeElement())
+                .moveByOffset(-(getRangeElementWidth() / 2),0) // click happens at the start of the Range
+                .clickAndHold().moveByOffset(XOffset,0)
+                .release()
+                .perform();
+        js.executeScript("document.querySelector('input[id=\"fluency\"]').dataset.interacted = true;");
     }
 }

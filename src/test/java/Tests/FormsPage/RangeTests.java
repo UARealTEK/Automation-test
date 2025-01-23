@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.interactions.Actions;
 
 
 import javax.management.AttributeNotFoundException;
@@ -86,6 +87,27 @@ public class RangeTests extends DriverOperations {
         soft.assertThat(page.isRangeLabelMatched()).isTrue();
 
         soft.assertThat(page.isRangeLabelMatched()).isTrue();
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkRangeDragging() throws AttributeNotFoundException {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        RangeField page = new RangeField(getDriver());
+
+        int remainingOptions = page.getRangeElementMaxSize() + 1;
+        int currentOffset = 0;
+
+        while (remainingOptions != 0) {
+            page.dragRangeByOffset(currentOffset);
+            currentOffset += page.getRangeOptionWidth();
+            remainingOptions--;
+            log.debug("current option is: {}", page.getRangeElementValue());
+            log.debug("current label value is: {}", page.getRangeLabel());
+            soft.assertThat(page.isRangeLabelMatched()).isTrue();
+        }
+
         soft.assertAll();
     }
 }
