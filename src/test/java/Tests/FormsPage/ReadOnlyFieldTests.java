@@ -1,16 +1,19 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.ReadOnlyField.ReadOnlyField;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 
+@Execution(ExecutionMode.CONCURRENT)
 public class ReadOnlyFieldTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(ReadOnlyFieldTests.class);
@@ -19,15 +22,15 @@ public class ReadOnlyFieldTests extends DriverOperations {
     public void checkReadOnlyFieldDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        ReadOnlyField page = new ReadOnlyField(getDriver());
 
-        WebElement textbox = FormsPage.getReadOnlyTextbox();
+        WebElement textbox = page.getReadOnlyTextbox();
         soft.assertThat(textbox.isDisplayed()).isTrue();
         soft.assertThat(textbox.getAttribute("readonly")).isNotEmpty();
-        soft.assertThat(FormsPage.getReadOnlyTextboxPlaceholder()).isEqualTo(page.getExpectedReadOnlyPlaceholder());
+        soft.assertThat(page.getReadOnlyTextboxPlaceholder()).isEqualTo(page.getExpectedReadOnlyPlaceholder());
         soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
 
-        FormsPage.insertRandomTextIntoField(textbox);
+        BaseOperations.insertRandomTextIntoField(textbox);
 
         soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
 
@@ -38,9 +41,10 @@ public class ReadOnlyFieldTests extends DriverOperations {
     public void checkReadOnlyFieldClearing() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        WebElement textbox = FormsPage.getReadOnlyTextbox();
+        ReadOnlyField page = new ReadOnlyField(getDriver());
+        WebElement textbox = page.getReadOnlyTextbox();
 
-        FormsPage.insertRandomTextIntoField(textbox);
+        BaseOperations.insertRandomTextIntoField(textbox);
         soft.assertThat(BaseOperations.isFieldEmpty(textbox)).isTrue();
         soft.assertThat(BaseOperations.getPseudoElementPropertyValue(textbox,"placeholder","visibility"))
                 .isEqualTo("visible");

@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.FreeTextArea.FreeTextArea;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
@@ -22,11 +22,12 @@ public class FreeTextAreaTests extends DriverOperations {
     public void checkTextAreaDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FreeTextArea page = new FreeTextArea(getDriver());
 
-        soft.assertThat(FormsPage.getTextAreaField().getText()).isEmpty();
-        soft.assertThat(FormsPage.getTextAreaFieldLabel().isEmpty()).isTrue();
-        soft.assertThat(FormsPage.getTextAreaFieldPlaceholder())
-                .isEqualTo(FormsPage.getExpectedFreeTextAreaPlaceholder());
+        soft.assertThat(page.getTextAreaField().getText()).isEmpty();
+        soft.assertThat(page.getTextAreaFieldLabel().isEmpty()).isTrue();
+        soft.assertThat(page.getTextAreaFieldPlaceholder())
+                .isEqualTo(page.getExpectedFreeTextAreaPlaceholder());
 
         soft.assertAll();
     }
@@ -35,14 +36,15 @@ public class FreeTextAreaTests extends DriverOperations {
     public void checkTextAreaDataInsertion() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FreeTextArea page = new FreeTextArea(getDriver());
 
-        FormsPage.insertRandomTextIntoField(FormsPage.getTextAreaField());
-        log.debug("The inserted text is: {}", FormsPage.getTextAreaInsertedText());
-        log.debug("The label value is {}", FormsPage.getTextAreaFieldLabel());
+        BaseOperations.insertRandomTextIntoField(page.getTextAreaField());
+        log.debug("The inserted text is: {}", page.getTextAreaInsertedText());
+        log.debug("The label value is {}", page.getTextAreaFieldLabel());
 
-        soft.assertThat(FormsPage.isPlaceholderVisible(FormsPage.getTextAreaField())).isFalse();
-        soft.assertThat(FormsPage.getTextAreaInsertedText())
-                .isEqualTo(FormsPage.getTextAreaFieldLabel());
+        soft.assertThat(page.isPlaceholderVisible(page.getTextAreaField())).isFalse();
+        soft.assertThat(page.getTextAreaInsertedText())
+                .isEqualTo(page.getTextAreaFieldLabel());
 
         soft.assertAll();
     }
@@ -51,21 +53,22 @@ public class FreeTextAreaTests extends DriverOperations {
     public void checkTextAreaStateAfterPageReload() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FreeTextArea page = new FreeTextArea(getDriver());
 
-        FormsPage.insertRandomTextIntoField(FormsPage.getTextAreaField());
-        soft.assertThat(FormsPage.isPlaceholderVisible(FormsPage.getTextAreaField())).isFalse();
-        soft.assertThat(FormsPage.getTextAreaInsertedText().isEmpty()).isFalse();
-        soft.assertThat(FormsPage.getTextAreaFieldLabel().isEmpty()).isFalse();
-        log.debug("The currently inserted text in the field is: {}", FormsPage.getTextAreaInsertedText());
-        log.debug("The currently displayed label is: {}", FormsPage.getTextAreaFieldLabel());
+        BaseOperations.insertRandomTextIntoField(page.getTextAreaField());
+        soft.assertThat(page.isPlaceholderVisible(page.getTextAreaField())).isFalse();
+        soft.assertThat(page.getTextAreaInsertedText().isEmpty()).isFalse();
+        soft.assertThat(page.getTextAreaFieldLabel().isEmpty()).isFalse();
+        log.debug("The currently inserted text in the field is: {}", page.getTextAreaInsertedText());
+        log.debug("The currently displayed label is: {}", page.getTextAreaFieldLabel());
 
         BaseOperations.reloadPage(getDriver());
 
-        soft.assertThat(FormsPage.isPlaceholderVisible(FormsPage.getTextAreaField())).isTrue();
-        soft.assertThat(FormsPage.getTextAreaInsertedText().isEmpty()).isTrue();
-        soft.assertThat(FormsPage.getTextAreaFieldLabel().isEmpty()).isTrue();
-        log.debug("The currently inserted text in the field is: {}", FormsPage.getTextAreaInsertedText());
-        log.debug("The currently displayed label is: {}", FormsPage.getTextAreaFieldLabel());
+        soft.assertThat(page.isPlaceholderVisible(page.getTextAreaField())).isTrue();
+        soft.assertThat(page.getTextAreaInsertedText().isEmpty()).isTrue();
+        soft.assertThat(page.getTextAreaFieldLabel().isEmpty()).isTrue();
+        log.debug("The currently inserted text in the field is: {}", page.getTextAreaInsertedText());
+        log.debug("The currently displayed label is: {}", page.getTextAreaFieldLabel());
 
         soft.assertAll();
     }
@@ -74,10 +77,11 @@ public class FreeTextAreaTests extends DriverOperations {
     public void checkTextAreaResizing() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        WebElement textArea = FormsPage.getTextAreaField();
+        FreeTextArea page = new FreeTextArea(getDriver());
+        WebElement textArea = page.getTextAreaField();
 
         int currentHeight = textArea.getSize().getHeight();
-        FormsPage.resizeTextAreaViaJS(textArea,getDriver(),200);
+        page.resizeTextAreaViaJS(textArea,getDriver(),200);
         int newHeight = textArea.getSize().getHeight();
         soft.assertThat(currentHeight + 200 == newHeight).isTrue();
         log.debug("current Height is: {}", currentHeight);
@@ -90,14 +94,15 @@ public class FreeTextAreaTests extends DriverOperations {
     public void checkScrollbarAppearance() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        WebElement textArea = FormsPage.getTextAreaField();
+        FreeTextArea page = new FreeTextArea(getDriver());
+        WebElement textArea = page.getTextAreaField();
 
         do {
-            FormsPage.insertRandomTextIntoField(textArea);
-        } while (!FormsPage.hasVerticalScrollbar(textArea));
+            BaseOperations.insertRandomTextIntoField(textArea);
+        } while (!page.hasVerticalScrollbar(textArea));
 
-        int scrollHeight = FormsPage.getTextAreaScrollHeight(textArea);
-        int clientHeight = FormsPage.getTextAreaClientHeight(textArea);
+        int scrollHeight = page.getTextAreaScrollHeight(textArea);
+        int clientHeight = page.getTextAreaClientHeight(textArea);
 
         log.debug("The scrollHeight is: {}", scrollHeight);
         log.debug("The clientHeight is: {}", clientHeight);

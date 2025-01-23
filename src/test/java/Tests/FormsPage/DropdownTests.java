@@ -151,6 +151,7 @@ public class DropdownTests extends DriverOperations {
             soft.assertThat(option.getText())
                     .isEqualTo(page.getDropdownText(dropdown));
             log.debug("Current option: {}", option.getText());
+            log.debug("Option in the dropdown is: {}", page.getDropdownText(dropdown));
 
             action
                     .keyDown(Keys.ARROW_DOWN)

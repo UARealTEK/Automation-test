@@ -98,4 +98,9 @@ public class BaseOperations extends DriverOperations {
     public static void focusOnElement(WebElement element) {
         ((JavascriptExecutor) BaseOperations.getDriver()).executeScript("arguments[0].focus();", element);
     }
+
+    public static void insertRandomTextIntoField(WebElement textField) {
+        textField.click();
+        textField.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
+    }
 }

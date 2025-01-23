@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.MultiselectDropdown.MultiselectDropdown;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import lombok.extern.log4j.Log4j2;
@@ -23,9 +23,9 @@ public class MultiselectDropdownTests extends DriverOperations {
     public void checkDropdownDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        MultiselectDropdown page = new MultiselectDropdown(getDriver());
 
-        List<WebElement> dropdownOptions = FormsPage
+        List<WebElement> dropdownOptions = page
                 .getMultiSelectDropdown()
                 .getOptions();
 
@@ -48,9 +48,9 @@ public class MultiselectDropdownTests extends DriverOperations {
     public void checkElementMultiSelection() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        MultiselectDropdown page = new MultiselectDropdown(getDriver());
 
-        List<WebElement> dropdownOptions = FormsPage
+        List<WebElement> dropdownOptions = page
                 .getMultiSelectDropdown()
                 .getOptions();
 
@@ -59,7 +59,7 @@ public class MultiselectDropdownTests extends DriverOperations {
         int index = 0;
         Actions action = new Actions(getDriver());
         action.keyDown(Keys.CONTROL).perform();
-        while (FormsPage.getCountOfSelectedOptions() < dropdownOptions.size()) {
+        while (page.getCountOfSelectedOptions() < dropdownOptions.size()) {
             WebElement element = dropdownOptions.get(index);
             action.click(element).perform();
             soft.assertThat(element.isSelected()).isTrue();
@@ -86,10 +86,10 @@ public class MultiselectDropdownTests extends DriverOperations {
     public void checkSelectingRandomOptions() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        MultiselectDropdown page = new MultiselectDropdown(getDriver());
 
         StringBuilder labelBuilder = new StringBuilder();
-        List<WebElement> list = FormsPage.getMultiSelectDropdown().getOptions();
+        List<WebElement> list = page.getMultiSelectDropdown().getOptions();
 
         page.selectRandomOptions(list,list.size());
         for (WebElement element : list) {
@@ -111,9 +111,9 @@ public class MultiselectDropdownTests extends DriverOperations {
     public void checkOptionDeselection() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        MultiselectDropdown page = new MultiselectDropdown(getDriver());
 
-        List<WebElement> list = FormsPage
+        List<WebElement> list = page
                 .getMultiSelectDropdown()
                 .getOptions();
 

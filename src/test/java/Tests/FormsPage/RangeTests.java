@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.Range.RangeField;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
@@ -9,14 +9,9 @@ import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
 
 import javax.management.AttributeNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -28,7 +23,7 @@ public class RangeTests extends DriverOperations {
     public void checkRangeDefaultState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        RangeField page = new RangeField(getDriver());
 
         //Aria role is slider, but type of the element is 'range' (by default HTML markup)
         soft.assertThat(page.getRangeElement().getAriaRole())
@@ -51,7 +46,7 @@ public class RangeTests extends DriverOperations {
     public void checkRangeSelectionUsingMouse() throws AttributeNotFoundException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        RangeField page = new RangeField(getDriver());
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int optionToSelect = random.nextInt(page.getRangeElementMaxSize() + 1);
 
@@ -70,7 +65,7 @@ public class RangeTests extends DriverOperations {
     public void checkRangeSelectionUsingKeyboard() throws AttributeNotFoundException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        RangeField page = new RangeField(getDriver());
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int optionToSelect = random.nextInt(page.getRangeElementMaxSize() + 1);
 

@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.FormsPage;
+import Pages.FormsPage.ToggleSwitch.ToggleSwitch;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +22,7 @@ public class ToggleSwitchTests extends DriverOperations {
     public void checkDefaultToggleSwitchState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        ToggleSwitch page = new ToggleSwitch(getDriver());
 
         soft.assertThat(!page.isToggleSwitchChecked()).isTrue();
         log.debug(page.getToggleSwitch().getAttribute("checked"));
@@ -39,7 +39,7 @@ public class ToggleSwitchTests extends DriverOperations {
     public void checkToggleSwitchSelection() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        ToggleSwitch page = new ToggleSwitch(getDriver());
         log.debug(page.isToggleSwitchChecked());
         log.debug(page.getToggleSwitch().getAttribute("checked"));
 
@@ -62,7 +62,7 @@ public class ToggleSwitchTests extends DriverOperations {
     public void checkToggleStateAfterPageReload() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        ToggleSwitch page = new ToggleSwitch(getDriver());
 
         page.getToggleSwitchLabelElement().click();
 
@@ -85,7 +85,7 @@ public class ToggleSwitchTests extends DriverOperations {
     public void checkToggleSwitchUsingSpaceKeyButton() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
-        FormsPage page = new FormsPage(getDriver());
+        ToggleSwitch page = new ToggleSwitch(getDriver());
         Actions action = new Actions(getDriver());
 
         soft.assertThat(BaseOperations.isFocused(page.getToggleSwitch())).isFalse();
