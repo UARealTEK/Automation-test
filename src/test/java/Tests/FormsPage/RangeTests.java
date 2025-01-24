@@ -9,8 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.interactions.Actions;
-
 
 import javax.management.AttributeNotFoundException;
 import java.util.concurrent.ThreadLocalRandom;

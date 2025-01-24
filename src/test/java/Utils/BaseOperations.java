@@ -25,11 +25,6 @@ public class BaseOperations extends DriverOperations {
         return String.format(Constants.BASE_URL + url);
     }
 
-    public static WebElement getElement(By locator) {
-
-        return getDriver().findElement(locator);
-    }
-
     public static void clickElement(WebElement element) {
         WebDriverWait elementWait = new WebDriverWait(DriverOperations.getDriver(), Duration.ofSeconds(10));
         elementWait.until(ExpectedConditions.elementToBeClickable(element));
@@ -67,6 +62,12 @@ public class BaseOperations extends DriverOperations {
         } else {
             return null;
         }
+    }
+
+    public static String getJavaScriptComputedPropertyValue(WebElement element, String computedProperty) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        String script = String.format("return window.getComputedStyle(arguments[0]).getPropertyValue('%s');",computedProperty);
+        return (String) js.executeScript(script,element);
     }
 
     public static Boolean isElementVisible(WebElement element) {

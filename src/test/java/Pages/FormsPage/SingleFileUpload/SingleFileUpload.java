@@ -1,7 +1,15 @@
 package Pages.FormsPage.SingleFileUpload;
 
+import Enums.Files;
+import Utils.Constants;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 
 public class SingleFileUpload {
 
@@ -18,4 +26,43 @@ public class SingleFileUpload {
     private final By uploadCVSingleState = By.id("validate_cv");
     private final By uploadCVSingleLabel = By.xpath("//div[@class = 'form-row align-items-center']//label[@for='upload_cv']");
 
+    public WebElement getUploadCVElement() {
+        return driver.findElement(uploadCVButtonSingle);
+    }
+
+    private WebElement getUploadCVState() {
+        return driver.findElement(uploadCVSingleState);
+    }
+
+    public String getUploadCVStateValue () {
+        return getUploadCVState().getText();
+    }
+
+    public WebElement getUploadCVLabel() {
+        return driver.findElement(uploadCVSingleLabel);
+    }
+
+    public String getUploadCVIDAttribute() {
+        return getUploadCVElement().getAttribute("id");
+    }
+
+    public String getUploadCVLabelFORAttribute() {
+        return getUploadCVLabel().getAttribute("for");
+    }
+
+    public void fileUpload(Files filename) throws AWTException {
+        String fileName = Files.getFileName(filename.name());
+        String fullPath = String.format(Constants.BASE_FILEPATH_DOWNLOADS + fileName);
+        Robot robot = new Robot();
+
+        // Simulate typing the file path in the file dialog
+        for (char c : fullPath.toCharArray()) {
+            robot.keyPress(KeyEvent.getExtendedKeyCodeForChar(c));
+            robot.keyRelease(KeyEvent.getExtendedKeyCodeForChar(c));
+        }
+
+        // Press ENTER to select the file
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+    }
 }
