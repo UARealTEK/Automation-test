@@ -1,17 +1,15 @@
 package Pages.FormsPage.SingleFileUpload;
 
 import Enums.Files;
-import Utils.Constants;
-import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.util.Optional;
+
+import static Enums.Files.getFilePath;
 
 
 public class SingleFileUpload {
@@ -62,8 +60,9 @@ public class SingleFileUpload {
         input.sendKeys(fullPath);
     }
 
-    public String getFilePath(Files filename) {
-        String fileName = Files.getFileName(filename.name());
-        return String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + fileName);
+    public boolean isInputAndLabelMatched() {
+        Optional<String> inputID = Optional.ofNullable(getUploadCVIDAttribute());
+        Optional<String> labelFor = Optional.ofNullable(getUploadCVLabelFORAttribute());
+        return inputID.equals(labelFor);
     }
 }

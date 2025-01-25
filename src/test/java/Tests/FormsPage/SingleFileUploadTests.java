@@ -24,15 +24,15 @@ public class SingleFileUploadTests extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SingleFileUpload page = new SingleFileUpload(getDriver());
 
-        soft.assertThat(page.getUploadCVIDAttribute())
-                .isEqualTo(page.getUploadCVLabelFORAttribute());
+        soft.assertThat(page.getUploadCVElement().isDisplayed()).isTrue();
+        soft.assertThat(page.isInputAndLabelMatched()).isTrue();
         soft.assertThat(page.getUploadCVStateValue()).isEmpty();
 
         soft.assertAll();
     }
 
     @Test
-    public void checkFileUploadProcess() throws AWTException, InterruptedException {
+    public void checkFileUploadProcess() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SingleFileUpload page = new SingleFileUpload(getDriver());

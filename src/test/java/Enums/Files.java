@@ -1,5 +1,7 @@
 package Enums;
 
+import Utils.Constants;
+
 import java.util.Arrays;
 
 public enum Files {
@@ -18,5 +20,26 @@ public enum Files {
                 .filter(file -> file.name()
                         .equalsIgnoreCase(filename))
                 .findFirst().get().name;
+    }
+
+    public static String getFilePath(Files filename) {
+        String fileName = Files.getFileName(filename.name());
+        return String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + fileName);
+    }
+
+    /**
+     * TODO:
+     * complete this method
+     */
+    public static String getMultipleFilePaths(Files... files) {
+        StringBuilder builder = new StringBuilder();
+
+        for (Files file : files) {
+            if (file != null) { // Ensure the file is not null and exists
+//                builder.append(file.).append("\n");
+            }
+
+        }
+        return builder.toString().trim();
     }
 }
