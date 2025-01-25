@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum Files {
     FILE_1("46.PDF"),
-    FILE_2("47.PDF");
+    FILE_2("47.PDF"),
+    FILE_3("Selenium Testing Tools Cookbook - 2012.pdf");
 
     private final String name;
 

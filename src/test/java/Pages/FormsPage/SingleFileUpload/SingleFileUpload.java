@@ -3,9 +3,12 @@ package Pages.FormsPage.SingleFileUpload;
 import Enums.Files;
 import Utils.Constants;
 import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,6 +16,7 @@ import java.awt.event.KeyEvent;
 
 public class SingleFileUpload {
 
+    private static final Logger log = LogManager.getLogger(SingleFileUpload.class);
     private final WebDriver driver;
 
     public SingleFileUpload(WebDriver driver) {
@@ -50,19 +54,16 @@ public class SingleFileUpload {
         return getUploadCVLabel().getAttribute("for");
     }
 
-    public void fileUpload(Files filename) throws AWTException {
+    public void fileUpload(Files filename) {
+        String fullPath = getFilePath(filename);
+        WebElement input = getUploadCVElement();
+        log.debug(fullPath);
+
+        input.sendKeys(fullPath);
+    }
+
+    public String getFilePath(Files filename) {
         String fileName = Files.getFileName(filename.name());
-        String fullPath = String.format(Constants.BASE_FILEPATH_DOWNLOADS + fileName);
-        Robot robot = new Robot();
-
-        // Simulate typing the file path in the file dialog
-        for (char c : fullPath.toCharArray()) {
-            robot.keyPress(KeyEvent.getExtendedKeyCodeForChar(c));
-            robot.keyRelease(KeyEvent.getExtendedKeyCodeForChar(c));
-        }
-
-        // Press ENTER to select the file
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
+        return String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + fileName);
     }
 }

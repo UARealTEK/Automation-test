@@ -32,22 +32,14 @@ public class SingleFileUploadTests extends DriverOperations {
     }
 
     @Test
-    public void checkFileUploadProcess() throws AWTException {
+    public void checkFileUploadProcess() throws AWTException, InterruptedException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SingleFileUpload page = new SingleFileUpload(getDriver());
 
-        WebElement uploadButton = getWait()
-                .until(ExpectedConditions.elementToBeClickable(page.getUploadCVElement()));
-
-        if (uploadButton.isDisplayed() && uploadButton.isEnabled()) {
-            uploadButton.click();
-        } else {
-            System.out.println("Element not interactable.");
-        }
-        page.fileUpload(Files.FILE_1);
-
-        soft.assertThat(page.getUploadCVLabel()).isNotNull();
+        page.fileUpload(Files.FILE_3);
+        log.debug(page.getUploadCVStateValue());
+        soft.assertThat(page.getUploadCVStateValue().isEmpty()).isFalse();
         soft.assertAll();
     }
 }
