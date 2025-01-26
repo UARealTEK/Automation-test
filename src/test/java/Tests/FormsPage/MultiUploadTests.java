@@ -1,5 +1,6 @@
 package Tests.FormsPage;
 
+import Enums.Files;
 import Enums.URLs;
 import Pages.FormsPage.MultiUpload.MultiUpload;
 import Utils.BaseOperations;
@@ -28,9 +29,9 @@ public class MultiUploadTests extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         MultiUpload page = new MultiUpload(getDriver());
 
+        page.fileUploadMulti(Files.WINDOWS_FILE_1,Files.WINDOWS_FILE_2);
 
-
-
+        soft.assertThat(page.isElementAndLabelMatched()).isTrue();
         soft.assertAll();
     }
 }

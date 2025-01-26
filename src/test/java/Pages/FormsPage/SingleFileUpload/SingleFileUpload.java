@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Optional;
 
-import static Enums.Files.getFilePath;
+import static Enums.Files.*;
 
 
 public class SingleFileUpload {
@@ -52,12 +52,26 @@ public class SingleFileUpload {
         return getUploadCVLabel().getAttribute("for");
     }
 
-    public void fileUpload(Files filename) {
-        String fullPath = getFilePath(filename);
+    private void fileUploadSingleMac(Files file) {
+        String fullPath = getFilePathMac(file);
         WebElement input = getUploadCVElement();
         log.debug(fullPath);
 
         input.sendKeys(fullPath);
+    }
+
+    private void fileUploadSingleWindows(Files file) {
+        String fullPath = getFilePathWindows(file);
+        WebElement input = getUploadCVElement();
+        log.debug(fullPath);
+
+        input.sendKeys(fullPath);
+    }
+
+    public void fileUploadSingle(Files file) {
+        if (Files.getMacFiles().contains(file)) {
+            fileUploadSingleMac(file);
+        } else fileUploadSingleWindows(file);
     }
 
     public boolean isInputAndLabelMatched() {

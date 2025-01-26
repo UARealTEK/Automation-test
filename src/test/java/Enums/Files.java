@@ -2,41 +2,70 @@ package Enums;
 
 import Utils.Constants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum Files {
-    FILE_1("46.PDF"),
-    FILE_2("47.PDF"),
-    FILE_3("Selenium Testing Tools Cookbook - 2012.pdf");
+    WINDOWS_FILE_1("46.PDF"),
+    WINDOWS_FILE_2("47.PDF"),
+    MAC_FILE_1("Selenium Testing Tools Cookbook - 2012.pdf");
 
-    private final String name;
+    private final String fileName;
 
-    Files(String name) {
-        this.name = name;
+    Files(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public static List<Files> getMacFiles() {
+        return Arrays.stream(Files.values()).filter(file -> file.name().startsWith("MAC")).toList();
+    }
+
+    public static List<Files> getWindowsFiles() {
+        return Arrays.stream(Files.values()).filter(file -> file.name().startsWith("WINDOWS")).toList();
     }
 
     public static String getFileName(String filename) {
         return Arrays.stream(Files.values())
-                .filter(file -> file.name()
-                        .equalsIgnoreCase(filename))
-                .findFirst().get().name;
+                .filter(file -> file.name().equalsIgnoreCase(filename))
+                .findFirst()
+                .map(file -> file.fileName)
+                .orElse(null);
     }
 
-    public static String getFilePath(Files filename) {
+
+    public static String getFilePathMac(Files filename) {
         String fileName = Files.getFileName(filename.name());
         return String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + fileName);
     }
 
-    /**
-     * TODO:
-     * complete this method
-     */
-    public static String getMultipleFilePaths(Files... files) {
+    public static String getFilePathWindows(Files filename) {
+        String fileName = Files.getFileName(filename.name());
+        return String.format(Constants.BASE_FILEPATH_DOWNLOADS + fileName);
+    }
+
+    public static String getMultiFilePathsWindows(Files... files) {
         StringBuilder builder = new StringBuilder();
 
         for (Files file : files) {
-            if (file != null) { // Ensure the file is not null and exists
-//                builder.append(file.).append("\n");
+            if (file != null) {
+                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS + Files.getFileName(file.name()));
+                builder.append(fileNameToAdd).append("\n");
+            }
+
+        }
+        return builder.toString().trim();
+    }
+
+    public static String getMultiFilePathsMac(Files... files) {
+        StringBuilder builder = new StringBuilder();
+
+        for (Files file : files) {
+            if (file != null) {
+                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + Files.getFileName(file.name()));
+                builder.append(fileNameToAdd).append("\n");
             }
 
         }

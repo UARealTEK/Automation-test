@@ -104,4 +104,6 @@ public class BaseOperations extends DriverOperations {
         textField.click();
         textField.sendKeys(BaseOperations.getRandomString(BaseOperations.getRandomNumber()));
     }
+
+
 }

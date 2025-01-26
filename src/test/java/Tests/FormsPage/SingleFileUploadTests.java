@@ -9,10 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.awt.*;
 
 public class SingleFileUploadTests extends DriverOperations {
 
@@ -37,9 +33,10 @@ public class SingleFileUploadTests extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SingleFileUpload page = new SingleFileUpload(getDriver());
 
-        page.fileUpload(Files.FILE_3);
-        log.debug(page.getUploadCVStateValue());
+        page.fileUploadSingle(Files.WINDOWS_FILE_1);
+        log.info(page.getUploadCVStateValue());
         soft.assertThat(page.getUploadCVStateValue().isEmpty()).isFalse();
+        soft.assertThat(page.isInputAndLabelMatched()).isTrue();
         soft.assertAll();
     }
 }
