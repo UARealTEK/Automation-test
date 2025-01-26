@@ -10,15 +10,13 @@ import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class MultiUploadTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(MultiUploadTests.class);
 
-    /**
-     * TODO:
-     * - create method for verifying the match between label and uploaded files
-     * - create a method that randomly selects files for uploading and apply it in the test
-     */
     @Test
     public void checkMultiFileUploadDefaultState() {
         SoftAssertions soft = new SoftAssertions();
@@ -32,22 +30,22 @@ public class MultiUploadTests extends DriverOperations {
         soft.assertAll();
     }
 
-    /**
-     * TODO:
-     * - create method for verifying the match between label and uploaded files
-     * - create a method that randomly selects files for uploading and apply it in the test
-     */
     @Test
     public void checkMultiFileUploadProcess() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         MultiUpload page = new MultiUpload(getDriver());
+        List<Files> filesToUpload = page.generateRandomMacFiles();
 
-        page.fileUploadMulti(Files.WINDOWS_FILE_1,Files.WINDOWS_FILE_2);
+        page.fileUploadMulti(filesToUpload);
 
         soft.assertThat(page.isElementAndLabelMatched()).isTrue();
         soft.assertThat(page.getMultiFileUploadStateLabel().isEmpty()).isFalse();
         log.debug(page.getMultiFileUploadStateLabel());
+        soft.assertThat(page.isMultiUploadedFileMatchesLabel(filesToUpload)).isTrue();
+        log.debug("List of uploaded files: {}", filesToUpload.stream()
+                .map(Files::getFileName)
+                .collect(Collectors.joining(" ")));
 
         soft.assertAll();
     }

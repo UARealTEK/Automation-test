@@ -7,7 +7,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static Enums.Files.*;
 
@@ -78,5 +82,30 @@ public class SingleFileUpload {
         Optional<String> inputID = Optional.ofNullable(getUploadCVIDAttribute());
         Optional<String> labelFor = Optional.ofNullable(getUploadCVLabelFORAttribute());
         return inputID.equals(labelFor);
+    }
+
+    public Files generateRandomWindowsSingleFile() {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        List<Files> windowsFiles = new ArrayList<>(getWindowsFiles());
+
+        int randomIndex = random.nextInt(windowsFiles.size());
+        return windowsFiles.get(randomIndex);
+    }
+
+    public Files generateRandomMacSingleFile() {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        List<Files> macFiles = new ArrayList<>(getMacFiles());
+
+        int randomIndex = random.nextInt(macFiles.size());
+        return macFiles.get(randomIndex);
+    }
+
+    public boolean isUploadedFileMatchesLabel(Files uploadedFile) {
+
+        if (uploadedFile == null) {
+            return getUploadCVStateValue().isEmpty();
+        }
+
+        return getUploadCVStateValue().equalsIgnoreCase(uploadedFile.getFileName());
     }
 }

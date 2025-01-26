@@ -2,21 +2,27 @@ package Enums;
 
 import Utils.Constants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum Files {
     WINDOWS_FILE_1("46.PDF"),
     WINDOWS_FILE_2("47.PDF"),
-    MAC_FILE_1("Selenium Testing Tools Cookbook - 2012.pdf");
+    MAC_FILE_1("1.pdf"),
+    MAC_FILE_2("2.pdf"),
+    MAC_FILE_3("3.pdf"),
+    MAC_FILE_4("4.pdf"),
+    MAC_FILE_5("5.pdf"),
+    MAC_FILE_6("6.pdf");
 
     private final String fileName;
 
     Files(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public static List<Files> getMacFiles() {
@@ -59,7 +65,33 @@ public enum Files {
         return builder.toString().trim();
     }
 
+    public static String getMultiFilePathsWindows(List<Files> files) {
+        StringBuilder builder = new StringBuilder();
+
+        for (Files file : files) {
+            if (file != null) {
+                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS + Files.getFileName(file.name()));
+                builder.append(fileNameToAdd).append("\n");
+            }
+
+        }
+        return builder.toString().trim();
+    }
+
     public static String getMultiFilePathsMac(Files... files) {
+        StringBuilder builder = new StringBuilder();
+
+        for (Files file : files) {
+            if (file != null) {
+                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + Files.getFileName(file.name()));
+                builder.append(fileNameToAdd).append("\n");
+            }
+
+        }
+        return builder.toString().trim();
+    }
+
+    public static String getMultiFilePathsMac(List<Files> files) {
         StringBuilder builder = new StringBuilder();
 
         for (Files file : files) {

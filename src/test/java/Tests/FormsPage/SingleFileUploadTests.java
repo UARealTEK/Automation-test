@@ -23,6 +23,8 @@ public class SingleFileUploadTests extends DriverOperations {
         soft.assertThat(page.getUploadCVElement().isDisplayed()).isTrue();
         soft.assertThat(page.isInputAndLabelMatched()).isTrue();
         soft.assertThat(page.getUploadCVStateValue()).isEmpty();
+        soft.assertThat(page.isUploadedFileMatchesLabel(null)).isTrue();
+        log.debug("Label value for case when no file is uploaded: {}", page.getUploadCVStateValue());
 
         soft.assertAll();
     }
@@ -32,11 +34,15 @@ public class SingleFileUploadTests extends DriverOperations {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SingleFileUpload page = new SingleFileUpload(getDriver());
+        Files fileToUpload = page.generateRandomMacSingleFile();
 
-        page.fileUploadSingle(Files.WINDOWS_FILE_1);
+        page.fileUploadSingle(fileToUpload);
+        log.debug("filename is: {}", fileToUpload.getFileName());
+        log.debug("randomly generated file name is: {}", fileToUpload);
         log.info(page.getUploadCVStateValue());
         soft.assertThat(page.getUploadCVStateValue().isEmpty()).isFalse();
         soft.assertThat(page.isInputAndLabelMatched()).isTrue();
+        soft.assertThat(page.isUploadedFileMatchesLabel(fileToUpload)).isTrue();
         soft.assertAll();
     }
 }
