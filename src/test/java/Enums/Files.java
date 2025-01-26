@@ -1,10 +1,12 @@
 package Enums;
 
 import Utils.Constants;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public enum Files {
     WINDOWS_FILE_1("46.PDF"),
     WINDOWS_FILE_2("47.PDF"),
@@ -19,10 +21,6 @@ public enum Files {
 
     Files(String fileName) {
         this.fileName = fileName;
-    }
-
-    public String getFileName() {
-        return fileName;
     }
 
     public static List<Files> getMacFiles() {
