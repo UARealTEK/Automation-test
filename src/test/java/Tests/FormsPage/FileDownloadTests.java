@@ -12,6 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FileDownloadTests extends DriverOperations {
 
@@ -28,18 +29,32 @@ public class FileDownloadTests extends DriverOperations {
         soft.assertThat(page.isLabelAndButtonMatched()).isTrue();
         log.debug("button id is: {}", page.getDownloadFileButton().getAttribute("id"));
         log.debug("label 'for' attribute is: {}", page.getDownloadFileLabel().getAttribute("for"));
-
         soft.assertAll();
     }
 
     @Test
-    public void checkFileDownloadProcess() throws InterruptedException {
+    public void checkFileDownloadProcess() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FileDownload page = new FileDownload(getDriver());
 
         page.getDownloadFileButton().click();
         soft.assertThat(page.isDirectoryUpdated()).isTrue();
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkFileData() throws IOException {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        FileDownload page = new FileDownload(getDriver());
+
+        page.getDownloadFileButton().click();
+        soft.assertThat(page.isDirectoryUpdated()).isTrue();
+        soft.assertThat(page.isFileNameValid()).isTrue();
+        soft.assertThat(page.isFileDataMatched()).isTrue();
+        log.info(page.getDefaultFileName().substring(0,page.getDefaultFileName().length() -4));
+
         soft.assertAll();
     }
 
