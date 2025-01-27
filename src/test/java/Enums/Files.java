@@ -10,6 +10,8 @@ import java.util.List;
 public enum Files {
     WINDOWS_FILE_1("46.PDF"),
     WINDOWS_FILE_2("47.PDF"),
+    WINDOWS_FILE_3("49.PDF"),
+    WINDOWS_FILE_4("50.PDF"),
     MAC_FILE_1("1.pdf"),
     MAC_FILE_2("2.pdf"),
     MAC_FILE_3("3.pdf"),

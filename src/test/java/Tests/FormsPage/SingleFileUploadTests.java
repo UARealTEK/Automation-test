@@ -34,7 +34,7 @@ public class SingleFileUploadTests extends DriverOperations {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         SingleFileUpload page = new SingleFileUpload(getDriver());
-        Files fileToUpload = page.generateRandomMacSingleFile();
+        Files fileToUpload = page.generateRandomWindowsSingleFile();
 
         page.fileUploadSingle(fileToUpload);
         log.debug("filename is: {}", fileToUpload.getFileName());

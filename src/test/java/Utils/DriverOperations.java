@@ -1,5 +1,6 @@
 package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 // Windows - "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver"
+import Pages.FormsPage.FileDownload.FileDownload;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class DriverOperations {
 
@@ -20,9 +23,10 @@ public abstract class DriverOperations {
     private static final ThreadLocal<WebDriverWait> threadLocalWait = ThreadLocal.withInitial(() -> new WebDriverWait(getDriver(),Duration.ofSeconds(5)));
 
     protected static ChromeOptions getBrowserOptions() {
-        System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "src/test/java/Utils/Driver/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Для запуска без UI
+        options.addArguments("download.default_directory=" + FileDownload.getWindowsDirectoryPath());
         return options;
     }
 

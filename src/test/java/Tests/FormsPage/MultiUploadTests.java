@@ -8,6 +8,7 @@ import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -30,12 +31,12 @@ public class MultiUploadTests extends DriverOperations {
         soft.assertAll();
     }
 
-    @Test
+    @RepeatedTest(3)
     public void checkMultiFileUploadProcess() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         MultiUpload page = new MultiUpload(getDriver());
-        List<Files> filesToUpload = page.generateRandomMacFiles();
+        List<Files> filesToUpload = page.generateRandomWindowsFiles();
 
         page.fileUploadMulti(filesToUpload);
 
