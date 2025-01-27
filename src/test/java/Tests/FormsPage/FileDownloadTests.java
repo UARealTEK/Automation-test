@@ -33,13 +33,15 @@ public class FileDownloadTests extends DriverOperations {
     }
 
     @Test
-    public void checkFileDownloadProcess() {
+    public void checkFileDownloadProcess() throws IOException {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         FileDownload page = new FileDownload(getDriver());
 
         page.getDownloadFileButton().click();
         soft.assertThat(page.isDirectoryUpdated()).isTrue();
+        soft.assertThat(page.isFileNameValid()).isTrue();
+        soft.assertThat(page.isFileDataMatched()).isTrue();
         soft.assertAll();
     }
 
