@@ -1,4 +1,4 @@
-package Pages.FormsPage.FreeTextArea;
+package Pages.FormsPage.BasicFormControls.FreeTextArea;
 
 import Utils.BaseOperations;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.ReadOnlyField.ReadOnlyField;
+import Pages.FormsPage.BasicFormControls.ReadOnlyField.ReadOnlyField;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;

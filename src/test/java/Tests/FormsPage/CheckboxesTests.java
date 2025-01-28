@@ -1,6 +1,6 @@
 package Tests.FormsPage;
 import Enums.URLs;
-import Pages.FormsPage.Checkbox.Checkboxes;
+import Pages.FormsPage.BasicFormControls.Checkboxes.Checkboxes;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;

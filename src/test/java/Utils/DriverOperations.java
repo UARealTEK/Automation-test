@@ -1,6 +1,6 @@
 package Utils; // File: src/test/java/your/package/SamplePagesTests.helperClasses.TestUtils.java
 // Windows - "C:/Users/Volodymyr/Documents/Visual Studio 2022/chromedriver"
-import Pages.FormsPage.FileDownload.FileDownload;
+import Pages.FormsPage.BasicFormControls.FileDownload.FileDownload;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +9,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class DriverOperations {
 

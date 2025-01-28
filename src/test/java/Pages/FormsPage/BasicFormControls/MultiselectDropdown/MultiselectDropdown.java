@@ -1,4 +1,4 @@
-package Pages.FormsPage.MultiselectDropdown;
+package Pages.FormsPage.BasicFormControls.MultiselectDropdown;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

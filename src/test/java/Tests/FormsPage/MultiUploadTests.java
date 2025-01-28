@@ -2,7 +2,7 @@ package Tests.FormsPage;
 
 import Enums.Files;
 import Enums.URLs;
-import Pages.FormsPage.MultiUpload.MultiUpload;
+import Pages.FormsPage.BasicFormControls.MultiUpload.MultiUpload;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;

@@ -2,7 +2,7 @@ package Tests.FormsPage;
 
 import Enums.Files;
 import Enums.URLs;
-import Pages.FormsPage.SingleFileUpload.SingleFileUpload;
+import Pages.FormsPage.BasicFormControls.SingleFileUpload.SingleFileUpload;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;

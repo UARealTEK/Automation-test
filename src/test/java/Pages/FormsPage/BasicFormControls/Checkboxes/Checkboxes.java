@@ -1,4 +1,4 @@
-package Pages.FormsPage.Checkbox;
+package Pages.FormsPage.BasicFormControls.Checkboxes;
 
 import Utils.BaseOperations;
 import org.openqa.selenium.By;

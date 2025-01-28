@@ -1,4 +1,4 @@
-package Pages.FormsPage.ToggleSwitch;
+package Pages.FormsPage.BasicFormControls.ToggleSwitch;
 
 import Utils.BaseOperations;
 import org.openqa.selenium.By;

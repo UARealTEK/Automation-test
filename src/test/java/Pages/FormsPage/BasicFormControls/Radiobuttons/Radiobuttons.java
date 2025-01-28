@@ -1,4 +1,4 @@
-package Pages.FormsPage.Radiobutton;
+package Pages.FormsPage.BasicFormControls.Radiobuttons;
 
 import Utils.BaseOperations;
 import org.openqa.selenium.By;

@@ -1,4 +1,4 @@
-package Pages.FormsPage.FileDownload;
+package Pages.FormsPage.BasicFormControls.FileDownload;
 
 import Utils.BaseOperations;
 import Utils.DriverOperations;

@@ -1,4 +1,4 @@
-package Pages.FormsPage.ReadOnlyField;
+package Pages.FormsPage.BasicFormControls.ReadOnlyField;
 
 import lombok.Getter;
 import org.openqa.selenium.By;

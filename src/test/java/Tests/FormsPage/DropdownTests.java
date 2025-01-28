@@ -2,7 +2,7 @@ package Tests.FormsPage;
 
 import Enums.DropdownSelectCriteria;
 import Enums.URLs;
-import Pages.FormsPage.Dropdown.Dropdowns;
+import Pages.FormsPage.BasicFormControls.Dropdowns.Dropdowns;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
@@ -147,7 +147,6 @@ public class DropdownTests extends DriverOperations {
 
         for (WebElement option : dropdownOptions) {
             action.click(dropdown.getWrappedElement()).build().perform();
-            // Assert the current option matches expected text
             soft.assertThat(option.getText())
                     .isEqualTo(page.getDropdownText(dropdown));
             log.debug("Current option: {}", option.getText());

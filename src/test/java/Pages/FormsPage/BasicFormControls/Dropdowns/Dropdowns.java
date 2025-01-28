@@ -1,12 +1,10 @@
-package Pages.FormsPage.Dropdown;
+package Pages.FormsPage.BasicFormControls.Dropdowns;
 
 import Enums.DropdownSelectCriteria;
 import Utils.BaseOperations;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
