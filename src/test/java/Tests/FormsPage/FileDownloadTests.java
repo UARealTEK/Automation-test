@@ -53,7 +53,7 @@ public class FileDownloadTests extends DriverOperations {
         soft.assertThat(page.isFileNameValid()).isTrue();
         soft.assertThat(page.isFileDataMatched()).isTrue();
         log.info(page.getDefaultFileName().substring(0,page.getDefaultFileName().length() -4));
-
+        log.debug(page.getLastDownloadedFileData());
         soft.assertAll();
     }
 
