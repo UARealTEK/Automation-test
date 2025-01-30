@@ -1,4 +1,4 @@
-package Pages.FormsPage.BasicFormControls.Dropdowns;
+package Pages.FormsPage.BasicFormControls;
 
 import Enums.DropdownSelectCriteria;
 import Utils.BaseOperations;

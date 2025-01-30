@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.BasicFormControls.MultiselectDropdown.MultiselectDropdown;
+import Pages.FormsPage.BasicFormControls.MultiselectDropdown;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import lombok.extern.log4j.Log4j2;

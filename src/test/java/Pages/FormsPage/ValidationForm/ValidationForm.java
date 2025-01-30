@@ -1,4 +1,4 @@
-package Pages.FormsPage.BasicFormControls.ValidationForm;
+package Pages.FormsPage.ValidationForm;
 
 import lombok.Getter;
 import org.openqa.selenium.By;

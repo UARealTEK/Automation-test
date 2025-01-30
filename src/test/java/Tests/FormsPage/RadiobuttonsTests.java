@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.BasicFormControls.Radiobuttons.Radiobuttons;
+import Pages.FormsPage.BasicFormControls.Radiobuttons;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;

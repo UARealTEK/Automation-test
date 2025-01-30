@@ -1,7 +1,7 @@
 package Tests.FormsPage;
 
 import Enums.URLs;
-import Pages.FormsPage.BasicFormControls.DisabledField.DisabledField;
+import Pages.FormsPage.BasicFormControls.DisabledField;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;

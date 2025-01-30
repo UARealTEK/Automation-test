@@ -1,4 +1,4 @@
-package Pages.FormsPage.BasicFormControls.DisabledField;
+package Pages.FormsPage.BasicFormControls;
 
 import Utils.BaseOperations;
 import lombok.Getter;

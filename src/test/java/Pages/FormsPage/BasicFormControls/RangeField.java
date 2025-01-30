@@ -1,4 +1,4 @@
-package Pages.FormsPage.BasicFormControls.RangeControls;
+package Pages.FormsPage.BasicFormControls;
 
 import Utils.BaseOperations;
 import org.apache.logging.log4j.LogManager;

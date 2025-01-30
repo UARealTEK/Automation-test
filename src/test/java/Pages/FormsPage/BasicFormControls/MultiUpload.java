@@ -1,4 +1,4 @@
-package Pages.FormsPage.BasicFormControls.MultiUpload;
+package Pages.FormsPage.BasicFormControls;
 
 import Enums.Files;
 import org.apache.logging.log4j.LogManager;

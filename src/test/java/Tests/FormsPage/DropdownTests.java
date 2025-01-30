@@ -2,7 +2,7 @@ package Tests.FormsPage;
 
 import Enums.DropdownSelectCriteria;
 import Enums.URLs;
-import Pages.FormsPage.BasicFormControls.Dropdowns.Dropdowns;
+import Pages.FormsPage.BasicFormControls.Dropdowns;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
