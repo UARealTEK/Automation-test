@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '22'  # Specify the Java version
-          distribution: 'openjdk'  # Use OpenJDK
+          distribution: 'adoptopenjdk'  # Use OpenJDK
           architecture: 'x64'
 
       - name: Cache Maven dependencies
