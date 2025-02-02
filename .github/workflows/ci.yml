@@ -19,8 +19,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '23'
-          distribution: 'oracle'
+          java-version: '23'  # Specify the Java version
+          distribution: 'openjdk'  # Use OpenJDK
           architecture: 'x64'
 
       - name: Cache Maven dependencies
