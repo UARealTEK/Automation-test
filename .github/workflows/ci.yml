@@ -19,10 +19,12 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '23'  # Specify your Java version (23 in your case)
+          java-version: '23'
+          distribution: 'oracle'
+          architecture: 'x64'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: C:\Users\Vova\.m2\repository  # Windows-specific Maven cache path
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache based on pom.xml file
