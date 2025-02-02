@@ -1,0 +1,40 @@
+name: Run JUnit Tests with Selenium
+
+on:
+  push:
+    branches:
+      - main  # Trigger when there is a push to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger when a pull request is made to the main branch
+
+jobs:
+  test:
+    runs-on: windows-latest  # This uses the latest Windows environment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checkout the repository code
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '23'  # Specify your Java version (23 in your case)
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: C:\Users\Vova\.m2\repository  # Windows-specific Maven cache path
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache based on pom.xml file
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn clean install  # Build your project and download dependencies
+
+      - name: Run tests with Maven
+        run: mvn test  # Run JUnit tests with Maven
+
+      - name: Set up ChromeDriver
+        run: |
+          choco install chromedriver
