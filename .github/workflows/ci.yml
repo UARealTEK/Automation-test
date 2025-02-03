@@ -49,4 +49,4 @@ jobs:
 
       - name: Set up ChromeDriver
         run: |
-          choco install chromedriver
+          choco install chromedriver -y
