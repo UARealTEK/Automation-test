@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Google Chrome
         run: |
-          choco install googlechrome --version 132.0.6834.159
+          choco install googlechrome
 
       - name: Set ChromeDriver path as environment variable
         run: |
