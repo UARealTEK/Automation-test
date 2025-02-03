@@ -77,7 +77,7 @@ public class ExpectedConditionsPage {
     }
 
     private void setMaxWait() {
-        longWait = new WebDriverWait(driver, Duration.ofSeconds(maxFieldValue - minFieldValue));
+        longWait = new WebDriverWait(driver, Duration.ofSeconds((long) ((maxFieldValue - minFieldValue) + 0.0005)));
     }
 
     //Action setup method
