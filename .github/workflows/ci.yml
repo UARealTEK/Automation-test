@@ -23,14 +23,14 @@ jobs:
           distribution: 'zulu'  # Use OpenJDK
           architecture: 'x64'
 
-      - name: Set up ChromeDriver
-        uses: webfactory/setup-chromedriver@v2  # Correct action for setting up ChromeDriver
-        with:
-          chromedriver-version: '132.0.6834.159'  # Specify the version of ChromeDriver you're using
-
       - name: Install Google Chrome
         run: |
           choco install googlechrome --version 132.0.6834.159
+
+      - name: Set ChromeDriver path as environment variable
+        run: |
+          echo "CHROMEDRIVER_PATH=$(pwd)/src/test/resources/chromedriver.exe" >> $GITHUB_ENV
+        # This will add the path of your ChromeDriver to the environment variable
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
