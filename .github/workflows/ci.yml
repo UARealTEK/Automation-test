@@ -23,21 +23,20 @@ jobs:
           distribution: 'zulu'  # Use OpenJDK
           architecture: 'x64'
 
-      - name: Set up Python
-        uses: actions/setup-python@v4  # Set up Python environment
+      - name: Set up ChromeDriver
+        uses: actions/setup-chrome@v2
         with:
-          python-version: '3.x'  # Use the Python version you need
+          chromedriver-version: '132.0.6834.159'  # Specify the version of ChromeDriver you're using
 
-      - name: Install Python dependencies
+      - name: Install Google Chrome
         run: |
-          pip install -r requirements.txt  # Install dependencies from your requirements.txt
-      
+          choco install googlechrome --version 132.0.6834.159  # Install the specific version of Google Chrome for Windows
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ github.workspace }}\.m2\repository  # Correct Windows path for Maven cache
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache based on pom.xml changes
+          path: C:\Users\Vova\.m2\repository  # Windows-specific Maven cache path
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
@@ -46,7 +45,3 @@ jobs:
 
       - name: Run tests with Maven
         run: mvn test  # Run JUnit tests with Maven
-
-      - name: Set up ChromeDriver
-        run: |
-          choco install chromedriver -y
