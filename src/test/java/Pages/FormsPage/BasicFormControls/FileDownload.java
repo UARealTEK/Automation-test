@@ -179,6 +179,6 @@ public class FileDownload {
     }
 
     public static boolean isDriverSetForMac() {
-        return System.getProperty("webdriver.chrome.driver").equalsIgnoreCase(DriverOperations.getDriverSystemProperty());
+        return !System.getProperty("webdriver.chrome.driver").equalsIgnoreCase(DriverOperations.getDriverSystemProperty());
     }
 }
