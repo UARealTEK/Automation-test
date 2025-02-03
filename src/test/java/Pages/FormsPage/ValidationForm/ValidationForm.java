@@ -1,12 +1,15 @@
 package Pages.FormsPage.ValidationForm;
 
 import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ValidationForm {
 
+    private static final Logger log = LogManager.getLogger(ValidationForm.class);
     private final WebDriver driver;
 
 
@@ -77,13 +80,19 @@ public class ValidationForm {
             isDefault = false;
         }
 
+        log.info("The placeholder state is: {}", placeholder != null && !placeholder.equalsIgnoreCase(getExpectedCityPlaceholder()));
+
         if (!getCityField().getText().isEmpty()) {
             isDefault = false;
         }
 
+        log.info("The Text inside the City filed state is : {}", !getCityField().getText().isEmpty());
+
         if (!getCityField().getCssValue("border").equalsIgnoreCase(expectedDefaultBorderColor)) {
             isDefault = false;
         }
+
+        log.info("The border state for the City field is: {}", !getCityField().getCssValue("border").equalsIgnoreCase(expectedDefaultBorderColor));
 
         return isDefault;
     }
