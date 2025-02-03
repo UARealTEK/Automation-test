@@ -156,9 +156,10 @@ public class FileDownload {
 
         File[] fileList = directory.listFiles();
 
-        if (fileList == null || fileList.length == 0) {
+        if (fileList == null) {
             return null;
         }
+
         File lastModified = Arrays.stream(fileList)
                 .filter(file -> file.isFile() && file.exists())
                 .max(Comparator.comparing(File::lastModified)).orElse(null);
