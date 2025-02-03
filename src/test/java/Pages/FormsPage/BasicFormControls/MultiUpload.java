@@ -1,6 +1,7 @@
 package Pages.FormsPage.BasicFormControls;
 
 import Enums.Files;
+import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -61,119 +62,34 @@ public class MultiUpload {
         return elementId.equals(headerFor);
     }
 
-    private void fileMultiUploadMac(Files... filenames) {
-        String fullPath = getMultiFilePathsMac(filenames);
+    public void fileMultiUpload(Files... filenames) {
+        String fullPath = getMultiFilePaths(filenames);
         WebElement input = getMultiFileUploadElement();
 
         input.sendKeys(fullPath);
     }
 
-    private void fileMultiUploadMac(List<Files> filenames) {
-        String fullPath = getMultiFilePathsMac(filenames);
+    public void fileMultiUpload(List<Files> filenames) {
+//        log.debug(DriverOperations.getDownloadDirectory());
+        String fullPath = getMultiFilePaths(filenames);
+//        log.debug(fullPath);
         WebElement input = getMultiFileUploadElement();
 
         input.sendKeys(fullPath);
     }
 
-    private void fileMultiUploadWindows(Files... filenames) {
-        String fullPath = getMultiFilePathsWindows(filenames);
-        WebElement input = getMultiFileUploadElement();
-
-        input.sendKeys(fullPath);
-    }
-
-    private void fileMultiUploadWindows(List<Files> filenames) {
-        String fullPath = getMultiFilePathsWindows(filenames);
-        WebElement input = getMultiFileUploadElement();
-
-        input.sendKeys(fullPath);
-    }
-
-    public void fileUploadMulti(Files... filenames) {
-        int macFilesCount = 0;
-        int windowsFilesCount = 0;
-
-        for (int i = 0; i < getMacFiles().size(); i++) {
-            int finalI = i;
-            if (Arrays.stream(filenames).anyMatch(file -> file.name().equalsIgnoreCase(Files.getMacFiles().get(finalI).name()))) {
-                macFilesCount++;
-            }
-        }
-
-        for (int i = 0; i < getWindowsFiles().size(); i++) {
-            int finalI = i;
-            if (Arrays.stream(filenames).anyMatch(file -> file.name().equalsIgnoreCase(Files.getWindowsFiles().get(finalI).name()))) {
-                windowsFilesCount++;
-            }
-        }
-
-        log.debug("Total amount of files is: {}", Stream.concat(getMacFiles().stream(),getWindowsFiles().stream()).toList().size());
-        log.debug("Amount of Windows files are: {}",Files.getWindowsFiles().size());
-        log.debug("Amount of Mac Files are: {}",Files.getMacFiles().size());
-        log.debug("we have counted {} mac files that were passed to us in the list",macFilesCount);
-        log.debug("we have counted {} windows files that were passed to us in a list", windowsFilesCount);
-
-        if (macFilesCount == 0 && windowsFilesCount == filenames.length) {
-            fileMultiUploadWindows(filenames);
-        } else if (macFilesCount == filenames.length && windowsFilesCount == 0) {
-            fileMultiUploadMac(filenames);
-        } else throw new IllegalArgumentException("mismatch of arguments");
-    }
-
-    public void fileUploadMulti(List<Files> filenames) {
-        int macFilesCount = 0;
-        int windowsFilesCount = 0;
-
-        for (int i = 0; i < getMacFiles().size(); i++) {
-            int finalI = i;
-            if (filenames.stream().anyMatch(file -> file.name().equalsIgnoreCase(Files.getMacFiles().get(finalI).name()))) {
-                macFilesCount++;
-            }
-        }
-
-        for (int i = 0; i < getWindowsFiles().size(); i++) {
-            int finalI = i;
-            if (filenames.stream().anyMatch(file -> file.name().equalsIgnoreCase(Files.getWindowsFiles().get(finalI).name()))) {
-                windowsFilesCount++;
-            }
-        }
-
-        if (macFilesCount == 0 && windowsFilesCount == filenames.size()) {
-            fileMultiUploadWindows(filenames);
-        } else if (macFilesCount == filenames.size() && windowsFilesCount == 0) {
-            fileMultiUploadMac(filenames);
-        } else throw new IllegalArgumentException("mismatch of arguments");
-    }
-
-    public List<Files> generateRandomWindowsFiles() {
+    public List<Files> generateRandomFiles() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int amountToGenerate = random.nextInt(getWindowsFiles().size());
-        List<Files> windowsFiles = new ArrayList<>(getWindowsFiles());
+        int amountToGenerate = random.nextInt(getFiles().size());
+        List<Files> files = new ArrayList<>(getFiles());
         HashSet<Files> output = new HashSet<>();
 
         while (amountToGenerate != 0) {
-            int randomIndex = random.nextInt(windowsFiles.size());
-            Files fileToAdd = windowsFiles.get(randomIndex);
+            int randomIndex = random.nextInt(files.size());
+            Files fileToAdd = files.get(randomIndex);
             output.add(fileToAdd);
             amountToGenerate--;
-            windowsFiles.remove(randomIndex);
-        }
-
-        return new ArrayList<>(output);
-    }
-
-    public List<Files> generateRandomMacFiles() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        int amountToGenerate = random.nextInt(getMacFiles().size());
-        List<Files> MacFiles = new ArrayList<>(getMacFiles());
-        HashSet<Files> output = new HashSet<>();
-
-        while (amountToGenerate != 0) {
-            int randomIndex = random.nextInt(MacFiles.size());
-            Files fileToAdd = MacFiles.get(randomIndex);
-            output.add(fileToAdd);
-            amountToGenerate--;
-            MacFiles.remove(randomIndex);
+            files.remove(randomIndex);
         }
 
         return new ArrayList<>(output);

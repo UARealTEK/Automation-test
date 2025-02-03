@@ -4,6 +4,7 @@ import Enums.Files;
 import Enums.URLs;
 import Pages.FormsPage.BasicFormControls.MultiUpload;
 import Utils.BaseOperations;
+import Utils.Constants;
 import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,12 +12,11 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MultiUploadTests extends DriverOperations {
-
-    private static final Logger log = LogManager.getLogger(MultiUploadTests.class);
 
     @Test
     public void checkMultiFileUploadDefaultState() {
@@ -36,17 +36,17 @@ public class MultiUploadTests extends DriverOperations {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         MultiUpload page = new MultiUpload(getDriver());
-        List<Files> filesToUpload = page.generateRandomWindowsFiles();
+        List<Files> filesToUpload = page.generateRandomFiles();
 
-        page.fileUploadMulti(filesToUpload);
+        page.fileMultiUpload(filesToUpload);
 
         soft.assertThat(page.isElementAndLabelMatched()).isTrue();
         soft.assertThat(page.getMultiFileUploadStateLabel().isEmpty()).isFalse();
-        log.debug(page.getMultiFileUploadStateLabel());
+//        log.debug(page.getMultiFileUploadStateLabel());
         soft.assertThat(page.isMultiUploadedFileMatchesLabel(filesToUpload)).isTrue();
-        log.debug("List of uploaded files: {}", filesToUpload.stream()
-                .map(Files::getFileName)
-                .collect(Collectors.joining(" ")));
+//        log.debug("List of uploaded files: {}", filesToUpload.stream()
+//                .map(Files::getFileName)
+//                .collect(Collectors.joining(" ")));
 
         soft.assertAll();
     }

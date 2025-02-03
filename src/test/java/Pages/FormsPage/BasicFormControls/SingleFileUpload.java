@@ -55,26 +55,12 @@ public class SingleFileUpload {
         return getUploadCVLabel().getAttribute("for");
     }
 
-    private void fileUploadSingleMac(Files file) {
-        String fullPath = getFilePathMac(file);
-        WebElement input = getUploadCVElement();
-        log.debug(fullPath);
-
-        input.sendKeys(fullPath);
-    }
-
-    private void fileUploadSingleWindows(Files file) {
-        String fullPath = getFilePathWindows(file);
-        WebElement input = getUploadCVElement();
-        log.debug(fullPath);
-
-        input.sendKeys(fullPath);
-    }
-
     public void fileUploadSingle(Files file) {
-        if (Files.getMacFiles().contains(file)) {
-            fileUploadSingleMac(file);
-        } else fileUploadSingleWindows(file);
+        String fullPath = getFilePath(file);
+        WebElement input = getUploadCVElement();
+        log.debug(fullPath);
+
+        input.sendKeys(fullPath);
     }
 
     public boolean isInputAndLabelMatched() {
@@ -83,20 +69,12 @@ public class SingleFileUpload {
         return inputID.equals(labelFor);
     }
 
-    public Files generateRandomWindowsSingleFile() {
+    public Files generateRandomSingleFile() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        List<Files> windowsFiles = new ArrayList<>(getWindowsFiles());
+        List<Files> files = new ArrayList<>(getFiles());
 
-        int randomIndex = random.nextInt(windowsFiles.size());
-        return windowsFiles.get(randomIndex);
-    }
-
-    public Files generateRandomMacSingleFile() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        List<Files> macFiles = new ArrayList<>(getMacFiles());
-
-        int randomIndex = random.nextInt(macFiles.size());
-        return macFiles.get(randomIndex);
+        int randomIndex = random.nextInt(files.size());
+        return files.get(randomIndex);
     }
 
     public boolean isUploadedFileMatchesLabel(Files uploadedFile) {

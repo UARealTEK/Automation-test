@@ -65,15 +65,19 @@ public abstract class DriverOperations {
 
         if (os.contains("win")) {
             // For Windows, use the default user downloads path.
-            downloadDirectory = System.getenv("USERPROFILE") + "/Downloads/";
+            downloadDirectory = System.getenv("USERPROFILE") + "\\Downloads\\";
         } else if (os.contains("mac")) {
             // For macOS, use the default user downloads path.
-            downloadDirectory = System.getenv("HOME") + "/Downloads/";
+            downloadDirectory = System.getenv("HOME") + "\\Downloads\\";
         } else if (os.contains("nix") || os.contains("nux")) {
             // For Linux, use the default user downloads path.
-            downloadDirectory = System.getenv("HOME") + "/Downloads/";
+            downloadDirectory = System.getenv("HOME") + "\\Downloads\\";
         }
 
         return downloadDirectory;
+    }
+
+    public static String getWorkingDirectory() {
+        return System.getProperty("user.dir");
     }
 }
