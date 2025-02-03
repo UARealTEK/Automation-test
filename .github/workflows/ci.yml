@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Google Chrome
         run: |
-          choco install googlechrome --version 132.0.6834.159  # Install the specific version of Google Chrome for Windows
+          choco install googlechrome --version 132.0.6834.159
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
