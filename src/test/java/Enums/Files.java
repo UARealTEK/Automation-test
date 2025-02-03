@@ -8,10 +8,12 @@ import java.util.List;
 
 @Getter
 public enum Files {
-    WINDOWS_FILE_1("46.PDF"),
-    WINDOWS_FILE_2("47.PDF"),
-    WINDOWS_FILE_3("49.PDF"),
-    WINDOWS_FILE_4("50.PDF"),
+    WINDOWS_FILE_1("sample_text.txt"),
+    WINDOWS_FILE_2("sample_text (1).txt"),
+    WINDOWS_FILE_3("sample_text (2).txt"),
+    WINDOWS_FILE_4("sample_text (3).txt"),
+    WINDOWS_FILE_5("sample_text (4).txt"),
+    WINDOWS_FILE_6("sample_text (5).txt"),
     MAC_FILE_1("1.pdf"),
     MAC_FILE_2("2.pdf"),
     MAC_FILE_3("3.pdf"),
