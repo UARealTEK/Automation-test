@@ -21,7 +21,7 @@ public abstract class DriverOperations {
     private static final ThreadLocal<WebDriverWait> threadLocalWait = ThreadLocal.withInitial(() -> new WebDriverWait(getDriver(),Duration.ofSeconds(5)));
 
     protected static ChromeOptions getBrowserOptions() {
-        System.setProperty("webdriver.chrome.driver", "C:/Users/Vova/IdeaProjects/Automation_test/src/test/java/Utils/Driver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Для запуска без UI
         options.addArguments("download.default_directory=" + FileDownload.getWindowsDirectoryPath());
