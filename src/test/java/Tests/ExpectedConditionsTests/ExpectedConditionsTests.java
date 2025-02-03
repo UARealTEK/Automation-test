@@ -83,7 +83,9 @@ public class ExpectedConditionsTests extends DriverOperations {
         WebDriverWait longWait = page.getLongWait();
 
         try {
-            smallWait.until(ExpectedConditions.visibilityOf(page.getVisibilityTargetElement()));
+            smallWait.until((ExpectedCondition<Boolean>) wd -> !page.getVisibilityTargetElement()
+                    .getCssValue("display")
+                    .equalsIgnoreCase("none"));
             soft.assertThat(page.getVisibilityTargetElement().isDisplayed())
                     .as(String.format("Element WAS visible before the %s time has passed", page.getMinFieldValue()))
                     .isFalse();
@@ -91,7 +93,9 @@ public class ExpectedConditionsTests extends DriverOperations {
             //
         }
 
-        longWait.until(ExpectedConditions.visibilityOf(page.getVisibilityTargetElement()));
+        longWait.until((ExpectedCondition<Boolean>) wd -> !page.getVisibilityTargetElement()
+                .getCssValue("display")
+                .equalsIgnoreCase("none"));
         soft.assertThat(page.getVisibilityTargetElement().isDisplayed())
                 .as(String.format("The Element was NOT present in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()))
                 .isTrue();
