@@ -22,8 +22,6 @@ public class FileDownload {
 
     private static final Logger log = LogManager.getLogger(FileDownload.class);
     private final WebDriver driver;
-    private static final String downloadDirectoryWindowsPath = "C:/Users/Vova/Downloads/";
-    private static final String downloadDirectoryMacPath = "/Users/volodymyrprydatko/Downloads/";
 
     //Download file
     private final By downloadFile = By.id("download_file");
@@ -37,14 +35,6 @@ public class FileDownload {
 
     public FileDownload(WebDriver driver) {
         this.driver = driver;
-    }
-
-    public static String getWindowsDirectoryPath() {
-        return downloadDirectoryWindowsPath;
-    }
-
-    public static String getMacDirectoryPath() {
-        return downloadDirectoryMacPath;
     }
 
     public WebElement getDownloadFileButton() {
@@ -70,12 +60,7 @@ public class FileDownload {
     }
 
     public Boolean isDirectoryUpdated() {
-        File directory;
-        if (isDriverSetForMac()) {
-            directory = new File(getMacDirectoryPath());
-        } else {
-            directory = new File(getWindowsDirectoryPath());
-        }
+        File directory = new File(DriverOperations.getDownloadDirectory());
 
         if (!directory.exists()) {
             return false;
@@ -94,11 +79,7 @@ public class FileDownload {
     }
 
     public String getExpectedFileName() {
-        File directory;
-
-        if (isDriverSetForMac()) {
-            directory = new File(getMacDirectoryPath());
-        } else directory = new File(getWindowsDirectoryPath());
+        File directory = new File(DriverOperations.getDownloadDirectory());
 
         File[] fileList = directory.listFiles();
         int countOfDownloadedFiles = 0;
@@ -124,11 +105,7 @@ public class FileDownload {
     }
 
     public String getLastDownloadedFileName() {
-        File directory;
-
-        if (isDriverSetForMac()) {
-            directory = new File(getMacDirectoryPath());
-        } else directory = new File(getWindowsDirectoryPath());
+        File directory = new File(DriverOperations.getDownloadDirectory());
 
         File[] fileList = directory.listFiles();
 
@@ -148,11 +125,7 @@ public class FileDownload {
     }
 
     public String getLastDownloadedFileData() throws IOException {
-        File directory;
-
-        if (isDriverSetForMac()) {
-            directory = new File(getMacDirectoryPath());
-        } else directory = new File(getWindowsDirectoryPath());
+        File directory = new File(DriverOperations.getDownloadDirectory());
 
         File[] fileList = directory.listFiles();
 

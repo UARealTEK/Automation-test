@@ -24,7 +24,7 @@ public abstract class DriverOperations {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Для запуска без UI
-        options.addArguments("download.default_directory=" + FileDownload.getWindowsDirectoryPath());
+        options.addArguments("download.default_directory=" + getDownloadDirectory());
         return options;
     }
 
@@ -57,5 +57,23 @@ public abstract class DriverOperations {
 
     public static String getDriverSystemProperty() {
         return System.getProperty("webdriver.chrome.driver");
+    }
+
+    public static String getDownloadDirectory() {
+        String os = System.getProperty("os.name").toLowerCase();
+        String downloadDirectory = "";
+
+        if (os.contains("win")) {
+            // For Windows, use the default user downloads path.
+            downloadDirectory = System.getenv("USERPROFILE") + "/Downloads/";
+        } else if (os.contains("mac")) {
+            // For macOS, use the default user downloads path.
+            downloadDirectory = System.getenv("HOME") + "/Downloads/";
+        } else if (os.contains("nix") || os.contains("nux")) {
+            // For Linux, use the default user downloads path.
+            downloadDirectory = System.getenv("HOME") + "/Downloads/";
+        }
+
+        return downloadDirectory;
     }
 }
