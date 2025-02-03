@@ -24,7 +24,7 @@ jobs:
           architecture: 'x64'
 
       - name: Set up ChromeDriver
-        uses: actions/setup-chrome@v2
+        uses: webfactory/setup-chromedriver@v2  # Correct action for setting up ChromeDriver
         with:
           chromedriver-version: '132.0.6834.159'  # Specify the version of ChromeDriver you're using
 
