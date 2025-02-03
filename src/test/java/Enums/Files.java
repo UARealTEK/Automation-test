@@ -1,6 +1,7 @@
 package Enums;
 
 import Utils.Constants;
+import Utils.DriverOperations;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -46,12 +47,12 @@ public enum Files {
 
     public static String getFilePathMac(Files filename) {
         String fileName = Files.getFileName(filename.name());
-        return String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + fileName);
+        return String.format(DriverOperations.getDownloadDirectory() + fileName);
     }
 
     public static String getFilePathWindows(Files filename) {
         String fileName = Files.getFileName(filename.name());
-        return String.format(Constants.BASE_FILEPATH_DOWNLOADS + fileName);
+        return String.format(DriverOperations.getDownloadDirectory() + fileName);
     }
 
     public static String getMultiFilePathsWindows(Files... files) {
@@ -59,7 +60,7 @@ public enum Files {
 
         for (Files file : files) {
             if (file != null) {
-                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS + Files.getFileName(file.name()));
+                String fileNameToAdd = String.format(DriverOperations.getDownloadDirectory() + Files.getFileName(file.name()));
                 builder.append(fileNameToAdd).append("\n");
             }
 
@@ -72,7 +73,7 @@ public enum Files {
 
         for (Files file : files) {
             if (file != null) {
-                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS + Files.getFileName(file.name()));
+                String fileNameToAdd = String.format(DriverOperations.getDownloadDirectory() + Files.getFileName(file.name()));
                 builder.append(fileNameToAdd).append("\n");
             }
 
@@ -85,7 +86,7 @@ public enum Files {
 
         for (Files file : files) {
             if (file != null) {
-                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + Files.getFileName(file.name()));
+                String fileNameToAdd = String.format(DriverOperations.getDownloadDirectory() + Files.getFileName(file.name()));
                 builder.append(fileNameToAdd).append("\n");
             }
 
@@ -98,7 +99,7 @@ public enum Files {
 
         for (Files file : files) {
             if (file != null) {
-                String fileNameToAdd = String.format(Constants.BASE_FILEPATH_DOWNLOADS_MAC + Files.getFileName(file.name()));
+                String fileNameToAdd = String.format(DriverOperations.getDownloadDirectory() + Files.getFileName(file.name()));
                 builder.append(fileNameToAdd).append("\n");
             }
 
