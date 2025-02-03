@@ -36,8 +36,8 @@ jobs:
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
-          path: C:\Users\Vova\.m2\repository  # Windows-specific Maven cache path
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache based on pom.xml file
+          path: ${{ github.workspace }}\.m2\repository  # Correct Windows path for Maven cache
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache based on pom.xml changes
           restore-keys: |
             ${{ runner.os }}-maven-
 
