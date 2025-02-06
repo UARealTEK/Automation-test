@@ -4,6 +4,8 @@ import Enums.URLs;
 import Pages.ExpectedConditionsPage.ExpectedConditionsPage;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -17,6 +19,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Execution(ExecutionMode.CONCURRENT) // enabled parallel execution
 public class ExpectedConditionsTests extends DriverOperations {
+    private static final Logger log = LogManager.getLogger(ExpectedConditionsTests.class);
+
     @Test
     public void checkAlertAppearance() {
         BaseOperations.navigateTo(URLs.EXPECTED_CONDITIONS);
@@ -173,13 +177,14 @@ public class ExpectedConditionsTests extends DriverOperations {
 
         try {
             smallWait.until(ExpectedConditions.titleIs(page.getTargetTitleName()));
+        } catch (TimeoutException e) {
+            log.info("current title is: {}",page.getTitle());
             soft.assertThat(page.getTitle()).isNotEqualTo(page.getTargetTitleName())
                     .as(String.format("The title was changed before %s seconds passed", page.getMinFieldValue()));
-        } catch (TimeoutException e) {
-            //
         }
 
         longWait.until(ExpectedConditions.titleIs(page.getTargetTitleName()));
+        log.info("current title is: {}",page.getTitle());
         soft.assertThat(page.getTitle()).isEqualTo(page.getTargetTitleName())
                 .as(String.format("The title was NOT changed in the timeframe between %s and %s seconds", page.getMinFieldValue(), page.getMaxFieldValue()));
 
