@@ -30,8 +30,18 @@ public class ValidationForm {
 
     @Getter
     private final String expectedCityPlaceholder = "City";
+    @Getter
+    private final String expectedStatePlaceholder = "State";
+    @Getter
+    private final String expectedZipPlaceholder = "Zip";
+    @Getter
+    private final String expectedBorderValidateColor = "rgb(255, 0, 57)";
+    @Getter
+    private final String expectedTextValidateColor = "rgba(255, 0, 57, 1)";
     @Getter // why 0.83? if its 1px
     private final String expectedDefaultBorderColor = "0.833333px solid rgb(206, 212, 218)";
+    @Getter
+    private final String expectedValidateBackgroundImage = "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23FF0039' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23FF0039' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E\")";
 
     public WebElement getCityField() {
         return driver.findElement(cityField);
@@ -41,7 +51,7 @@ public class ValidationForm {
         return driver.findElement(cityValidate);
     }
 
-    public WebElement getState() {
+    public WebElement getStateField() {
         return driver.findElement(state);
     }
 
@@ -49,7 +59,7 @@ public class ValidationForm {
         return driver.findElement(stateValidate);
     }
 
-    public WebElement getZip() {
+    public WebElement getZipField() {
         return driver.findElement(zip);
     }
 
@@ -65,7 +75,7 @@ public class ValidationForm {
         return driver.findElement(termsCheckbox);
     }
 
-    public WebElement getTermsValidation() {
+    public WebElement getTermsValidate() {
         return driver.findElement(termsValidation);
     }
 
@@ -80,20 +90,116 @@ public class ValidationForm {
             isDefault = false;
         }
 
-        log.info("The placeholder state is: {}", placeholder != null && !placeholder.equalsIgnoreCase(getExpectedCityPlaceholder()));
-
         if (!getCityField().getText().isEmpty()) {
             isDefault = false;
         }
 
-        log.info("The Text inside the City filed state is : {}", !getCityField().getText().isEmpty());
 
         if (!getCityField().getCssValue("border").equalsIgnoreCase(expectedDefaultBorderColor)) {
             isDefault = false;
         }
 
-        log.info("The border state for the City field is: {}", !getCityField().getCssValue("border").equalsIgnoreCase(expectedDefaultBorderColor));
+        return isDefault;
+    }
+
+    public boolean isStateFieldDefault() {
+        boolean isDefault = true;
+
+        String placeholder = getStateField().getAttribute("placeholder");
+
+        if (!getStateField().getText().isEmpty()) {
+            isDefault = false;
+        }
+
+        if (!getStateField().getCssValue("border").equalsIgnoreCase(getExpectedDefaultBorderColor())) {
+            isDefault = false;
+        }
+
+        if (placeholder != null && !placeholder.equalsIgnoreCase(getExpectedStatePlaceholder())) {
+            isDefault = false;
+        }
 
         return isDefault;
+    }
+
+    public boolean isZipFieldDefault() {
+        boolean isDefault = true;
+
+        String placeholder = getZipField().getAttribute("placeholder");
+
+        if (!getZipField().getText().isEmpty()) {
+            isDefault = false;
+        }
+
+        if (!getZipField().getCssValue("border").equalsIgnoreCase(getExpectedDefaultBorderColor())) {
+            isDefault = false;
+        }
+
+        if (placeholder != null && !placeholder.equalsIgnoreCase(getExpectedZipPlaceholder())) {
+            isDefault = false;
+        }
+
+        return isDefault;
+    }
+
+    public boolean isCheckBoxSelected() {
+        return getTermsCheckbox().isSelected();
+    }
+
+    private String getDisplayCssPropertyValue(WebElement element) {
+        return element.getCssValue("display");
+    }
+
+    private String getBorderColorCssPropertyValue(WebElement element) {
+        return element.getCssValue("border-color");
+    }
+
+    public String getBackgroundImageCssPropertyValue(WebElement element) {
+        return element.getCssValue("background-image");
+    }
+
+    public boolean isCityFieldValidationTriggered() {
+        if (getDisplayCssPropertyValue(getCityValidate()).equalsIgnoreCase("block")
+                && getBorderColorCssPropertyValue(getCityField()).equalsIgnoreCase(getExpectedBorderValidateColor())
+                && getBackgroundImageCssPropertyValue(getCityField()).equalsIgnoreCase(getExpectedValidateBackgroundImage())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isStateFieldValidationTriggered() {
+        if (getDisplayCssPropertyValue(getStateValidate()).equalsIgnoreCase("block")
+                && getBorderColorCssPropertyValue(getStateField()).equalsIgnoreCase(getExpectedBorderValidateColor())
+                && getBackgroundImageCssPropertyValue(getStateField()).equalsIgnoreCase(getExpectedValidateBackgroundImage())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isZipFieldValidationTriggered() {
+        if (getDisplayCssPropertyValue(getZipValidate()).equalsIgnoreCase("block")
+                && getBorderColorCssPropertyValue(getZipField()).equalsIgnoreCase(getExpectedBorderValidateColor())
+                && getBackgroundImageCssPropertyValue(getZipField()).equalsIgnoreCase(getExpectedValidateBackgroundImage())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isTermsFieldValidationTriggered() {
+        if (getDisplayCssPropertyValue(getTermsValidate()).equalsIgnoreCase("block")
+                && getTermsLabel().getCssValue("color").equalsIgnoreCase(getExpectedTextValidateColor())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAllFieldsValidationTriggered() {
+        if (isCityFieldValidationTriggered()
+                && isStateFieldValidationTriggered()
+                && isZipFieldValidationTriggered()
+                && isTermsFieldValidationTriggered()) {
+            return true;
+        }
+        return false;
     }
 }

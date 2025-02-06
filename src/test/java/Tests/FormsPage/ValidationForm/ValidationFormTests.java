@@ -20,7 +20,28 @@ public class ValidationFormTests extends DriverOperations {
         ValidationForm page = new ValidationForm(getDriver());
 
         soft.assertThat(page.isCityFieldDefault()).isTrue();
-        log.debug(page.getCityField().getCssValue("border"));
+        soft.assertThat(page.isStateFieldDefault()).isTrue();
+        soft.assertThat(page.isZipFieldDefault()).isTrue();
+        soft.assertThat(page.isCheckBoxSelected()).isFalse();
+        soft.assertThat(page.isAllFieldsValidationTriggered()).isFalse();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkEmptyFieldFormSubmission() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        ValidationForm page = new ValidationForm(getDriver());
+
+
+        page.getSubmitButton().click();
+
+        soft.assertThat(page.isCityFieldDefault()).isFalse();
+        soft.assertThat(page.isStateFieldDefault()).isFalse();
+        soft.assertThat(page.isZipFieldDefault()).isFalse();
+        soft.assertThat(page.isCheckBoxSelected()).isFalse();
+        soft.assertThat(page.isAllFieldsValidationTriggered()).isTrue();
 
         soft.assertAll();
     }
