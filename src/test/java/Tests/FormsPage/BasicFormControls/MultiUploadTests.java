@@ -1,20 +1,15 @@
-package Tests.FormsPage;
+package Tests.FormsPage.BasicFormControls;
 
 import Enums.Files;
 import Enums.URLs;
 import Pages.FormsPage.BasicFormControls.MultiUpload;
 import Utils.BaseOperations;
-import Utils.Constants;
 import Utils.DriverOperations;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MultiUploadTests extends DriverOperations {
 

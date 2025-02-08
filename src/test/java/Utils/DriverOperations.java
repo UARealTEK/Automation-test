@@ -23,7 +23,7 @@ public abstract class DriverOperations {
     protected static ChromeOptions getBrowserOptions() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless"); // Для запуска без UI
+        options.addArguments("--headless"); // Для запуска без UI
         options.addArguments("download.default_directory=" + getDownloadDirectory());
         return options;
     }

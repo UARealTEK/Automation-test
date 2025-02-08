@@ -1,4 +1,4 @@
-package Tests.FormsPage;
+package Tests.FormsPage.BasicFormControls;
 
 import Enums.DropdownSelectCriteria;
 import Enums.URLs;

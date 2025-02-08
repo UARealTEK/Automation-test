@@ -1,4 +1,4 @@
-package Tests.FormsPage;
+package Tests.FormsPage.BasicFormControls;
 
 import Enums.URLs;
 import Pages.FormsPage.BasicFormControls.YearsOfExperience;
