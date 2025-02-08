@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.JavascriptExecutor;
 
 public class ValidationFormTests extends DriverOperations {
 
@@ -53,15 +54,11 @@ public class ValidationFormTests extends DriverOperations {
         ValidationForm page = new ValidationForm(getDriver());
 
         page.setDataForAllFields(getDriver());
-//        page.getTermsCheckbox().click();
+        page.getTermsCheckbox().click();
         page.getSubmitButton().click();
-//        soft.assertThat(page.isAllFieldsSuccess()).isTrue();
+        page.waitForValidatedForm();
 
-        Thread.sleep(5000);
-
-        log.info(page.getCityValidate().getCssValue("display"));
-        log.info(page.getCityField().getCssValue("border-color"));
-        log.info(page.getCityField().getCssValue("background-image"));
+        soft.assertThat(page.isAllFieldsSuccess()).isTrue();
 
         soft.assertAll();
     }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -294,10 +295,18 @@ public class ValidationForm {
 
     public void waitForValidatedForm() throws InterruptedException {
         List<WebElement> elements = getAllInputs();
-        BaseOperations.getWait().until(driver1 ->
-           elements.stream()
-                    .allMatch(element -> getBorderColorCssPropertyValue(element).equalsIgnoreCase(getExpectedSuccessBorderValidateColor())));
+        BaseOperations.getWait().until(driver1 -> {
+            Boolean isAllInputSuccess = elements.stream()
+                    .allMatch(element -> getBorderColorCssPropertyValue(element).equalsIgnoreCase(getExpectedSuccessBorderValidateColor()));
+            for (WebElement element : elements) {
+                getBorderColorCssPropertyValue(element);
+            }
+            Boolean isLabelSuccess = getTermsLabel().getCssValue("color").equalsIgnoreCase(getExpectedTextSuccessColor());
+            log.info(getTermsLabel().getCssValue("color"));
 
-        Thread.sleep(5000);
+            return isAllInputSuccess && isLabelSuccess;
+        });
+
+        Thread.sleep(1000);
     }
 }
