@@ -1,5 +1,6 @@
 package Tests.FormsPage.ValidationForm;
 
+import Enums.FormField;
 import Enums.URLs;
 import Pages.FormsPage.ValidationForm.ValidationForm;
 import Utils.BaseOperations;
@@ -34,7 +35,6 @@ public class ValidationFormTests extends DriverOperations {
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         ValidationForm page = new ValidationForm(getDriver());
 
-
         page.getSubmitButton().click();
 
         soft.assertThat(page.isCityFieldDefault()).isFalse();
@@ -42,6 +42,26 @@ public class ValidationFormTests extends DriverOperations {
         soft.assertThat(page.isZipFieldDefault()).isFalse();
         soft.assertThat(page.isCheckBoxSelected()).isFalse();
         soft.assertThat(page.isAllFieldsValidationTriggered()).isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkSuccessfulFormSubmission() throws InterruptedException {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        ValidationForm page = new ValidationForm(getDriver());
+
+        page.setDataForAllFields(getDriver());
+//        page.getTermsCheckbox().click();
+        page.getSubmitButton().click();
+//        soft.assertThat(page.isAllFieldsSuccess()).isTrue();
+
+        Thread.sleep(5000);
+
+        log.info(page.getCityValidate().getCssValue("display"));
+        log.info(page.getCityField().getCssValue("border-color"));
+        log.info(page.getCityField().getCssValue("background-image"));
 
         soft.assertAll();
     }
