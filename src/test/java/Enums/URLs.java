@@ -9,7 +9,8 @@ public enum URLs {
     REGISTER_PAGE("register.html"),
     SIGN_UP_CONFIRMATION("confirmation.html"),
     EXPECTED_CONDITIONS("expected_conditions.html"),
-    FORMS_PAGE("forms.html");
+    FORMS_PAGE("forms.html"),
+    MOUSE_EVENTS("mouse_events.html");
 
     private String endpoint;
 
