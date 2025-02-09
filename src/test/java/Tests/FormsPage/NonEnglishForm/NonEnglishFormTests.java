@@ -7,7 +7,11 @@ import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
+
+import java.util.stream.Collectors;
 
 public class NonEnglishFormTests extends DriverOperations {
 
@@ -29,7 +33,7 @@ public class NonEnglishFormTests extends DriverOperations {
         soft.assertAll();
     }
 
-    @Test
+    @RepeatedTest(3)
     public void checkDataInsertionIntoField() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
@@ -42,6 +46,24 @@ public class NonEnglishFormTests extends DriverOperations {
 
         log.info(page.getInputField().getAttribute("value"));
         log.info(page.getInputFieldValidate().getText());
+
+        soft.assertAll();
+    }
+
+    @RepeatedTest(5)
+    public void checkCheckboxesSelection() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        NonEnglishForm page = new NonEnglishForm(getDriver());
+
+        page.selectRandomCheckboxes();
+
+        soft.assertThat(page.isCheckboxesAndValidateMatched()).isTrue();
+        log.info(page.getCheckboxValidate().getText());
+        log.info(page.getCheckboxes().stream()
+                .filter(WebElement::isSelected)
+                .map(checkbox -> checkbox.getAttribute("value"))
+                .collect(Collectors.joining(" ")));
 
         soft.assertAll();
     }

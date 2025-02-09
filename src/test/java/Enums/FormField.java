@@ -2,7 +2,6 @@ package Enums;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public enum FormField {
     CITY("City"),
@@ -17,11 +16,6 @@ public enum FormField {
 
     public static String getPlaceholder(FormField field) {
         return field.placeholder;
-    }
-
-    public FormField getRandomField() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        return getFormFieldsList().get(random.nextInt(getFormFieldsList().size()));
     }
 
     public static List<FormField> getFormFieldsList() {
