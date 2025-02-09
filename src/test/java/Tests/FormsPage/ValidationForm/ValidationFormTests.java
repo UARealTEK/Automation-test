@@ -1,19 +1,16 @@
 package Tests.FormsPage.ValidationForm;
 
-import Enums.FormField;
 import Enums.URLs;
 import Pages.FormsPage.ValidationForm.ValidationForm;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ValidationFormTests extends DriverOperations {
-
-    private static final Logger log = LogManager.getLogger(ValidationFormTests.class);
 
     @Test
     public void checkFormDefaultState() {
@@ -48,17 +45,57 @@ public class ValidationFormTests extends DriverOperations {
     }
 
     @Test
-    public void checkSuccessfulFormSubmission() throws InterruptedException {
+    public void checkSuccessfulFormSubmission() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        ValidationForm page = new ValidationForm(getDriver());
+        WebElement button = page.getSubmitButton();
+
+        page.setDataForAllFields(getDriver());
+        page.getTermsCheckbox().click();
+        page.getSubmitButton().click();
+
+        //direct approach with checking the "success" state of the elements hasn't worked due to flawed implementation
+        page.waitForStaleForm(button);
+
+        soft.assertThat(page.isAllFieldsValidationTriggered()).isFalse();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkAllFieldsSuccessState() {
         SoftAssertions soft = new SoftAssertions();
         BaseOperations.navigateTo(URLs.FORMS_PAGE);
         ValidationForm page = new ValidationForm(getDriver());
 
         page.setDataForAllFields(getDriver());
-        page.getTermsCheckbox().click();
         page.getSubmitButton().click();
-        page.waitForValidatedForm();
 
         soft.assertThat(page.isAllFieldsSuccess()).isTrue();
+        soft.assertThat(page.isTermsFieldValidationTriggered()).isTrue();
+
+        page.getTermsCheckbox().click();
+
+        soft.assertThat(page.isTermsFieldSuccess()).isTrue();
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkRandomFieldValidation() {
+        SoftAssertions soft = new SoftAssertions();
+        BaseOperations.navigateTo(URLs.FORMS_PAGE);
+        ValidationForm page = new ValidationForm(getDriver());
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        WebElement field = page.getAllInputs()
+                .get(random.nextInt(page.getAllInputs().size()));
+
+        page.setDataForField(getDriver(),field);
+        page.getSubmitButton().click();
+
+        soft.assertThat(page.isTermsFieldValidationTriggered()).isTrue();
+        soft.assertThat(page.isFieldValidationTriggered(field)).isTrue();
 
         soft.assertAll();
     }

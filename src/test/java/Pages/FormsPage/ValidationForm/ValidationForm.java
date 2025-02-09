@@ -3,13 +3,11 @@ package Pages.FormsPage.ValidationForm;
 import Enums.FormField;
 import Utils.BaseOperations;
 import lombok.Getter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ValidationForm {
 
-    private static final Logger log = LogManager.getLogger(ValidationForm.class);
     private final WebDriver driver;
 
 
@@ -35,7 +32,7 @@ public class ValidationForm {
     private final By termsCheckbox = By.id("invalidCheck");
     private final By termsValidation = By.id("invalid_terms");
     private final By submitButton = By.xpath("//button[@class='btn btn-primary' and @type='submit']");
-    private final By inputFields = By.xpath("//form[@class='needs-validation']//input");
+    private final By inputFields = By.xpath("//form[@class='needs-validation was-validated']//input[@class='form-control']");
 
     @Getter
     private final String expectedCityPlaceholder = "City";
@@ -207,6 +204,27 @@ public class ValidationForm {
                 && isTermsFieldValidationTriggered();
     }
 
+    public boolean isFieldValidationTriggered(FormField field) {
+        return switch (field) {
+            case CITY -> isCityFieldValidationTriggered();
+            case STATE -> isStateFieldValidationTriggered();
+            case ZIP -> isZipFieldValidationTriggered();
+        };
+    }
+
+    public boolean isFieldValidationTriggered(WebElement field) {
+        String fieldPlaceholderValue = field.getAttribute("placeholder");
+        FormField fieldToCheck = FormField.getFormFieldsList().stream()
+                .filter(formfield -> FormField.getPlaceholder(formfield).equalsIgnoreCase(fieldPlaceholderValue))
+                .findFirst().orElse(null);
+
+        if (fieldToCheck == null) {
+            throw new IllegalArgumentException();
+        } else {
+            return isFieldValidationTriggered(fieldToCheck);
+        }
+    }
+
     public boolean isCityFieldSuccess() {
         return getDisplayCssPropertyValue(getCityValidate()).equalsIgnoreCase("none")
                 && getBorderColorCssPropertyValue(getCityField()).equalsIgnoreCase(getExpectedSuccessBorderValidateColor())
@@ -233,8 +251,7 @@ public class ValidationForm {
     public boolean isAllFieldsSuccess() {
         return isCityFieldSuccess()
                 && isStateFieldSuccess()
-                && isZipFieldSuccess()
-                && isTermsFieldSuccess();
+                && isZipFieldSuccess();
     }
 
     private void setDataForCityField(WebDriver driver) {
@@ -276,6 +293,19 @@ public class ValidationForm {
         }
     }
 
+    public void setDataForField(WebDriver driver, WebElement field) {
+        String fieldPlaceholderValue = field.getAttribute("placeholder");
+        FormField fieldToSet = FormField.getFormFieldsList().stream()
+                .filter(formfield -> FormField.getPlaceholder(formfield).equalsIgnoreCase(fieldPlaceholderValue))
+                .findFirst().orElse(null);
+
+        if (fieldToSet == null) {
+            throw new IllegalArgumentException();
+        } else {
+            setDataForField(driver,fieldToSet);
+        }
+    }
+
     public void setDataForAllFields(WebDriver driver) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         List<FormField> list = new ArrayList<>(FormField.getFormFieldsList());
@@ -287,26 +317,7 @@ public class ValidationForm {
         }
     }
 
-    public void setDataForRandomField(WebDriver driver) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        setDataForField(driver,FormField.getFormFieldsList()
-                .get(random.nextInt(FormField.getFormFieldsList().size())));
-    }
-
-    public void waitForValidatedForm() throws InterruptedException {
-        List<WebElement> elements = getAllInputs();
-        BaseOperations.getWait().until(driver1 -> {
-            Boolean isAllInputSuccess = elements.stream()
-                    .allMatch(element -> getBorderColorCssPropertyValue(element).equalsIgnoreCase(getExpectedSuccessBorderValidateColor()));
-            for (WebElement element : elements) {
-                getBorderColorCssPropertyValue(element);
-            }
-            Boolean isLabelSuccess = getTermsLabel().getCssValue("color").equalsIgnoreCase(getExpectedTextSuccessColor());
-            log.info(getTermsLabel().getCssValue("color"));
-
-            return isAllInputSuccess && isLabelSuccess;
-        });
-
-        Thread.sleep(1000);
+    public void waitForStaleForm(WebElement element) {
+        BaseOperations.getWait().until(ExpectedConditions.stalenessOf(element));
     }
 }
