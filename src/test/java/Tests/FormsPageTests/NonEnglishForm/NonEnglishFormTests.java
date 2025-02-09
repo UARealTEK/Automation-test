@@ -1,4 +1,4 @@
-package Tests.FormsPage.NonEnglishForm;
+package Tests.FormsPageTests.NonEnglishForm;
 
 import Enums.URLs;
 import Pages.FormsPage.NonEnglishForm.NonEnglishForm;

@@ -1,4 +1,4 @@
-package Tests.FormsPage.BasicFormControls;
+package Tests.FormsPageTests.BasicFormControls;
 
 import Enums.URLs;
 import Pages.FormsPage.BasicFormControls.FileDownload;

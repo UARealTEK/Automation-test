@@ -1,4 +1,4 @@
-package Tests.FormsPage.ValidationForm;
+package Tests.FormsPageTests.ValidationForm;
 
 import Enums.URLs;
 import Pages.FormsPage.ValidationForm.ValidationForm;
