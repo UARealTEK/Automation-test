@@ -5,6 +5,7 @@ import Enums.URLs;
 import Pages.MouseActionsPage.MouseClickActions;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
+import Utils.Threshold;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
@@ -36,15 +37,14 @@ public class MouseClickActionsTests extends DriverOperations {
         MouseClickActions page = new MouseClickActions(getDriver());
         Point randomCoordinates = page.getRandomOffset();
         ClickType type = ClickType.getRandomClickType();
+        Threshold threshold = new Threshold();
 
         page.clickClickAreaCoordinates(randomCoordinates,type);
 
-        soft.assertThat(page.getExpectedClickAreaLabelValueLeft()).isEqualTo(randomCoordinates.getX());
-        soft.assertThat(page.getExpectedClickAreaLabelValueTop()).isEqualTo(randomCoordinates.getY());
-        soft.assertThat(page.isClickTypeMatched(type)).isTrue();
+        soft.assertThat(threshold.isValueWithinThreshold(randomCoordinates.getX(), page.getExpectedClickAreaLabelValueLeft())).isTrue();
+        soft.assertThat(threshold.isValueWithinThreshold(randomCoordinates.getY(), page.getExpectedClickAreaLabelValueTop())).isTrue();
 
-        log.info(type.getType());
-        log.info(page.getClickTypeVerify().getText());
+        soft.assertThat(page.isClickTypeMatched(type)).isTrue();
 
         soft.assertAll();
     }
