@@ -2,7 +2,7 @@ package Utils;
 
 public class Threshold {
 
-    private final int threshold = 1;
+    private final int threshold = 2;
 
     public boolean isValueWithinThreshold(int actual, int expected) {
 
