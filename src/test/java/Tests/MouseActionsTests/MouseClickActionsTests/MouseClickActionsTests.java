@@ -41,8 +41,13 @@ public class MouseClickActionsTests extends DriverOperations {
 
         page.clickClickAreaCoordinates(randomCoordinates,type);
 
-        soft.assertThat(threshold.isValueWithinThreshold(randomCoordinates.getX(), page.getExpectedClickAreaLabelValueLeft())).isTrue();
-        soft.assertThat(threshold.isValueWithinThreshold(randomCoordinates.getY(), page.getExpectedClickAreaLabelValueTop())).isTrue();
+
+        soft.assertThat(threshold.isValueWithinThreshold(randomCoordinates.getX(),
+                page.getExpectedClickAreaLabelValueLeft())).as(String.format("The expected value is: %s , and the actual value is: %s",page.getExpectedClickAreaLabelValueLeft(), randomCoordinates.getX()))
+                .isTrue();
+        soft.assertThat(threshold.isValueWithinThreshold(randomCoordinates.getY(),
+                page.getExpectedClickAreaLabelValueTop())).as(String.format("The expected value is: %s , and the actual value is: %s",page.getExpectedClickAreaLabelValueTop(), randomCoordinates.getY()))
+                .isTrue();
 
         soft.assertThat(page.isClickTypeMatched(type)).isTrue();
 
