@@ -1,4 +1,4 @@
-package Tests.MouseActionsTests;
+package Tests.MouseActionsTests.MouseClickActionsTests;
 
 import Enums.ClickType;
 import Enums.URLs;
