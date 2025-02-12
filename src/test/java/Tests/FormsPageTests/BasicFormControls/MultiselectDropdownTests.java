@@ -6,6 +6,7 @@ import Utils.BaseOperations;
 import Utils.DriverOperations;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -15,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Tag("BasicFormControls")
 @Log4j2
 @Execution(ExecutionMode.CONCURRENT)
 public class MultiselectDropdownTests extends DriverOperations {

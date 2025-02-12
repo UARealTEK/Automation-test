@@ -4,6 +4,7 @@ import Pages.FormsPage.BasicFormControls.Checkboxes;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.junit.jupiter.api.parallel.Execution;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+@Tag("BasicFormControls")
 @Execution(ExecutionMode.CONCURRENT)
 public class CheckboxesTests  extends DriverOperations {
 

@@ -5,11 +5,16 @@ import Pages.FormsPage.ValidationForm.ValidationForm;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+@Tag("ValidationForm")
+@Execution(ExecutionMode.CONCURRENT)
 public class ValidationFormTests extends DriverOperations {
 
     @Test

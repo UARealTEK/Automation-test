@@ -8,11 +8,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.WebElement;
 
 import java.util.stream.Collectors;
 
+@Tag("NonEnglishFormTests")
+@Execution(ExecutionMode.CONCURRENT)
 public class NonEnglishFormTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(NonEnglishFormTests.class);

@@ -5,10 +5,12 @@ import Pages.FormsPage.BasicFormControls.YearsOfExperience;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+@Tag("BasicFormControls")
 @Execution(ExecutionMode.CONCURRENT)
 public class YearsOfExperienceTests extends DriverOperations {
 

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("SamplePages")
 @Execution(ExecutionMode.CONCURRENT) // enabled parallel execution
 public class SamplePageTests extends DriverOperations  {
     private static final String userName = "admin";

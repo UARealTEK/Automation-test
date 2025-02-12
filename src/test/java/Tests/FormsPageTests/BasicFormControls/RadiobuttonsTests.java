@@ -5,6 +5,7 @@ import Pages.FormsPage.BasicFormControls.Radiobuttons;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Tag("BasicFormControls")
 @Execution(ExecutionMode.CONCURRENT)
 public class RadiobuttonsTests extends DriverOperations {
 
