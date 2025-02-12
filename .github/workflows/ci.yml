@@ -23,6 +23,9 @@ jobs:
           distribution: 'zulu'  # Use OpenJDK
           architecture: 'x64'
 
+      - name: Clear Chocolatey Cache
+        run: choco clean
+
       - name: Install Google Chrome
         run: |
           choco install googlechrome
