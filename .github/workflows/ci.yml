@@ -24,20 +24,24 @@ jobs:
           architecture: 'x64'
 
       - name: Clear Chocolatey Cache
-        run: choco clean
+        run: Remove-Item -Recurse -Force "$env:TEMP\chocolatey" -ErrorAction Ignore
+        shell: pwsh
 
       - name: Install Google Chrome
         run: |
-          choco install googlechrome
+          choco install googlechrome -y --ignore-checksums
+        shell: pwsh
 
       - name: Install ChromeDriver
         run: |
-          choco install chromedriver    
+          choco install chromedriver -y --ignore-checksums
+        shell: pwsh
 
       - name: Set ChromeDriver path as environment variable
         run: |
-          echo "CHROMEDRIVER_PATH=$(pwd)/src/test/resources/chromedriver.exe" >> $GITHUB_ENV
-        # This will add the path of your ChromeDriver to the environment variable
+          echo "CHROMEDRIVER_PATH=$(Get-Command chromedriver | Select-Object -ExpandProperty Definition)" >> $GITHUB_ENV
+        shell: pwsh
+        # This ensures the correct path to ChromeDriver is set dynamically
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
