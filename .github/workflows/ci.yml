@@ -47,5 +47,5 @@ jobs:
       - name: Build with Maven
         run: mvn clean install  # Build your project and download dependencies
 
-      - name: Run tests with Maven
-        run: mvn test  # Run JUnit tests with Maven
+      - name: Run Mouse Tests
+        run: mvn test -Dgroups=mouse_tests

@@ -12,6 +12,7 @@
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <groups>mouse_tests</groups> <!-- Default test group -->
     </properties>
 
     <dependencies>
@@ -65,6 +66,7 @@
                 <configuration>
                     <parallel>methods</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads> <!-- Allow unlimited threads -->
+                    <groups>${groups}</groups>
                 </configuration>
             </plugin>
         </plugins>

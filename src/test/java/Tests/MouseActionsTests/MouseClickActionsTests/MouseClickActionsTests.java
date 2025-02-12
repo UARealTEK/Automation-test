@@ -10,9 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 
+@Tag("mouse_tests")
 public class MouseClickActionsTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(MouseClickActionsTests.class);

@@ -7,8 +7,10 @@ import Utils.DriverOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("mouse_tests")
 public class MouseDragAndDropTests extends DriverOperations {
 
     private static final Logger log = LogManager.getLogger(MouseDragAndDropTests.class);

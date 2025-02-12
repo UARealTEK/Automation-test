@@ -5,12 +5,14 @@ import Pages.MouseActionsPage.MouseHoverActions;
 import Utils.BaseOperations;
 import Utils.DriverOperations;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Tag("mouse_tests")
 public class MouseHoverActionsTests extends DriverOperations {
 
     @Test
