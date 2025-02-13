@@ -3,10 +3,10 @@ name: Run JUnit Tests with Selenium
 on:
   push:
     branches:
-      - main  # Trigger when there is a push to the main branch
+      - main
   pull_request:
     branches:
-      - main  # Trigger when a pull request is made to the main branch
+      - main
 
 jobs:
   test:
@@ -32,21 +32,20 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      # Run multiple test groups sequentially
-      - name: Run Mouse Tests
-        run: mvn test -Dgroups=mouse_tests
+      - name: Run Tests
+        run: mvn test
 
-      - name: Run Basic Form Controls Tests
-        run: mvn test -Dgroups=BasicFormControls
+      - name: Generate Allure Report
+        run: mvn allure:report
 
-      - name: Run NonEnglishForm Tests
-        run: mvn test -Dgroups=NonEnglishFormTests
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path: target/allure-results
 
-      - name: Run NonEnglishForm Tests
-        run: mvn test -Dgroups=ValidationForm
-
-      - name: Run WaitingConditions Tests
-        run: mvn test -Dgroups=WaitingConditions
-
-      - name: Run Sample Pages Tests
-        run: mvn test -Dgroups=SamplePages
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: target/site/allure-maven
